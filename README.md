@@ -7,5 +7,7 @@
 
 ## Thx
 [Floating Search View](https://github.com/arimorty/floatingsearchview)
+
 [Material Bottom Navigation Library](https://github.com/sephiroth74/Material-BottomNavigation#material-bottom-navigation-library)
+
 [Bmob](http://www.bmob.cn/)
