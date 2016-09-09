@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bbn_item1"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Food"
+        android:color="#FF5252"/>
+    <item
+        android:id="@+id/bbn_item2"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Material"
+        android:color="@color/colorPrimary"/>
+    <item
+        android:id="@+id/bbn_item3"
+        android:icon="@mipmap/ic_launcher"
+        android:title="About Me"
+        android:color="#7eb499"/>
+</menu>
