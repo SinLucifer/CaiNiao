@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sin.cainiao.Activity.SearchFoodActivity;
+import com.sin.cainiao.Activity.SearchMaterialActivity;
 import com.sin.cainiao.Utils.Key;
 import com.sin.cainiao.DataHelper.MaterialDataHelper;
 
@@ -52,8 +54,12 @@ public class MainActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
-                intent.putExtra(SearchActivity.POSITION,mViewPager.getCurrentItem());
+                Intent intent = new Intent();
+                if (mViewPager.getCurrentItem() == 0){
+                    intent.setClass(MainActivity.this,SearchFoodActivity.class);
+                }else if(mViewPager.getCurrentItem() == 1){
+                    intent.setClass(MainActivity.this,SearchMaterialActivity.class);
+                }
                 startActivity(intent);
             }
         });

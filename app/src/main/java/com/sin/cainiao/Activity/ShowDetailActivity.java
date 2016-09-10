@@ -1,4 +1,4 @@
-package com.sin.cainiao;
+package com.sin.cainiao.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +11,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.sin.cainiao.Adapter.ClAdapter;
 import com.sin.cainiao.DataHelper.FoodDataHelper;
+import com.sin.cainiao.DataHelper.MaterialDataHelper;
 import com.sin.cainiao.JavaBean.Food;
 import com.sin.cainiao.JavaBean.FoodItem;
+import com.sin.cainiao.JavaBean.Material;
+import com.sin.cainiao.R;
 import com.sin.cainiao.Utils.Utils;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -73,11 +78,37 @@ public class ShowDetailActivity extends AppCompatActivity {
         mImageView.setImageResource(R.drawable.test_img);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.cl_rec);
+
+        setupItemList();
+        getMaterial(id);
+    }
+
+    private void setupItemList(){
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));   //Fuck this code
         mClAdapter = new ClAdapter(this);
         mRecyclerView.setAdapter(mClAdapter);
+        mClAdapter.setOnClItemClickListener(new ClAdapter.onClItemClickListener() {
+            @Override
+            public void onClItemClick(String cl) {
+                MaterialDataHelper.matchSuggestionsAndFindMaterials(getApplicationContext(), cl,
+                        new MaterialDataHelper.onFindMaterialsStringListener() {
+                    @Override
+                    public void onResults(List<String> results) {
+                        if (results.size() != 0 ){
+                            Intent intent = new Intent(ShowDetailActivity.this,SearchMaterialActivity.class);
+                            intent.putExtra("cl",(Serializable) results);
+                            startActivity(intent);
+                        }else {
+                            Toast.makeText(getApplicationContext()
+                                    ,"百科中尚未收录该种食材~",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+    }
 
-
+    private void getMaterial(String id){
         FoodDataHelper.findFoodByID(id, new FoodDataHelper.onFindFoodsListener() {
             @Override
             public void onGroupResult(List<Food.ShowapiResBodyBean.CbListBean> foodList, boolean status) {}
@@ -95,7 +126,6 @@ public class ShowDetailActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private List<String> getMaterialByFoodItem(FoodItem.ShowapiResBodyBean foodItem){

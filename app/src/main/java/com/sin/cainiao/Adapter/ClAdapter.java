@@ -20,7 +20,17 @@ import java.util.List;
 public class ClAdapter extends RecyclerView.Adapter<ClAdapter.ViewHolder> {
     private final static String TAG = "ClAdapter";
     private List<String> mClList = new ArrayList<>();
+    private onClItemClickListener listener;
     private Context mContext;
+
+
+    public interface onClItemClickListener{
+        void onClItemClick(String cl);
+    }
+
+    public void setOnClItemClickListener(onClItemClickListener listener){
+        this.listener = listener;
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder{
         public final TextView mTextView;
@@ -51,9 +61,18 @@ public class ClAdapter extends RecyclerView.Adapter<ClAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ClAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ClAdapter.ViewHolder holder, final int position) {
         if (mClList.size() != 0){
             holder.mTextView.setText(mClList.get(position));
+
+            if (listener != null){
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onClItemClick(mClList.get(position));
+                    }
+                });
+            }
         }
     }
 

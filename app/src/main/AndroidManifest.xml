@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SearchActivity"
-            android:theme="@style/Base.Theme.FloatingSearchDemo" />
-        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar">
@@ -28,10 +25,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ShowDetailActivity"
+            android:name=".Activity.SearchFoodActivity"
+            android:theme="@style/Base.Theme.FloatingSearchDemo" />
+
+        <activity android:name=".Activity.SearchMaterialActivity"
+            android:theme="@style/Base.Theme.FloatingSearchDemo"/>
+
+        <activity
+            android:name=".Activity.ShowDetailActivity"
             android:label="@string/title_activity_show_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

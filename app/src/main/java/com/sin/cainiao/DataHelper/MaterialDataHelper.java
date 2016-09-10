@@ -38,6 +38,10 @@ public class MaterialDataHelper {
         void onResults(List<MaterialSuggestion> results);
     }
 
+    public interface onFindMaterialsStringListener {
+        void onResults(List<String> results);
+    }
+
     public static List<MaterialSuggestion> getHistory(Context context, int count) {
         //需要改的
         List<MaterialSuggestion> suggestionList = new ArrayList<>();
@@ -104,6 +108,26 @@ public class MaterialDataHelper {
                 }
             }
         }.filter(query);
+    }
+
+    public static void matchSuggestionsAndFindMaterials(Context context,String query
+            ,final onFindMaterialsStringListener listener){
+        List<String> suggestionList = new ArrayList<>();
+        if (!(query == null || query.length() == 0)){
+            for (MaterialSuggestion suggestion : sMaterialSuggestions) {
+                if (query.toUpperCase().contains(suggestion.getBody().toUpperCase())){
+                    suggestionList.add(suggestion.getBody());
+                }
+            }
+        }
+
+        Log.i(TAG, "matchSuggestionsAndFindMaterials: " + suggestionList);
+
+        // TODO: 2016/9/10 访问BOMO拉取数据 
+
+        if (listener != null){
+            listener.onResults(suggestionList);
+        }
     }
 
     public static void findMaterials(Context context,String query,final onFindMaterialsListener listener){

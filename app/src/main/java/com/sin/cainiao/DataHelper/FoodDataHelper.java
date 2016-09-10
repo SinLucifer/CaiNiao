@@ -37,17 +37,23 @@ public class FoodDataHelper {
                         , Key.YIYUAN_APPID,Key.YIYUAN_SECRET)
                         .addTextPara("name",query)
                         .post();
-                Gson gson = new Gson();
-                Food food = gson.fromJson(res,Food.class);
-                List<Food.ShowapiResBodyBean.CbListBean> foodList =
-                        food.getShowapi_res_body().getCbList();
-                if (foodList != null){
-                    listener.onGroupResult(foodList,true);
-                    Log.i(TAG, "query Success: " + foodList);
-                }else{
-                    listener.onGroupResult(null,false);
-                    Log.i(TAG, "query Error: " + foodList);
+                Log.i(TAG, "run: " + res);
+                try {
+                    Gson gson = new Gson();
+                    Food food = gson.fromJson(res,Food.class);
+                    List<Food.ShowapiResBodyBean.CbListBean> foodList =
+                            food.getShowapi_res_body().getCbList();
+                    if (foodList != null){
+                        listener.onGroupResult(foodList,true);
+                        Log.i(TAG, "query Success: " + foodList);
+                    }else{
+                        listener.onGroupResult(null,false);
+                        Log.i(TAG, "query Error: " + foodList);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
+
             }
         }.start();
 

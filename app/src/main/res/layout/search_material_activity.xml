@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d9d9d9">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/parent_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".Activity.SearchFoodActivity">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="60dp"
+            android:id="@+id/search_material_container">
+        </FrameLayout>
+        <com.arlib.floatingsearchview.FloatingSearchView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/mFloating_search"
+            app:floatingSearch_dismissOnOutsideTouch="true"
+            app:floatingSearch_searchBarMarginLeft="5dp"
+            app:floatingSearch_searchBarMarginRight="5dp"
+            app:floatingSearch_searchBarMarginTop="5dp"
+            app:floatingSearch_searchHint="Search..."
+            app:floatingSearch_showSearchKey="true"
+            app:floatingSearch_close_search_on_keyboard_dismiss="true"
+            app:floatingSearch_leftActionMode="showSearch"
+            app:floatingSearch_dimBackground="false"
+            app:floatingSearch_suggestionsListAnimDuration="250">
+        </com.arlib.floatingsearchview.FloatingSearchView>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
