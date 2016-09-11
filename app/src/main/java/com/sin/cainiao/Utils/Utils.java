@@ -1,5 +1,8 @@
 package com.sin.cainiao.Utils;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,5 +15,9 @@ public class Utils {
         }
 
         return list;
+    }
+
+    public static void toastShow(Context context,String text){
+        Toast.makeText(context,text,Toast.LENGTH_SHORT).show();
     }
 }

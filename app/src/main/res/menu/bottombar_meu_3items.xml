@@ -4,12 +4,12 @@
         android:id="@+id/bbn_item1"
         android:icon="@mipmap/ic_launcher"
         android:title="Food"
-        android:color="#FF5252"/>
+        android:color="#f4511e"/>
     <item
         android:id="@+id/bbn_item2"
         android:icon="@mipmap/ic_launcher"
         android:title="Material"
-        android:color="@color/colorPrimary"/>
+        android:color="#00acc1"/>
     <item
         android:id="@+id/bbn_item3"
         android:icon="@mipmap/ic_launcher"

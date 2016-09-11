@@ -19,6 +19,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+
 
 public class SearchMaterialActivity extends AppCompatActivity {
     private final static String TAG = "SearchMaterialActivity";
@@ -36,11 +40,25 @@ public class SearchMaterialActivity extends AppCompatActivity {
         setupSearchView();
         mDetailFragment = MaterialDetailFragment.newInstance();
 
-        if (getIntent() != null){
-            Intent intent = getIntent();
-            List<String> cl = (List<String>)intent.getSerializableExtra("cl");
+        Intent intent = getIntent();
+        List<String> cl = (List<String>)intent.getSerializableExtra("cl");
+        if (cl != null){
             if(cl.size() == 1){
-                mDetailFragment = MaterialDetailFragment.newInstance(cl.get(0));
+                BmobQuery<Material> bmobQuery = new BmobQuery<>();
+                bmobQuery.addWhereEqualTo("food_Name",cl.get(0));
+                bmobQuery.findObjects(new FindListener<Material>() {
+                    @Override
+                    public void done(List<Material> list, BmobException e) {
+                        if (e == null){
+                            mDetailFragment = MaterialDetailFragment.newInstance(list.get(0));
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.search_material_container,mDetailFragment).commit();
+                        }else {
+                            Log.i(TAG, "查询失败"+e.getMessage()+e.getErrorCode());
+                        }
+                    }
+                });
+
             }else{
                 List<MaterialSuggestion> materialSuggestions = new ArrayList<>();
                 for (String tempCl : cl) {
@@ -50,7 +68,6 @@ public class SearchMaterialActivity extends AppCompatActivity {
                 mSearchView.swapSuggestions(materialSuggestions);
             }
         }
-
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.search_material_container,mDetailFragment).commit();
@@ -92,10 +109,11 @@ public class SearchMaterialActivity extends AppCompatActivity {
                                 if (status) {
                                     if (results.size() == 1){
                                         mDetailFragment = MaterialDetailFragment
-                                                .newInstance(results.get(0).getFood_Name());
+                                                .newInstance(results.get(0));
                                         getSupportFragmentManager().beginTransaction()
                                                 .replace(R.id.search_material_container,mDetailFragment)
                                                 .commit();
+                                        Log.i(TAG, "onResults: click");
                                     }
                                 } else {
                                     Log.i(TAG, "onResults: No such food");
@@ -111,11 +129,13 @@ public class SearchMaterialActivity extends AppCompatActivity {
                             @Override
                             public void onResults(List<Material> results, boolean status) {
                                 if (status){
-                                    for (Material material : results) {
-                                        Log.i(TAG, material.getFood_Name()+"\n"+
-                                                material.getPrice()+"\n"+
-                                                material.getDesc()+"\n"+
-                                                material.getSkill());
+                                    if (results.size() == 1){
+                                        mDetailFragment = MaterialDetailFragment
+                                                .newInstance(results.get(0));
+                                        getSupportFragmentManager().beginTransaction()
+                                                .replace(R.id.search_material_container,mDetailFragment)
+                                                .commit();
+                                        Log.i(TAG, "onResults: click");
                                     }
                                 }else {
                                     Log.i(TAG, "onResults: No such food");

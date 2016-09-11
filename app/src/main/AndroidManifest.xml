@@ -5,9 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -15,6 +18,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.amap.api.v2.apikey"
+            android:value="401db798885bb40a05df0ca9ebe39742">
+        </meta-data>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main2"
@@ -37,6 +43,8 @@
             android:name=".Activity.ShowDetailActivity"
             android:label="@string/title_activity_show_detail"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <service android:name="com.amap.api.location.APSService"/>
     </application>
 
 </manifest>

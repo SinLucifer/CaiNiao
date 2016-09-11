@@ -123,8 +123,6 @@ public class MaterialDataHelper {
 
         Log.i(TAG, "matchSuggestionsAndFindMaterials: " + suggestionList);
 
-        // TODO: 2016/9/10 访问BOMO拉取数据 
-
         if (listener != null){
             listener.onResults(suggestionList);
         }
