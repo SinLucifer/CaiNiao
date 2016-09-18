@@ -33,7 +33,6 @@ public class SearchMaterialActivity extends AppCompatActivity {
     private MaterialDetailFragment mDetailFragment;
 
 
-    // TODO: 2016/9/18  SearchMenu
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

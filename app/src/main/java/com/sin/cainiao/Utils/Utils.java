@@ -48,4 +48,25 @@ public class Utils {
 
         return bitmap;
     }
+
+
+    public static List<Bitmap> downLoadImgList(List<String> urls){
+        List<Bitmap> bitmaps = new ArrayList<>();
+        try {
+            for (String url:urls) {
+                URL imgUrl = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection)imgUrl.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setConnectTimeout(5000);
+                conn.connect();
+                Log.i(TAG, "downLoadBitmap: " + url);
+                InputStream inputStream = conn.getInputStream();
+                bitmaps.add(BitmapFactory.decodeStream(inputStream));
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return bitmaps;
+    }
 }

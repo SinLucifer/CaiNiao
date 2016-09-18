@@ -13,6 +13,16 @@ public class ProcessedFood extends BmobObject {
     private List<String> ings_names;
     private String step;
     private int number;
+    private int clickTime;
+
+
+    public int getClickTime() {
+        return clickTime;
+    }
+
+    public void setClickTime(int clickTime) {
+        this.clickTime = clickTime;
+    }
 
     public String getStep() {
         return step;

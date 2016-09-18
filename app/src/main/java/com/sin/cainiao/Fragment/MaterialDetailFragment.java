@@ -359,7 +359,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
 
                 setPoiItemDisplayContent(mCurrentPoi);
             } catch (Exception e) {
-                // TODO: handle exception
+                e.printStackTrace();
             }
         }else {
             whetherToShowDetailInfo(false);

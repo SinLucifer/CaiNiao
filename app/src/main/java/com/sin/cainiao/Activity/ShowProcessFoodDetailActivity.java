@@ -49,7 +49,7 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == SUCCESS){
-                titleImage.setImageBitmap(mTitleBitmap);// TODO: 2016/9/17
+                titleImage.setImageBitmap(mTitleBitmap);
 
                 mCollapsingToolbarLayout.setTitle(mFood.getName());
                 mClAdapter.swapData(mFood.getIngs_names(),mFood.getIngs_units());

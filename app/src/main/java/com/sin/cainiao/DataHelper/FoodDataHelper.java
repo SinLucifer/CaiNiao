@@ -39,6 +39,10 @@ public class FoodDataHelper {
         void onGroupResult(List<ProcessedFood> foodList, boolean status);
     }
 
+    public interface onFindProcessFoodWithPicListener{
+        void onFind(List<ProcessedFood> fooList,List<Bitmap> bitmaps,boolean status);
+    }
+
     public static void findFoods(Context context,final String query,final onFindFoodsListener listener){
         new Thread(){
             @Override
@@ -127,6 +131,41 @@ public class FoodDataHelper {
                     Log.i("bmob","失败："+e.getMessage());
                     if (listener != null){
                         listener.onGroupResult(null,false);
+                    }
+                }
+            }
+        });
+    }
+
+    public static void findProcessFoodByHot(int hot,final onFindProcessFoodWithPicListener listener){
+        BmobQuery<ProcessedFood> query = new BmobQuery<>();
+        query.addWhereGreaterThanOrEqualTo("clickTime", hot);
+        query.setLimit(3);
+        query.findObjects(new FindListener<ProcessedFood>() {
+            @Override
+            public void done(final List<ProcessedFood> list, BmobException e) {
+                if(e==null){
+                    if (listener != null){
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                List<String> urls = new ArrayList<>();
+                                for (ProcessedFood food:list) {
+                                    urls.add(food.getCover_img());
+                                }
+                                List<Bitmap> bitmaps =  Utils.downLoadImgList(urls);
+                                if (listener != null){
+                                    Log.i(TAG, "onFind: " + bitmaps.size() +  " " + list.size());
+                                    listener.onFind(list,bitmaps,true);
+                                }
+                            }
+                        }.start();
+
+                    }
+                }else{
+                    Log.i("bmob","失败："+e.getMessage());
+                    if (listener != null){
+                        listener.onFind(null,null,false);
                     }
                 }
             }
