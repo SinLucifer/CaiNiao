@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arlib.floatingsearchview.util.Util;
+import com.sin.cainiao.JavaBean.ProcessedFood;
 import com.sin.cainiao.R;
 import com.sin.cainiao.JavaBean.Food;
 
@@ -33,20 +34,31 @@ import java.util.List;
 public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResultAdapter.ViewHolder> {
     private Context mContext;
     private Bitmap mBitmap;
-    private onFoodItemClickListener onFoodItemClickListener;
+    private onOldFoodItemClickListener onOldFoodItemClickListener;
+    private onNewFoodItemClickListener onNewFoodItemClickListener;
+    private boolean mode = true; //true == oldFood
 
     private List<Food.ShowapiResBodyBean.CbListBean> mFoodList = new ArrayList<>();
+    private List<ProcessedFood> mProcessedFoodList = new ArrayList<>();
 
     private int mLastAnimatedItemPosition = -1;
 
     private LruCache<String,BitmapDrawable> mMemoryCache;
 
-    public interface onFoodItemClickListener{
+    public interface onOldFoodItemClickListener{
         void onClick(Food.ShowapiResBodyBean.CbListBean food);
     }
 
-    public void setOnFoodItemClickListener(onFoodItemClickListener listener){
-        this.onFoodItemClickListener = listener;
+    public interface onNewFoodItemClickListener{
+        void onClick(ProcessedFood food);
+    }
+
+    public void setOnOldFoodItemClickListener(onOldFoodItemClickListener listener){
+        this.onOldFoodItemClickListener = listener;
+    }
+
+    public void setOnNewFoodItemClickListener(onNewFoodItemClickListener listener){
+        this.onNewFoodItemClickListener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -81,8 +93,15 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
         };
     }
 
-    public void swapData(List<Food.ShowapiResBodyBean.CbListBean> mNewList){
+    public void swapOldData(List<Food.ShowapiResBodyBean.CbListBean> mNewList){
         mFoodList = mNewList;
+        this.mode = true;
+        notifyDataSetChanged();
+    }
+
+    public void swapProcessedData(List<ProcessedFood> mNewList){
+        mProcessedFoodList = mNewList;
+        this.mode = false;
         notifyDataSetChanged();
     }
 
@@ -95,13 +114,50 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
 
     @Override
     public void onBindViewHolder(FoodSearchResultAdapter.ViewHolder holder, final int position) {
-        final Food.ShowapiResBodyBean.CbListBean mFood = mFoodList.get(position);
-        holder.mFoodName.setText(mFood.getName());
-        //holder.mFoodZf.setText(mFood.getZf());
-        holder.mFoodCl.setText(mFood.getCl());
-        if (mFood.getImgList() != null){
-            if (mFood.getImgList().size() != 0){
-                String imgUrl = mFood.getImgList().get(0).getImgUrl();
+        if (mode){
+            final Food.ShowapiResBodyBean.CbListBean mFood = mFoodList.get(position);
+            holder.mFoodName.setText(mFood.getName());
+            //holder.mFoodZf.setText(mFood.getZf());
+            holder.mFoodCl.setText(mFood.getCl());
+            if (mFood.getImgList() != null){
+                if (mFood.getImgList().size() != 0){
+                    String imgUrl = mFood.getImgList().get(0).getImgUrl();
+                    BitmapDrawable drawable = getBitmapDrawableFromMemoryCache(imgUrl);
+                    if (drawable != null){
+                        holder.mFoodImg.setImageDrawable(drawable);
+                    }else if (cancelPotentialTask(imgUrl,holder.mFoodImg)){
+                        DownLoadTask task = new DownLoadTask(holder.mFoodImg,mFood);
+                        AsyncDrawable asyncDrawable = new AsyncDrawable(mContext.getResources(),mBitmap,task);
+                        holder.mFoodImg.setImageDrawable(asyncDrawable);
+                        task.execute(imgUrl);
+                    }
+                }
+            }
+
+            if(mLastAnimatedItemPosition < position){
+                animateItem(holder.itemView);
+                mLastAnimatedItemPosition = position;
+            }
+
+            if (onOldFoodItemClickListener != null){
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOldFoodItemClickListener.onClick(mFoodList.get(position));
+                    }
+                });
+            }
+        }else {
+            final ProcessedFood mFood = mProcessedFoodList.get(position);
+            holder.mFoodName.setText(mFood.getName());
+            String temp = "";
+            for (String cl : mFood.getIngs_names()){
+                temp = temp + cl + "、";
+            }
+            holder.mFoodCl.setText(temp);
+
+            if (mFood.getCover_img() != null){
+                String imgUrl = mFood.getCover_img();
                 BitmapDrawable drawable = getBitmapDrawableFromMemoryCache(imgUrl);
                 if (drawable != null){
                     holder.mFoodImg.setImageDrawable(drawable);
@@ -111,27 +167,32 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
                     holder.mFoodImg.setImageDrawable(asyncDrawable);
                     task.execute(imgUrl);
                 }
+
             }
-        }
 
-        if(mLastAnimatedItemPosition < position){
-            animateItem(holder.itemView);
-            mLastAnimatedItemPosition = position;
-        }
+            if(mLastAnimatedItemPosition < position){
+                animateItem(holder.itemView);
+                mLastAnimatedItemPosition = position;
+            }
 
-        if (onFoodItemClickListener != null){
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onFoodItemClickListener.onClick(mFoodList.get(position));
-                }
-            });
+            if (onNewFoodItemClickListener != null){
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onNewFoodItemClickListener.onClick(mProcessedFoodList.get(position));
+                    }
+                });
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        return mFoodList.size();
+        if (mode){
+            return mFoodList.size();
+        }else {
+            return mProcessedFoodList.size();
+        }
     }
 
     private void animateItem(View view) {
@@ -193,10 +254,16 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
         String url;
         private WeakReference<ImageView> imageWeakReference;
         private Food.ShowapiResBodyBean.CbListBean mFood;
+        private ProcessedFood mBmobFood;
 
         public DownLoadTask(ImageView imageView, Food.ShowapiResBodyBean.CbListBean food){
             imageWeakReference = new WeakReference<ImageView>(imageView);
             this.mFood = food;
+        }
+
+        public DownLoadTask(ImageView imageView, ProcessedFood food){
+            imageWeakReference = new WeakReference<ImageView>(imageView);
+            this.mBmobFood = food;
         }
 
         @Override

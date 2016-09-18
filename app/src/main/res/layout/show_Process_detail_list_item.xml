@@ -25,5 +25,15 @@
                     android:padding="8dp"
                     android:gravity="center"
                     android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_cl_unit"
+                    android:text="1"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textSize="20sp" />
         </LinearLayout>
 </LinearLayout>

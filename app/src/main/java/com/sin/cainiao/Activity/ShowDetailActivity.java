@@ -18,7 +18,6 @@ import com.sin.cainiao.DataHelper.FoodDataHelper;
 import com.sin.cainiao.DataHelper.MaterialDataHelper;
 import com.sin.cainiao.JavaBean.Food;
 import com.sin.cainiao.JavaBean.FoodItem;
-import com.sin.cainiao.JavaBean.Material;
 import com.sin.cainiao.R;
 import com.sin.cainiao.Utils.Utils;
 
@@ -97,6 +96,7 @@ public class ShowDetailActivity extends AppCompatActivity {
                         if (results.size() != 0 ){
                             Intent intent = new Intent(ShowDetailActivity.this,SearchMaterialActivity.class);
                             intent.putExtra("cl",(Serializable) results);
+                            Log.i(TAG, "onResults: " + results);
                             startActivity(intent);
                         }else {
                             Toast.makeText(getApplicationContext()
@@ -139,6 +139,7 @@ public class ShowDetailActivity extends AppCompatActivity {
             if (iterator.next().equals(""))
                 iterator.remove();
         }
+
         return list;
     }
 

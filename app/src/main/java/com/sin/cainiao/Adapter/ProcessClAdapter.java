@@ -13,10 +13,10 @@ import com.sin.cainiao.R;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ClAdapter extends RecyclerView.Adapter<ClAdapter.ViewHolder> {
+public class ProcessClAdapter extends RecyclerView.Adapter<ProcessClAdapter.ViewHolder> {
     private final static String TAG = "ClAdapter";
-    private List<String> mClList = new ArrayList<>();
+    private List<String> name = new ArrayList<>();
+    private List<String> unit = new ArrayList<>();
     private onClItemClickListener listener;
     private Context mContext;
 
@@ -30,43 +30,47 @@ public class ClAdapter extends RecyclerView.Adapter<ClAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        public final TextView mTextView;
+        public final TextView name;
         public final View mTextLayout;
+        public final TextView unit;
 
         public ViewHolder(View view){
             super(view);
-            mTextView = (TextView)view.findViewById(R.id.tv_cl_show);
+            name = (TextView)view.findViewById(R.id.tv_cl_show);
+            unit = (TextView)view.findViewById(R.id.tv_cl_unit);
             mTextLayout = view.findViewById(R.id.cl_container);
         }
     }
 
-    public ClAdapter(Context context){
+    public ProcessClAdapter(Context context){
         this.mContext = context;
     }
 
-    public void swapData(List<String> list){
-        this.mClList = list;
-        Log.i(TAG, "swapData: " + list);
+    public void swapData(List<String> name,List<String> unit){
+        this.name = name;
+        this.unit = unit;
+        Log.i(TAG, "swapData: " + name+ " " + unit);
         notifyDataSetChanged();
     }
 
     @Override
-    public ClAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProcessClAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.show_detail_list_item,parent,false);
+                .inflate(R.layout.show_process_detail_list_item,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ClAdapter.ViewHolder holder, int position) {
-        if (mClList.size() != 0){
-            holder.mTextView.setText(mClList.get(position));
+    public void onBindViewHolder(final ProcessClAdapter.ViewHolder holder, int position) {
+        if (name.size() != 0){
+            holder.name.setText(name.get(position));
+            holder.unit.setText(unit.get(position));
 
             if (listener != null){
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onClItemClick(mClList.get(holder.getAdapterPosition()));
+                        listener.onClItemClick(name.get(holder.getAdapterPosition()));
                     }
                 });
             }
@@ -75,6 +79,6 @@ public class ClAdapter extends RecyclerView.Adapter<ClAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mClList.size();
+        return name.size();
     }
 }

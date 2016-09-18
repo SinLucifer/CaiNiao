@@ -21,11 +21,8 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
-/**
- * Created by Sin on 2016/9/1.
- */
 public class MaterialDataHelper {
-    private static final String FOODS_FILE_NAME = "food.txt";
+    private static final String FOODS_FILE_NAME = "dictionary.txt";
     private static final String TAG = "MaterialDateHelper";
 
     private static List<MaterialSuggestion> sMaterialSuggestions = new ArrayList<>();

@@ -7,17 +7,25 @@ public class Material extends BmobObject {
     private double price;
     private String desc;
     private String skill;
-    private String advantage;
+    private String picUrl;
+    private String worth;
 
-
-    public String getAdvantage() {
-        return advantage;
+    public String getWorth() {
+        return worth;
     }
 
-    public void setAdvantage(String advantage) {
-        this.advantage = advantage;
+    public void setWorth(String worth) {
+        this.worth = worth;
     }
 
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
+    
     public double getPrice() {
         return price;
     }

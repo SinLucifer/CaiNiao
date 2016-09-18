@@ -9,24 +9,34 @@ import com.google.gson.Gson;
 import com.show.api.ShowApiRequest;
 import com.sin.cainiao.JavaBean.Food;
 import com.sin.cainiao.JavaBean.FoodItem;
+import com.sin.cainiao.JavaBean.Material;
+import com.sin.cainiao.JavaBean.ProcessedFood;
 import com.sin.cainiao.Utils.Key;
+import com.sin.cainiao.Utils.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Sin on 2016/9/3.
- */
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+
 public class FoodDataHelper {
     private static final String TAG = "FoodDataHelper";
 
     public interface onFindFoodsListener{
         void onGroupResult(List<Food.ShowapiResBodyBean.CbListBean> foodList, boolean status);
         void onSingleResult(FoodItem.ShowapiResBodyBean item, boolean status);
+    }
+
+    public interface onFindProcessFoodListener{
+        void onSingleResult(ProcessedFood item,boolean status);
+        void onGroupResult(List<ProcessedFood> foodList, boolean status);
     }
 
     public static void findFoods(Context context,final String query,final onFindFoodsListener listener){
@@ -48,7 +58,7 @@ public class FoodDataHelper {
                         Log.i(TAG, "query Success: " + foodList);
                     }else{
                         listener.onGroupResult(null,false);
-                        Log.i(TAG, "query Error: " + foodList);
+                        Log.i(TAG, "query Error: " );
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -80,6 +90,47 @@ public class FoodDataHelper {
                 }
             }
         }.start();
+    }
+
+    public static void findProcessFoodByID(final String id,final onFindProcessFoodListener listener){
+        BmobQuery<ProcessedFood> bmobQuery = new BmobQuery<>();
+        bmobQuery.addWhereEqualTo("number",Integer.parseInt(id));
+        bmobQuery.findObjects(new FindListener<ProcessedFood>() {
+            @Override
+            public void done(List<ProcessedFood> list, BmobException e) {
+                if(e==null){
+                    if (listener != null){
+                        listener.onSingleResult(list.get(0),true);
+                    }
+                }else{
+                    Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+                    if (listener != null){
+                        listener.onSingleResult(null,false);
+                    }
+                }
+            }
+        });
+    }
+
+    public static void findProcessFoodByMaterial(final String material,final onFindProcessFoodListener listener){
+        BmobQuery<ProcessedFood> query = new BmobQuery<>();
+        String [] materials = {material};
+        query.addWhereContainsAll("ings_names", Arrays.asList(materials));
+        query.findObjects(new FindListener<ProcessedFood>() {
+            @Override
+            public void done(List<ProcessedFood> list, BmobException e) {
+                if(e==null){
+                    if (listener != null){
+                        listener.onGroupResult(list,true);
+                    }
+                }else{
+                    Log.i("bmob","失败："+e.getMessage());
+                    if (listener != null){
+                        listener.onGroupResult(null,false);
+                    }
+                }
+            }
+        });
     }
 
     public static List<Bitmap> downLoadImgList(List<FoodItem.ShowapiResBodyBean.ImgListBean> urlList){

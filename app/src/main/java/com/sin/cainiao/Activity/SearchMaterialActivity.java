@@ -32,6 +32,8 @@ public class SearchMaterialActivity extends AppCompatActivity {
     private FloatingSearchView mSearchView;
     private MaterialDetailFragment mDetailFragment;
 
+
+    // TODO: 2016/9/18  SearchMenu
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,7 @@ public class SearchMaterialActivity extends AppCompatActivity {
         Intent intent = getIntent();
         List<String> cl = (List<String>)intent.getSerializableExtra("cl");
         if (cl != null){
+            Log.i(TAG, "onCreate: " + cl.size());
             if(cl.size() == 1){
                 BmobQuery<Material> bmobQuery = new BmobQuery<>();
                 bmobQuery.addWhereEqualTo("food_Name",cl.get(0));
@@ -93,8 +96,6 @@ public class SearchMaterialActivity extends AppCompatActivity {
                                 }
                             });
                 }
-
-                Log.d(TAG, "onSearchTextChanged()");
             }
         });
 
@@ -113,7 +114,7 @@ public class SearchMaterialActivity extends AppCompatActivity {
                                         getSupportFragmentManager().beginTransaction()
                                                 .replace(R.id.search_material_container,mDetailFragment)
                                                 .commit();
-                                        Log.i(TAG, "onResults: click");
+                                        Log.i(TAG, "onResults: " + results);
                                     }
                                 } else {
                                     Log.i(TAG, "onResults: No such food");
@@ -135,7 +136,7 @@ public class SearchMaterialActivity extends AppCompatActivity {
                                         getSupportFragmentManager().beginTransaction()
                                                 .replace(R.id.search_material_container,mDetailFragment)
                                                 .commit();
-                                        Log.i(TAG, "onResults: click");
+                                        Log.i(TAG, "onResults: " + results);
                                     }
                                 }else {
                                     Log.i(TAG, "onResults: No such food");
