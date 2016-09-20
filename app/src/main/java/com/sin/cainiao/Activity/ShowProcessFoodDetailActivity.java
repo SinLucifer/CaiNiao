@@ -15,7 +15,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sin.cainiao.Adapter.ClAdapter;
@@ -26,6 +28,11 @@ import com.sin.cainiao.JavaBean.ProcessedFood;
 import com.sin.cainiao.R;
 import com.sin.cainiao.Utils.Utils;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -35,10 +42,15 @@ import java.util.List;
 
 public class ShowProcessFoodDetailActivity extends AppCompatActivity {
     private final static String TAG = "ShowProcessFoodDetailActivity";
+
     private ImageView titleImage;
-    private ProcessedFood mFood;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private RecyclerView mRecyclerView;
+    private TextView mTextView_Desc;
+    private WebView wv_step;
+
+
+    private ProcessedFood mFood;
     private ProcessClAdapter mClAdapter;
     private Bitmap mTitleBitmap = null;
 
@@ -51,7 +63,16 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
             if (msg.what == SUCCESS){
                 titleImage.setImageBitmap(mTitleBitmap);
 
+                Log.i(TAG, "handleMessage: " + mFood.getDesc());
                 mCollapsingToolbarLayout.setTitle(mFood.getName());
+                String result = mFood.getDesc().replaceAll("。","\n");
+                mTextView_Desc.setText(result);
+
+                String test = mFood.getStep().replaceAll("\\[","").replaceAll("]","").replaceAll(",","");
+                test = Utils.modifyImg(test);
+                wv_step.loadData(test,"text/html; charset=UTF-8", null);
+
+
                 mClAdapter.swapData(mFood.getIngs_names(),mFood.getIngs_units());
             }
 
@@ -87,6 +108,9 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
         titleImage.setImageResource(R.drawable.test_img);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.cl_rec);
+        mTextView_Desc = (TextView)findViewById(R.id.food_desc);
+
+        wv_step = (WebView)findViewById(R.id.wv_step);
 
         setupItemList();
         getMaterial(id);
@@ -147,4 +171,7 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 }

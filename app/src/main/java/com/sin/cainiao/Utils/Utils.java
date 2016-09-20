@@ -6,6 +6,11 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -68,5 +73,19 @@ public class Utils {
         }
 
         return bitmaps;
+    }
+
+    public static String modifyImg(String read){
+        Document doc = Jsoup.parse(read);
+        Elements png = doc.select("img[src]");
+
+        for (Element e:png){
+            e.removeAttr("alt");
+            e.removeAttr("height");
+            e.removeAttr("width");
+            e.attr("style","max-width: 100%;max-height:auto; display:block;margin-left:auto;margin-right:auto;");
+        }
+
+        return doc.toString();
     }
 }

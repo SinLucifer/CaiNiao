@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sin.cainiao.Adapter.ClAdapter;
@@ -27,15 +28,18 @@ import java.util.List;
 
 public class ShowDetailActivity extends AppCompatActivity {
     private final static String TAG = "ShowDetailActivity";
+    private final int DOWNLOAD_SUCCESS = 1;
+
     private ImageView mImageView;
-    private FoodItem.ShowapiResBodyBean mFood;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
-    private List<String> materialList;
     private RecyclerView mRecyclerView;
+
+    private FoodItem.ShowapiResBodyBean mFood;
+    private List<String> materialList;
     private ClAdapter mClAdapter;
 
 
-    private final int DOWNLOAD_SUCCESS = 1;
+
 
     private Handler mHandler = new Handler(){
         @Override
@@ -47,6 +51,7 @@ public class ShowDetailActivity extends AppCompatActivity {
 
                 mCollapsingToolbarLayout.setTitle(mFood.getName());
                 materialList = getMaterialByFoodItem(mFood);
+
                 mClAdapter.swapData(materialList);
             }
             super.handleMessage(msg);

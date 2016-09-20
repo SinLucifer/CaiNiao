@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,7 +55,7 @@ public class FoodMainFragment extends Fragment{
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == LOAD_SUCCESS){
-                mHeaderAdapter.swapData(foods,food_imgs);
+                mHeaderAdapter.swapData(food_imgs);
                 tv_hot_name.setText("最热搜索：" + foods.get(0).getName());
             }else if (msg.what == UPTATE_VIEWPAGER){
                 if (msg.arg1 != 0) {
@@ -102,6 +103,7 @@ public class FoodMainFragment extends Fragment{
         });
 
 
+        setupView(v);
         setupViewPager(v);
         loadHot();
 
@@ -125,6 +127,10 @@ public class FoodMainFragment extends Fragment{
         });
     }
 
+    private void setupView(View v){
+        tv_hot_name = (TextView)v.findViewById(R.id.tv_hot_name);
+    }
+
     private void setupViewPager(View v) {
 
         imageViews = new ArrayList<>();
@@ -139,6 +145,7 @@ public class FoodMainFragment extends Fragment{
         viewPager = (ViewPager) v.findViewById(R.id.vp_hottest);
         mHeaderAdapter = new HeaderAdapter(imageViews);
         viewPager.setAdapter(mHeaderAdapter);
+
 
         mBottomImgs = new ImageView[3];
 
@@ -160,7 +167,6 @@ public class FoodMainFragment extends Fragment{
             mBottomLayout.addView(mBottomImgs[i]);
         }
 
-        tv_hot_name = (TextView)v.findViewById(R.id.tv_hot_name);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -185,6 +191,16 @@ public class FoodMainFragment extends Fragment{
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+
+        mHeaderAdapter.setOnItemClickListener(new HeaderAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(getActivity(),ShowProcessFoodDetailActivity.class);
+                Integer id = foods.get(position).getNumber();
+                intent.putExtra("FOOD_ITEM_ID",id.toString());
+                startActivity(intent);
             }
         });
 
