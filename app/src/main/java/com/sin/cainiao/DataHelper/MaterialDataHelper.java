@@ -6,12 +6,8 @@ import android.widget.Filter;
 
 import com.sin.cainiao.Adapter.MaterialSuggestion;
 import com.sin.cainiao.JavaBean.Material;
+import com.sin.cainiao.JavaBean.ProcessedFood;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,14 +17,14 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
+import static com.sin.cainiao.Utils.Utils.sMaterialSuggestions;
+
 public class MaterialDataHelper {
-    private static final String FOODS_FILE_NAME = "dictionary.txt";
+
     private static final String TAG = "MaterialDateHelper";
 
-    private static List<MaterialSuggestion> sMaterialSuggestions = new ArrayList<>();
-
     public interface onFindMaterialsListener {
-        void onResults(List<Material> results, boolean status);
+        void onResults(Material result, boolean status);
     }
 
     public interface OnFindSuggestionsListener {
@@ -38,6 +34,7 @@ public class MaterialDataHelper {
     public interface onFindMaterialsStringListener {
         void onResults(List<String> results);
     }
+
 
     public static List<MaterialSuggestion> getHistory(Context context, int count) {
         //需要改的
@@ -127,53 +124,44 @@ public class MaterialDataHelper {
 
     public static void findMaterials(Context context,String query,final onFindMaterialsListener listener){
         BmobQuery<Material> bmobQuery = new BmobQuery<>();
-        bmobQuery.addWhereEqualTo("food_Name",query);
+        bmobQuery.addWhereEqualTo("name",query);
         bmobQuery.findObjects(new FindListener<Material>() {
             @Override
             public void done(List<Material> list, BmobException e) {
                 if (e == null){
-                    Log.i(TAG, "查询成功: " + list.get(0));
-                    if (listener != null){
-                        listener.onResults(list,true);
+                    if (list != null){
+                        Log.i(TAG, "查询成功: " + list.get(0));
+                        if (listener != null){
+                            listener.onResults(list.get(0),true);
+                        }
                     }
                 }else {
                     Log.i(TAG, "查询失败"+e.getMessage()+e.getErrorCode());
                     if (listener != null){
-                        listener.onResults(list,false);
+                        listener.onResults(null,false);
                     }
                 }
             }
         });
     }
 
-    public static String loadTxt(Context context){
-        String jsonString = "";
-
-        try {
-            InputStream is = context.getAssets().open(FOODS_FILE_NAME);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            jsonString = new String(buffer, "GBK");
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return jsonString;
-    }
-
-    public static String Json2Object(String jsonString){
-        String result = "";
-
-        try{
-            JSONArray json = new JSONArray(jsonString);
-            for (int i = 0; i < json.length(); i++) {
-                sMaterialSuggestions.add(new MaterialSuggestion(json.getString(i)));
+    public static void findMaterialByID(final int id,final onFindMaterialsListener listener){
+        BmobQuery<Material> bmobQuery = new BmobQuery<>();
+        bmobQuery.addWhereEqualTo("id",id);
+        bmobQuery.findObjects(new FindListener<Material>() {
+            @Override
+            public void done(List<Material> list, BmobException e) {
+                if(e==null){
+                    if (listener != null){
+                        listener.onResults(list.get(0),true);
+                    }
+                }else{
+                    Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+                    if (listener != null){
+                        listener.onResults(null,false);
+                    }
+                }
             }
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-
-        return result;
+        });
     }
 }

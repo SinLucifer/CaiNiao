@@ -12,61 +12,93 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/food_desc"
-            android:textSize="30sp"
-            android:gravity="center"
-            android:paddingBottom="16dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:id="@+id/food_desc"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="#f0f0f0" />
+            android:orientation="vertical"
+            android:id="@+id/tv_desc_container">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/food_desc"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:textColor="@color/hint_color"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:id="@+id/tv_process_food_desc"
+                android:textColor="@color/hint_color"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/divide_gray" />
+        </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/food_material"
             android:textSize="30sp"
             android:gravity="center"
-            android:paddingBottom="16dp"/>
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cl_rec"/>
+            android:padding="16dp"
+            android:textColor="@color/hint_color"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="#f0f0f0" />
+            android:background="@color/divide_gray" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/ings_name"
+                android:padding="8dp"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="@color/hint_color"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/divide_gray" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/ings_unit"
+                android:padding="8dp"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="@color/hint_color"/>
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rec_process_food_material"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/divide_gray" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/food_step"
             android:textSize="30sp"
             android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="#f0f0f0" />
+            android:padding="16dp"/>
         <WebView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/wv_step">
+            android:id="@+id/wv_process_food_step">
         </WebView>
     </LinearLayout>
 

@@ -18,31 +18,32 @@
             android:text="@string/food_material"
             android:textSize="30sp"
             android:gravity="center"
-            android:paddingBottom="16dp"/>
+            android:padding="16dp"
+            android:textColor="@color/hint_color"/>
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cl_rec"/>
+            android:id="@+id/rec_food_material"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="#f0f0f0" />
+            android:background="@color/divide_gray" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/food_step"
             android:textSize="30sp"
             android:gravity="center"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"/>
-        <View
+            android:padding="16dp"
+            android:textColor="@color/hint_color"/>
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="#f0f0f0" />
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_food_step"
+            android:paddingBottom="16dp"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

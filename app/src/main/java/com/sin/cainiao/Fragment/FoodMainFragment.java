@@ -8,6 +8,10 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +21,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sin.cainiao.Activity.SearchFoodActivity;
 import com.sin.cainiao.Activity.ShowProcessFoodDetailActivity;
+import com.sin.cainiao.Adapter.FoodListAdapter;
 import com.sin.cainiao.Adapter.HeaderAdapter;
 import com.sin.cainiao.DataHelper.FoodDataHelper;
 import com.sin.cainiao.JavaBean.ProcessedFood;
@@ -35,21 +41,28 @@ public class FoodMainFragment extends Fragment{
     private static final int LOAD_SUCCESS = 1;
     private static final int ERROR = 0;
     private static final int UPTATE_VIEWPAGER = 2;
+    private static final int LOAD_LIST_SUCCESS = 3;
     private int autoCurrIndex = 0; //now position
 
     private ImageView randomImg;
     private ViewPager viewPager;
+
     private HeaderAdapter mHeaderAdapter;
+    private FoodListAdapter listAdapter;
 
     private List<ImageView> imageViews;
     private List<ProcessedFood> foods;
     private List<Bitmap> food_imgs;
+    private List<ProcessedFood> ten_foodList;
 
     private ImageView[] mBottomImgs;
     private LinearLayout mBottomLayout;
     private TextView tv_hot_name;
+    private RecyclerView mRecycler_food_list;
 
     private Timer timer = new Timer();
+
+    private FoodFragmentCallBack mCallBack;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -65,18 +78,27 @@ public class FoodMainFragment extends Fragment{
                     viewPager.setCurrentItem(msg.arg1);
                 }
                 tv_hot_name.setText("最热搜索：" + foods.get(msg.arg1).getName());
-            }else {
+            }else if (msg.what == LOAD_LIST_SUCCESS) {
+                listAdapter.swapData(ten_foodList);
+            }else{
                 Log.i(TAG, "handleMessage: ERROR" );
             }
         }
     };
 
+    public interface FoodFragmentCallBack{
+        void onFoodCallBack(String id);
+    }
+
     public static FoodMainFragment newInstance() {
-        
         Bundle args = new Bundle();
         FoodMainFragment fragment = new FoodMainFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setCallBack(FoodFragmentCallBack callBack){
+        this.mCallBack = callBack;
     }
     
     @Override
@@ -101,6 +123,7 @@ public class FoodMainFragment extends Fragment{
                 startActivity(intent);
             }
         });
+
 
 
         setupView(v);
@@ -129,6 +152,42 @@ public class FoodMainFragment extends Fragment{
 
     private void setupView(View v){
         tv_hot_name = (TextView)v.findViewById(R.id.tv_hot_name);
+
+        mRecycler_food_list = (RecyclerView)v.findViewById(R.id.rec_food_list);
+        mRecycler_food_list.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        listAdapter = new FoodListAdapter(getContext());
+        listAdapter.setOnFoodItemClickListener(new FoodListAdapter.onFoodItemClickListener() {
+            @Override
+            public void onClick(ProcessedFood food) {
+                if (mCallBack != null){
+                    Integer number = food.getNumber();
+                    mCallBack.onFoodCallBack(number.toString());
+                }else {
+                    Log.i(TAG, "handleMessage: ERROR");
+                }
+            }
+        });
+
+        mRecycler_food_list.setAdapter(listAdapter);
+
+        FoodDataHelper.findTenProcessFood(new FoodDataHelper.onFindProcessFoodListener() {
+            @Override
+            public void onSingleResult(ProcessedFood item, boolean status) {}
+
+            @Override
+            public void onGroupResult(List<ProcessedFood> foodList, boolean status) {
+                Message msg = new Message();
+                if (status){
+                    msg.what = LOAD_LIST_SUCCESS;
+                    ten_foodList = foodList;
+                }else{
+                    msg.what = ERROR;
+                }
+
+                mHandler.sendMessage(msg);
+            }
+        });
+
     }
 
     private void setupViewPager(View v) {
@@ -209,11 +268,13 @@ public class FoodMainFragment extends Fragment{
             public void run() {
                 Message msg = new Message();
                 msg.what = UPTATE_VIEWPAGER;
-                if (autoCurrIndex == foods.size() - 1) {
-                    autoCurrIndex = -1;
+                if (foods != null){
+                    if (autoCurrIndex == foods.size() - 1) {
+                        autoCurrIndex = -1;
+                    }
+                    msg.arg1 = autoCurrIndex + 1;
+                    mHandler.sendMessage(msg);
                 }
-                msg.arg1 = autoCurrIndex + 1;
-                mHandler.sendMessage(msg);
             }
         },5000,5000);
     }

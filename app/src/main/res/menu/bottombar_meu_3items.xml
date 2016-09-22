@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/bbn_item1"
-        android:icon="@mipmap/ic_launcher"
-        android:title="Food"
-        android:color="#f4511e"/>
+        android:icon="@drawable/bread_1"
+        android:title="@string/food"
+        android:color="@color/colorPrimary"/>
     <item
         android:id="@+id/bbn_item2"
-        android:icon="@mipmap/ic_launcher"
-        android:title="Material"
-        android:color="#00acc1"/>
+        android:icon="@drawable/cheese"
+        android:title="@string/material"
+        android:color="@color/colorPrimary"/>
     <item
         android:id="@+id/bbn_item3"
-        android:icon="@mipmap/ic_launcher"
-        android:title="About Me"
-        android:color="#7eb499"/>
+        android:icon="@drawable/bird_1"
+        android:title="@string/me"
+        android:color="@color/colorPrimary"/>
 </menu>

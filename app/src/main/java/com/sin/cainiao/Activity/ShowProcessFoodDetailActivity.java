@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,8 +64,9 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
             if (msg.what == SUCCESS){
                 titleImage.setImageBitmap(mTitleBitmap);
 
-                Log.i(TAG, "handleMessage: " + mFood.getDesc());
                 mCollapsingToolbarLayout.setTitle(mFood.getName());
+                mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
+
                 String result = mFood.getDesc().replaceAll("。","\n");
                 mTextView_Desc.setText(result);
 
@@ -107,10 +109,10 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
         titleImage = (ImageView)findViewById(R.id.title_img);
         titleImage.setImageResource(R.drawable.test_img);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.cl_rec);
-        mTextView_Desc = (TextView)findViewById(R.id.food_desc);
+        mRecyclerView = (RecyclerView)findViewById(R.id.rec_process_food_material);
+        mTextView_Desc = (TextView)findViewById(R.id.tv_process_food_desc);
 
-        wv_step = (WebView)findViewById(R.id.wv_step);
+        wv_step = (WebView)findViewById(R.id.wv_process_food_step);
 
         setupItemList();
         getMaterial(id);

@@ -116,6 +116,29 @@ public class FoodDataHelper {
         });
     }
 
+    public static void findTenProcessFood(final onFindProcessFoodListener listener){
+
+        BmobQuery<ProcessedFood> bmobQuery = new BmobQuery<>();
+        bmobQuery.addWhereGreaterThanOrEqualTo("number",0);
+        bmobQuery.setLimit(10);
+        bmobQuery.findObjects(new FindListener<ProcessedFood>() {
+            @Override
+            public void done(final List<ProcessedFood> list, BmobException e) {
+                if(e==null){
+                    if (listener != null){
+                        Log.i(TAG, "findTenProcessFood: " + list.get(0).getName());
+                        listener.onGroupResult(list,true);
+                    }
+                }else{
+                    Log.i("bmob","失败："+e.getMessage());
+                    if (listener != null){
+                        listener.onGroupResult(null,false);
+                    }
+                }
+            }
+        });
+    }
+
     public static void findProcessFoodByMaterial(final String material,final onFindProcessFoodListener listener){
         BmobQuery<ProcessedFood> query = new BmobQuery<>();
         String [] materials = {material};

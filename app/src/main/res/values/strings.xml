@@ -1,18 +1,37 @@
 <resources>
-    <string name="app_name">CaiNiao</string>
+    <string name="app_name">菜鸟</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_search_scrolling">SearchScrollingActivity</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main2">菜鸟</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_show_detail">ShowDetailActivity</string>
     <string name="title_activity_show_process_food_detail">ShowProcessFoodDetailActivity</string>
 
 
+    <string name="food">食谱</string>
+    <string name="material">食材</string>
+    <string name="me">个人信息</string>
+
+    <string name="eat_what">今天吃点啥~？</string>
+    <string name="today_material">今日食材</string>
+
     <string name="food_desc">简介</string>
-    <string name="food_material">材料</string>
+    <string name="food_material">用料</string>
     <string name="food_step">做法</string>
+
+
+    <string name="ings_name">材料</string>
+    <string name="ings_unit">用量</string>
+    <string name="loading">加载中...</string>
+
+    <string name="material_price">价格</string>
+    <string name="material_skill">挑选</string>
+    <string name="material_worth">宜忌</string>
+    <string name="material_market">周边市场</string>
+
+    <string name="search_hint">搜索</string>
 </resources>

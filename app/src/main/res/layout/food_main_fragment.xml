@@ -1,67 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="#9fa3a6">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_hottest"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-        <LinearLayout
-            android:id="@+id/ll_hottest_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="5dp"
-            android:background="#50323232"
-            android:gravity="center|right"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_alignParentBottom="true"
-            android:text="垃圾"
-            android:layout_marginLeft="16dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:id="@+id/tv_hot_name"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip"
-        android:background="#f0f0f0" />
+    android:layout_height="match_parent"
+    android:id="@+id/scroll_View">
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/dice"
-            android:scaleType="centerInside"
-            android:id="@+id/img_random"
-            android:contentDescription="ImageButton"/>
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="#9fa3a6">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_hottest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            <LinearLayout
+                android:id="@+id/ll_hottest_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="5dp"
+                android:background="#50323232"
+                android:gravity="center|right"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true">
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentBottom="true"
+                android:text="@string/loading"
+                android:layout_marginStart="16dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:id="@+id/tv_hot_name"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divide_gray"
+            android:layout_marginTop="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="@string/eat_what"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/divide_gray" />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/dice_1"
+                android:scaleType="centerInside"
+                android:id="@+id/img_random"
+                android:contentDescription="ImageButton"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginBottom="16dp"
+            android:background="@color/divide_gray" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rec_food_list"
+            />
 
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip"
-        android:background="#f0f0f0" />
-
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

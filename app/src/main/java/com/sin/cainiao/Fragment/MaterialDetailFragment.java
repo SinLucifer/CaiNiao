@@ -1,5 +1,6 @@
 package com.sin.cainiao.Fragment;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,7 +50,8 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
         PoiSearch.OnPoiSearchListener,AMap.OnMarkerClickListener,AMap.OnMapClickListener,AMap.InfoWindowAdapter
         , AMap.OnInfoWindowClickListener {
     private final static String TAG = "MaterialDetailFragment";
-    private final static int SECCUSS = 1;
+    private final static int SUCCESS = 1;
+    private final static int LOAD_SUCCESS = 2;
 
     private MapView mMapView;
     private AMap mAMap;
@@ -70,14 +73,29 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
 
     private OnLocationChangedListener mLocationChangeListener = null;
 
-    private Handler handler = new Handler(){
+    private Material material;
+    private Bitmap bitmap;
+
+    private TextView tv_material_name;
+    private ImageView material_img;
+    private TextView tv_material_desc;
+    private TextView tv_material_price;
+    private TextView tv_material_skill;
+    private TextView tv_material_worth;
+
+    private View mView;
+    private Bundle savedInstanceState;
+
+    private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == SECCUSS){
+            if (msg.what == SUCCESS){
                 AMapLocation aMapLocation = (AMapLocation)msg.obj;
                 initPOI(aMapLocation);
                 doSearchQuery(aMapLocation.getCity());
+            }else if(msg.what == LOAD_SUCCESS){
+                material_img.setImageBitmap(bitmap);
             }
         }
     };
@@ -101,24 +119,61 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.material_detail_fragment,container,false);
-        TextView tv = (TextView)mView.findViewById(R.id.tv_material_name);
-
-        mMapView = (MapView)mView.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
-        initMap();
-        mPoiDetail = (RelativeLayout) mView.findViewById(R.id.poi_detail);
-        mPoiName = (TextView) mView.findViewById(R.id.poi_name);
-        mPoiAddress = (TextView) mView.findViewById(R.id.poi_address);
+        mView = inflater.inflate(R.layout.material_detail_fragment,container,false);
+        this.savedInstanceState = savedInstanceState;
 
         Bundle bundle = getArguments();
-        Material material = (Material)bundle.getSerializable("material");
-        if (material != null){
-            Log.i(TAG, "onCreateView: " + material.getFood_Name() + material.getPrice());
-            tv.setText(material.getFood_Name());
-        }
+        material = (Material)bundle.getSerializable("material");
+
+
+        initOthersView(mView);
 
         return mView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initMapView(mView,savedInstanceState);
+    }
+
+    private void initOthersView(View v){
+        tv_material_name = (TextView)v.findViewById(R.id.tv_material_name);
+        material_img = (ImageView)v.findViewById(R.id.img_material);
+        tv_material_desc = (TextView)v.findViewById(R.id.tv_material_desc);
+        tv_material_price = (TextView)v.findViewById(R.id.tv_material_price);
+        tv_material_skill = (TextView)v.findViewById(R.id.tv_material_skill);
+        tv_material_worth = (TextView)v.findViewById(R.id.tv_material_worth);
+
+        if (material != null){
+            tv_material_name.setText(material.getName());
+            tv_material_desc.setText(material.getDesc());
+            tv_material_price.setText(material.getPrice()+"/斤");
+            tv_material_skill.setText(material.getSkill());
+            tv_material_worth.setText(material.getWorth());
+
+            new Thread(){
+                @Override
+                public void run() {
+                    super.run();
+                    bitmap = Utils.downLoadImg(material.getPicUrl());
+                    Message msg = new Message();
+                    msg.what = LOAD_SUCCESS;
+                    mHandler.sendMessage(msg);
+                }
+            }.start();
+        }
+
+
+    }
+
+    private void initMapView(View v,Bundle savedInstanceState){
+        mMapView = (MapView)v.findViewById(R.id.mapView);
+        mMapView.onCreate(savedInstanceState);
+        initMap();
+        mPoiDetail = (RelativeLayout) v.findViewById(R.id.poi_detail);
+        mPoiName = (TextView) v.findViewById(R.id.poi_name);
+        mPoiAddress = (TextView) v.findViewById(R.id.poi_address);
     }
 
     private void initMap(){
@@ -140,7 +195,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
         mLocationOption.setInterval(2000);
         mLocationClient.setLocationOption(mLocationOption);
         mLocationClient.startLocation();
-        mAMap.moveCamera(CameraUpdateFactory.zoomTo(14));
+        mAMap.moveCamera(CameraUpdateFactory.zoomTo(10));
     }
 
     private void initMyLocation() {
@@ -192,9 +247,9 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
             if (aMapLocation.getErrorCode() == 0) {
                 if (first){
                     Message msg = new Message();
-                    msg.what = SECCUSS;
+                    msg.what = SUCCESS;
                     msg.obj = aMapLocation;
-                    handler.sendMessage(msg);
+                    mHandler.sendMessage(msg);
                     first = false;
                 }
                 mLocationChangeListener.onLocationChanged(aMapLocation);
@@ -238,7 +293,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
                         whetherToShowDetailInfo(false);
                         //并还原点击marker样式
                         if (mlastMarker != null) {
-                            resetlastmarker();
+                            resetLastMarker();
                         }
                         //清理之前搜索结果的marker
                         if (poiOverlay !=null) {
@@ -277,7 +332,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     public void onMapClick(LatLng latLng) {
         whetherToShowDetailInfo(false);
         if (mlastMarker != null) {
-            resetlastmarker();
+            resetLastMarker();
         }
     }
 
@@ -302,7 +357,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
         }
     }
 
-    private void resetlastmarker() {
+    private void resetLastMarker() {
         int index = poiOverlay.getPoiIndex(mlastMarker);
         if (index < 10) {
             mlastMarker.setIcon(BitmapDescriptorFactory
@@ -348,7 +403,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
                     mlastMarker = marker;
                 } else {
                     // 将之前被点击的marker置为原来的状态
-                    resetlastmarker();
+                    resetLastMarker();
                     mlastMarker = marker;
                 }
                 detailMarker = marker;
@@ -363,7 +418,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
             }
         }else {
             whetherToShowDetailInfo(false);
-            resetlastmarker();
+            resetLastMarker();
         }
 
         return true;

@@ -12,6 +12,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -49,6 +53,9 @@
             android:name=".Activity.ShowProcessFoodDetailActivity"
             android:label="@string/title_activity_show_process_food_detail"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".Activity.RegisterActivity"
+            android:theme="@style/AppTheme_change"/>
     </application>
 
 </manifest>

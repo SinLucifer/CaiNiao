@@ -6,6 +6,10 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.sin.cainiao.Adapter.MaterialSuggestion;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,6 +25,8 @@ import java.util.List;
 
 public class Utils {
     private static final String TAG = "Utils";
+    private static final String FOODS_FILE_NAME = "dictionary.txt";
+    public static List<MaterialSuggestion> sMaterialSuggestions = new ArrayList<>();
 
     public static List<String> Array2List(String[] array){
         List<String> list = new ArrayList<>();
@@ -87,5 +93,36 @@ public class Utils {
         }
 
         return doc.toString();
+    }
+
+    public static String loadTxt(Context context){
+        String jsonString = "";
+
+        try {
+            InputStream is = context.getAssets().open(FOODS_FILE_NAME);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            jsonString = new String(buffer, "GBK");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return jsonString;
+    }
+
+    public static String Json2Object(String jsonString){
+        String result = "";
+
+        try{
+            JSONArray json = new JSONArray(jsonString);
+            for (int i = 0; i < json.length(); i++) {
+                sMaterialSuggestions.add(new MaterialSuggestion(json.getString(i)));
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

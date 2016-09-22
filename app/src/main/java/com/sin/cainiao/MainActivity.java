@@ -23,9 +23,11 @@ import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
+import com.sin.cainiao.Activity.RegisterActivity;
 import com.sin.cainiao.Activity.SearchFoodActivity;
 import com.sin.cainiao.Activity.SearchMaterialActivity;
 import com.sin.cainiao.Activity.ShowDetailActivity;
+import com.sin.cainiao.Activity.ShowProcessFoodDetailActivity;
 import com.sin.cainiao.Adapter.MainFragmentAdapter;
 import com.sin.cainiao.Fragment.FoodMainFragment;
 import com.sin.cainiao.Fragment.MaterialMainFragment;
@@ -47,7 +49,11 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
-public class MainActivity extends AppCompatActivity {
+import static com.sin.cainiao.Utils.Utils.Json2Object;
+import static com.sin.cainiao.Utils.Utils.loadTxt;
+
+public class MainActivity extends AppCompatActivity implements FoodMainFragment.FoodFragmentCallBack
+        ,MaterialMainFragment.MaterialMainFragmentCallBack{
     private final static String TAG = "MainActivity";
     private MainFragmentAdapter mainFragmentAdapter;
     private Toolbar toolbar;
@@ -66,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
-        toolbar.setBackgroundColor(Color.parseColor("#f4511e"));
         setSupportActionBar(toolbar);
 
         initBmob();
@@ -77,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initBmob(){
         Bmob.initialize(this, Key.BMOB_KEY);
-        MaterialDataHelper.Json2Object(MaterialDataHelper.loadTxt(getApplicationContext()));
+        Json2Object(loadTxt(getApplicationContext()));
     }
 
     private void setupBottomNavigation(){
@@ -85,14 +90,13 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
             @Override
             public void onMenuItemSelect(@IdRes int i, int i1) {
-                mViewPager.setCurrentItem(i1);
-                if (i1 == 0){
-                    toolbar.setBackgroundColor(Color.parseColor("#f4511e"));
-                }else if (i1 == 1){
-                    toolbar.setBackgroundColor(Color.parseColor("#00acc1"));
+                if (i1 != 2 ){
+                    mViewPager.setCurrentItem(i1);
                 }else {
-                    toolbar.setBackgroundColor(Color.parseColor("#7eb499"));
+                    Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
+                    startActivity(intent);
                 }
+
             }
 
             @Override
@@ -104,12 +108,16 @@ public class MainActivity extends AppCompatActivity {
 
         List<Fragment> fragmentList = new ArrayList<>();
         foodMainFragment = FoodMainFragment.newInstance();
+        foodMainFragment.setCallBack(MainActivity.this);
+
         materialMainFragment = MaterialMainFragment.newInstance();
+        materialMainFragment.setCallBack(MainActivity.this);
+
         userMainFragment = UserMainFragment.newInstance();
 
         fragmentList.add(foodMainFragment);
         fragmentList.add(materialMainFragment);
-        fragmentList.add(userMainFragment);
+//        fragmentList.add(userMainFragment);
 
         mainFragmentAdapter = new MainFragmentAdapter(fragmentList,getSupportFragmentManager());
 
@@ -124,13 +132,10 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 bottomNavigation.setSelectedIndex(position,true);
                 if (position == 0){
-                    toolbar.setBackgroundColor(Color.parseColor("#f4511e"));
                     mSearchImg.setVisibility(View.VISIBLE);
                 }else if (position == 1){
-                    toolbar.setBackgroundColor(Color.parseColor("#00acc1"));
                     mSearchImg.setVisibility(View.VISIBLE);
                 }else if(position == 2){
-                    toolbar.setBackgroundColor(Color.parseColor("#7eb499"));
                     mSearchImg.setVisibility(View.INVISIBLE);
                 }
             }
@@ -156,6 +161,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onFoodCallBack(String id) {
+        Intent intent = new Intent(MainActivity.this,ShowProcessFoodDetailActivity.class);
+        intent.putExtra("FOOD_ITEM_ID",id);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onMaterialCallBack(String name) {
+        Intent intent = new Intent(MainActivity.this,SearchMaterialActivity.class);
+        intent.putExtra("MATERIAL_NAME",name);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

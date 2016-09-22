@@ -33,13 +33,11 @@ public class ShowDetailActivity extends AppCompatActivity {
     private ImageView mImageView;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private RecyclerView mRecyclerView;
+    private TextView tv_food_step;
 
     private FoodItem.ShowapiResBodyBean mFood;
     private List<String> materialList;
     private ClAdapter mClAdapter;
-
-
-
 
     private Handler mHandler = new Handler(){
         @Override
@@ -50,9 +48,11 @@ public class ShowDetailActivity extends AppCompatActivity {
                 }
 
                 mCollapsingToolbarLayout.setTitle(mFood.getName());
+                mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
                 materialList = getMaterialByFoodItem(mFood);
 
                 mClAdapter.swapData(materialList);
+                tv_food_step.setText("\t\t\t\t" + mFood.getZf());
             }
             super.handleMessage(msg);
         }
@@ -81,7 +81,7 @@ public class ShowDetailActivity extends AppCompatActivity {
         mImageView = (ImageView)findViewById(R.id.title_img);
         mImageView.setImageResource(R.drawable.test_img);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.cl_rec);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rec_food_material);
 
         setupItemList();
         getMaterial(id);
@@ -111,6 +111,7 @@ public class ShowDetailActivity extends AppCompatActivity {
                 });
             }
         });
+        tv_food_step = (TextView)findViewById(R.id.tv_food_step);
     }
 
     private void getMaterial(String id){

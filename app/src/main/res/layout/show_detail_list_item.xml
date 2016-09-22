@@ -8,9 +8,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:background="#f0f0f0" />
+            android:background="@color/divide_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"

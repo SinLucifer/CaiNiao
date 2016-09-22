@@ -43,24 +43,22 @@ public class SearchMaterialActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         List<String> cl = (List<String>)intent.getSerializableExtra("cl");
+
         if (cl != null){
             Log.i(TAG, "onCreate: " + cl.size());
             if(cl.size() == 1){
-                BmobQuery<Material> bmobQuery = new BmobQuery<>();
-                bmobQuery.addWhereEqualTo("food_Name",cl.get(0));
-                bmobQuery.findObjects(new FindListener<Material>() {
+                MaterialDataHelper.findMaterials(this, cl.get(0), new MaterialDataHelper.onFindMaterialsListener() {
                     @Override
-                    public void done(List<Material> list, BmobException e) {
-                        if (e == null){
-                            mDetailFragment = MaterialDetailFragment.newInstance(list.get(0));
+                    public void onResults(Material result, boolean status) {
+                        if (status){
+                            mDetailFragment = MaterialDetailFragment.newInstance(result);
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.search_material_container,mDetailFragment).commit();
                         }else {
-                            Log.i(TAG, "查询失败"+e.getMessage()+e.getErrorCode());
+                            Log.i(TAG, "onResults: No such food");
                         }
                     }
                 });
-
             }else{
                 List<MaterialSuggestion> materialSuggestions = new ArrayList<>();
                 for (String tempCl : cl) {
@@ -70,9 +68,23 @@ public class SearchMaterialActivity extends AppCompatActivity {
                 mSearchView.swapSuggestions(materialSuggestions);
             }
         }
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.search_material_container,mDetailFragment).commit();
+        // TODO: 2016/9/22 传对象 
+        String material_name = intent.getStringExtra("MATERIAL_NAME");
+        Log.i(TAG, "onCreate: " + material_name);
+        if (material_name != null && !material_name.equals("")){
+            MaterialDataHelper.findMaterials(this, material_name, new MaterialDataHelper.onFindMaterialsListener() {
+                @Override
+                public void onResults(Material result, boolean status) {
+                    if (status){
+                        mDetailFragment = MaterialDetailFragment.newInstance(result);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.search_material_container,mDetailFragment).commit();
+                    }else {
+                        Log.i(TAG, "onResults: No such food");
+                    }
+                }
+            });
+        }
     }
 
     public void setupSearchView(){
@@ -105,16 +117,13 @@ public class SearchMaterialActivity extends AppCompatActivity {
                 MaterialDataHelper.findMaterials(getApplicationContext()
                         , materialSuggestion.getBody(), new MaterialDataHelper.onFindMaterialsListener() {
                             @Override
-                            public void onResults(List<Material> results, boolean status) {
+                            public void onResults(Material result, boolean status) {
                                 if (status) {
-                                    if (results.size() == 1){
-                                        mDetailFragment = MaterialDetailFragment
-                                                .newInstance(results.get(0));
-                                        getSupportFragmentManager().beginTransaction()
-                                                .replace(R.id.search_material_container,mDetailFragment)
-                                                .commit();
-                                        Log.i(TAG, "onResults: " + results);
-                                    }
+                                    mDetailFragment = MaterialDetailFragment
+                                            .newInstance(result);
+                                    getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.search_material_container,mDetailFragment)
+                                            .commit();
                                 } else {
                                     Log.i(TAG, "onResults: No such food");
                                 }
@@ -127,16 +136,14 @@ public class SearchMaterialActivity extends AppCompatActivity {
                 MaterialDataHelper.findMaterials(getApplicationContext()
                         , currentQuery, new MaterialDataHelper.onFindMaterialsListener() {
                             @Override
-                            public void onResults(List<Material> results, boolean status) {
+                            public void onResults(Material result, boolean status) {
                                 if (status){
-                                    if (results.size() == 1){
                                         mDetailFragment = MaterialDetailFragment
-                                                .newInstance(results.get(0));
+                                                .newInstance(result);
                                         getSupportFragmentManager().beginTransaction()
                                                 .replace(R.id.search_material_container,mDetailFragment)
                                                 .commit();
-                                        Log.i(TAG, "onResults: " + results);
-                                    }
+                                        Log.i(TAG, "onResults: " + result);
                                 }else {
                                     Log.i(TAG, "onResults: No such food");
                                 }

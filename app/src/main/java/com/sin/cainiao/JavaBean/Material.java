@@ -3,12 +3,30 @@ package com.sin.cainiao.JavaBean;
 import cn.bmob.v3.BmobObject;
 
 public class Material extends BmobObject {
-    private String food_Name;
+    private String name;
     private double price;
     private String desc;
     private String skill;
     private String picUrl;
     private String worth;
+    private double hot_click;
+    private double id;
+
+    public double getHot_click() {
+        return hot_click;
+    }
+
+    public void setHot_click(double hot_click) {
+        this.hot_click = hot_click;
+    }
+
+    public double getId() {
+        return id;
+    }
+
+    public void setId(double id) {
+        this.id = id;
+    }
 
     public String getWorth() {
         return worth;
@@ -25,7 +43,7 @@ public class Material extends BmobObject {
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
     }
-    
+
     public double getPrice() {
         return price;
     }
@@ -34,12 +52,12 @@ public class Material extends BmobObject {
         this.price = price;
     }
 
-    public String getFood_Name() {
-        return food_Name;
+    public String getName() {
+        return name;
     }
 
-    public void setFood_Name(String food_Name) {
-        this.food_Name = food_Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDesc() {

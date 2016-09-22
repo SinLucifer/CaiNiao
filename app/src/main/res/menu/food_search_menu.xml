@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item android:id="@+id/action_food"
-        android:title="food"
+        android:title="@string/food"
         android:orderInCategory="1"
-        app:showAsAction="always"/>
+        android:icon="@drawable/bread"
+        app:showAsAction="never"/>
     <item android:id="@+id/action_material"
-        android:title="material"
+        android:title="@string/material"
         android:orderInCategory="2"
+        android:icon="@drawable/cheese"
         app:showAsAction="never"/>
 </menu>
