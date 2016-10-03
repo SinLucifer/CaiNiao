@@ -1,5 +1,6 @@
 package com.sin.cainiao.Activity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,12 +22,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arlib.floatingsearchview.util.Util;
 import com.sin.cainiao.Adapter.ClAdapter;
 import com.sin.cainiao.Adapter.ProcessClAdapter;
 import com.sin.cainiao.DataHelper.FoodDataHelper;
 import com.sin.cainiao.DataHelper.MaterialDataHelper;
+import com.sin.cainiao.JavaBean.CaiNiaoUser;
 import com.sin.cainiao.JavaBean.ProcessedFood;
 import com.sin.cainiao.R;
+import com.sin.cainiao.Utils.CustomApplication;
 import com.sin.cainiao.Utils.Utils;
 
 import org.jsoup.Jsoup;
@@ -41,8 +45,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobRelation;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
+
 public class ShowProcessFoodDetailActivity extends AppCompatActivity {
     private final static String TAG = "ShowProcessFoodDetailActivity";
+
+    private CustomApplication app;
+    private CaiNiaoUser user;
 
     private ImageView titleImage;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -91,15 +103,45 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
 
         mCollapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
 
+        app = (CustomApplication)getApplication();
+        user = app.getUser();
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (user != null){
+                    CaiNiaoUser bmobUser = app.getUser();
+                    BmobRelation relation = new BmobRelation();
+                    relation.add(mFood);
+                    bmobUser.setFoodLikes(relation);
+                    bmobUser.update(new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if(e==null){
+                                Utils.toastShow(getApplicationContext(),"收藏成功");
+                            }else{
+                                Utils.toastShow(getApplicationContext(),"收藏失败");
+                            }
+                        }
+                    });
+
+//                    mFood.setLikes(relation);
+//                    mFood.update(new UpdateListener() {
+//                        @Override
+//                        public void done(BmobException e) {
+//                            if(e==null){
+//                                Utils.toastShow(getApplicationContext(),"收藏成功");
+//                            }else{
+//                                Utils.toastShow(getApplicationContext(),"收藏失败");
+//                            }
+//                        }
+//                    });
+
+
+                }
+            }
+        });
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("FOOD_ITEM_ID");

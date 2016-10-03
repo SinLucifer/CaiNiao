@@ -3,6 +3,7 @@ package com.sin.cainiao.JavaBean;
 import java.util.List;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobRelation;
 
 
 public class ProcessedFood extends BmobObject {
@@ -12,15 +13,24 @@ public class ProcessedFood extends BmobObject {
     private List<String> ings_units;
     private List<String> ings_names;
     private String step;
-    private int number;
-    private int clickTime;
+    private Integer number;
+    private Integer clickTime;
+    private BmobRelation likes;
+
+    public BmobRelation getLikes() {
+        return likes;
+    }
+
+    public void setLikes(BmobRelation likes) {
+        this.likes = likes;
+    }
 
 
-    public int getClickTime() {
+    public Integer getClickTime() {
         return clickTime;
     }
 
-    public void setClickTime(int clickTime) {
+    public void setClickTime(Integer clickTime) {
         this.clickTime = clickTime;
     }
 
@@ -32,11 +42,11 @@ public class ProcessedFood extends BmobObject {
         this.step = step;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

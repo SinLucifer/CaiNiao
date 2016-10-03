@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.show.api.ShowApiRequest;
+import com.sin.cainiao.JavaBean.CaiNiaoUser;
 import com.sin.cainiao.JavaBean.Food;
 import com.sin.cainiao.JavaBean.FoodItem;
 import com.sin.cainiao.JavaBean.Material;
@@ -23,8 +24,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SQLQueryListener;
 
 public class FoodDataHelper {
     private static final String TAG = "FoodDataHelper";
@@ -41,6 +45,10 @@ public class FoodDataHelper {
 
     public interface onFindProcessFoodWithPicListener{
         void onFind(List<ProcessedFood> fooList,List<Bitmap> bitmaps,boolean status);
+    }
+
+    public interface onFindFavFoodListener{
+        void onFind(List<ProcessedFood> foodList,boolean status);
     }
 
     public static void findFoods(Context context,final String query,final onFindFoodsListener listener){
@@ -141,8 +149,7 @@ public class FoodDataHelper {
 
     public static void findProcessFoodByMaterial(final String material,final onFindProcessFoodListener listener){
         BmobQuery<ProcessedFood> query = new BmobQuery<>();
-        String [] materials = {material};
-        query.addWhereContainsAll("ings_names", Arrays.asList(materials));
+        query.addWhereStartsWith("ings_names", material);
         query.findObjects(new FindListener<ProcessedFood>() {
             @Override
             public void done(List<ProcessedFood> list, BmobException e) {
@@ -189,6 +196,26 @@ public class FoodDataHelper {
                     Log.i("bmob","失败："+e.getMessage());
                     if (listener != null){
                         listener.onFind(null,null,false);
+                    }
+                }
+            }
+        });
+    }
+
+    public static void getUserFavFood(CaiNiaoUser user, final onFindFavFoodListener listener){
+        BmobQuery<ProcessedFood> query = new BmobQuery<>();
+        query.addWhereRelatedTo("foodLikes",new BmobPointer(user));
+        query.findObjects(new FindListener<ProcessedFood>() {
+            @Override
+            public void done(List<ProcessedFood> list, BmobException e) {
+                if (e == null){
+                    if (listener != null){
+                        listener.onFind(list,true);
+                    }
+                    Log.i("bmob","查询个数："+list.size());
+                }else {
+                    if (listener != null){
+                        listener.onFind(null,false);
                     }
                 }
             }

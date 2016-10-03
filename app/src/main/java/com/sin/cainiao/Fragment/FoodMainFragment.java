@@ -60,6 +60,8 @@ public class FoodMainFragment extends Fragment{
     private TextView tv_hot_name;
     private RecyclerView mRecycler_food_list;
 
+    private NestedScrollView mNestedScrollView;
+
     private Timer timer = new Timer();
 
     private FoodFragmentCallBack mCallBack;
@@ -188,6 +190,16 @@ public class FoodMainFragment extends Fragment{
             }
         });
 
+        mNestedScrollView = (NestedScrollView)v.findViewById(R.id.sv_food_main);
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {   //解决起始滑动界面
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && mNestedScrollView != null){
+            mNestedScrollView.smoothScrollTo(0,20);
+        }
     }
 
     private void setupViewPager(View v) {

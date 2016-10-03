@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +19,11 @@ import android.widget.Toast;
 import com.sin.cainiao.Adapter.ClAdapter;
 import com.sin.cainiao.DataHelper.FoodDataHelper;
 import com.sin.cainiao.DataHelper.MaterialDataHelper;
+import com.sin.cainiao.JavaBean.CaiNiaoUser;
 import com.sin.cainiao.JavaBean.Food;
 import com.sin.cainiao.JavaBean.FoodItem;
 import com.sin.cainiao.R;
+import com.sin.cainiao.Utils.CustomApplication;
 import com.sin.cainiao.Utils.Utils;
 
 import java.io.Serializable;
@@ -38,6 +42,9 @@ public class ShowDetailActivity extends AppCompatActivity {
     private FoodItem.ShowapiResBodyBean mFood;
     private List<String> materialList;
     private ClAdapter mClAdapter;
+
+    private CustomApplication app;
+    private CaiNiaoUser user;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -65,14 +72,18 @@ public class ShowDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        app = (CustomApplication)getApplication();
+        user = app.getUser();
+
         mCollapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+//                if (user != null){
+//                    user.getArticleList()
+//                }
 //            }
 //        });
 

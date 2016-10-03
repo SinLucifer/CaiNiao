@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</LinearLayout>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/sv_user_main">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/colorPrimaryDark">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_marginTop="16dp"
+                android:id="@+id/user_ico"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="UserName"
+                android:id="@+id/tv_user_name"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:textSize="32sp"
+                android:layout_marginBottom="16dp"/>
+        </LinearLayout>
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tabs"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorPrimaryDark"
+            app:tabTextColor="#ffffff"
+            app:tabSelectedTextColor="@color/colorPrimary"/>
+        <com.sin.cainiao.Utils.WrapContentHeightViewPager
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fav_container"/>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

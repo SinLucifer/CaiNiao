@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:clipToPadding="false"
-    android:fitsSystemWindows="true">
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark">
+    <LinearLayout android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_weight="1">
@@ -49,28 +47,28 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="登录"
+                android:text="@string/login"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/button"
+                android:id="@+id/bn_login"
                 android:textColor="@color/colorPrimaryDark"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
-                android:gravity="center|right">
+                android:gravity="center|end">
                 <Button
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button"
-                    android:text="用手机注册"
+                    android:text="@string/register_by_phone"
                     android:layout_marginEnd="16dp"
+                    android:id="@+id/bn_register"
                     android:textColor="@color/colorPrimaryDark"/>
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
-
 </LinearLayout>

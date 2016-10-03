@@ -31,7 +31,7 @@
             android:orientation="vertical"
             android:layout_weight="6"
             android:gravity="center"
-            android:paddingStart="8dp">
+            android:layout_marginStart="8dp">
 
             <TextView
                 android:id="@+id/food_name"

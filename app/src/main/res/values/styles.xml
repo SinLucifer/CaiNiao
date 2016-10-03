@@ -28,11 +28,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme_change" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme_change" parent="AppTheme.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 </resources>

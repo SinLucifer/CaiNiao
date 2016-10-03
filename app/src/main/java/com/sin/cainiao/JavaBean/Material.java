@@ -4,27 +4,27 @@ import cn.bmob.v3.BmobObject;
 
 public class Material extends BmobObject {
     private String name;
-    private double price;
+    private Double price;
     private String desc;
     private String skill;
     private String picUrl;
     private String worth;
-    private double hot_click;
-    private double id;
+    private Double hot_click;
+    private Double id;
 
-    public double getHot_click() {
+    public Double getHot_click() {
         return hot_click;
     }
 
-    public void setHot_click(double hot_click) {
+    public void setHot_click(Double hot_click) {
         this.hot_click = hot_click;
     }
 
-    public double getId() {
+    public Double getId() {
         return id;
     }
 
-    public void setId(double id) {
+    public void setId(Double id) {
         this.id = id;
     }
 
@@ -44,11 +44,11 @@ public class Material extends BmobObject {
         this.picUrl = picUrl;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

@@ -53,7 +53,7 @@ public class HeaderAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        Log.i(TAG, "instantiateItem: " + position);
+//        Log.i(TAG, "instantiateItem: " + position);
         if (bitmaps != null){
             imageList.get(position).setImageBitmap(bitmaps.get(position));
         }

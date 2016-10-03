@@ -1,52 +1,38 @@
 package com.sin.cainiao;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.MapView;
-import com.sin.cainiao.Activity.RegisterActivity;
+import com.sin.cainiao.Activity.Login_RegisterActivity;
 import com.sin.cainiao.Activity.SearchFoodActivity;
 import com.sin.cainiao.Activity.SearchMaterialActivity;
-import com.sin.cainiao.Activity.ShowDetailActivity;
 import com.sin.cainiao.Activity.ShowProcessFoodDetailActivity;
 import com.sin.cainiao.Adapter.MainFragmentAdapter;
 import com.sin.cainiao.Fragment.FoodMainFragment;
 import com.sin.cainiao.Fragment.MaterialMainFragment;
 import com.sin.cainiao.Fragment.UserMainFragment;
-import com.sin.cainiao.JavaBean.Material;
+import com.sin.cainiao.JavaBean.CaiNiaoUser;
+import com.sin.cainiao.Utils.CustomApplication;
 import com.sin.cainiao.Utils.Key;
-import com.sin.cainiao.DataHelper.MaterialDataHelper;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UploadFileListener;
+import cn.bmob.v3.BmobUser;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
 import static com.sin.cainiao.Utils.Utils.Json2Object;
@@ -55,6 +41,10 @@ import static com.sin.cainiao.Utils.Utils.loadTxt;
 public class MainActivity extends AppCompatActivity implements FoodMainFragment.FoodFragmentCallBack
         ,MaterialMainFragment.MaterialMainFragmentCallBack{
     private final static String TAG = "MainActivity";
+
+    private CustomApplication app;
+
+    private CaiNiaoUser user;
     private MainFragmentAdapter mainFragmentAdapter;
     private Toolbar toolbar;
     private ViewPager mViewPager;
@@ -65,64 +55,58 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
     private MaterialMainFragment materialMainFragment;
     private UserMainFragment userMainFragment;
 
+    private List<Fragment> fragmentList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initBmob();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        initBmob();
         setupViewPager();
         setupBottomNavigation();
         setupImageView();
+
+        LinearLayout ll = (LinearLayout)findViewById(R.id.ll_hottest_indicator);
     }
 
     private void initBmob(){
         Bmob.initialize(this, Key.BMOB_KEY);
         Json2Object(loadTxt(getApplicationContext()));
+
+//        BmobUser.logOut();
+        user = BmobUser.getCurrentUser(CaiNiaoUser.class);
+        app = (CustomApplication)getApplication();
+        app.setUser(user);
     }
 
-    private void setupBottomNavigation(){
-        bottomNavigation = (BottomNavigation)findViewById(R.id.BottomNavigation);
-        bottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
-            @Override
-            public void onMenuItemSelect(@IdRes int i, int i1) {
-                if (i1 != 2 ){
-                    mViewPager.setCurrentItem(i1);
-                }else {
-                    Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
-                    startActivity(intent);
-                }
-
-            }
-
-            @Override
-            public void onMenuItemReselect(@IdRes int i, int i1) { }
-        });
-    }
 
     private void setupViewPager(){
-
-        List<Fragment> fragmentList = new ArrayList<>();
         foodMainFragment = FoodMainFragment.newInstance();
         foodMainFragment.setCallBack(MainActivity.this);
 
         materialMainFragment = MaterialMainFragment.newInstance();
         materialMainFragment.setCallBack(MainActivity.this);
 
-        userMainFragment = UserMainFragment.newInstance();
-
         fragmentList.add(foodMainFragment);
         fragmentList.add(materialMainFragment);
-//        fragmentList.add(userMainFragment);
+
+
+
+        if (user != null){
+            userMainFragment = UserMainFragment.newInstance();
+            fragmentList.add(userMainFragment);
+        }
 
         mainFragmentAdapter = new MainFragmentAdapter(fragmentList,getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mainFragmentAdapter);
+        mViewPager.setOffscreenPageLimit(2);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -142,6 +126,26 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
 
             @Override
             public void onPageScrollStateChanged(int state) {}
+        });
+    }
+
+    private void setupBottomNavigation(){
+        bottomNavigation = (BottomNavigation)findViewById(R.id.BottomNavigation);
+        bottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
+            @Override
+            public void onMenuItemSelect(@IdRes int i, int i1) {
+                if (i1 == 2) {
+                    if (user == null) {
+                        Intent intent = new Intent(MainActivity.this, Login_RegisterActivity.class);
+                        startActivityForResult(intent, 1);
+                    }
+                }
+
+                mViewPager.setCurrentItem(i1);
+            }
+
+            @Override
+            public void onMenuItemReselect(@IdRes int i, int i1) { }
         });
     }
 
@@ -190,5 +194,16 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1){
+            userMainFragment = UserMainFragment.newInstance();
+            fragmentList.add(userMainFragment);
+            mainFragmentAdapter.notifyDataSetChanged();
+            user = app.getUser();
+        }
     }
 }
