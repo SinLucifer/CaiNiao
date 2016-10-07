@@ -12,11 +12,36 @@ public class ProcessedFood extends BmobObject {
     private String cover_img;
     private List<String> ings_units;
     private List<String> ings_names;
-    private String step;
+    private List<String> steps;
+    private List<String> steps_img;
     private Integer number;
     private Integer clickTime;
     private BmobRelation likes;
+    private String type;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<String> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<String> steps) {
+        this.steps = steps;
+    }
+
+    public List<String> getSteps_img() {
+        return steps_img;
+    }
+
+    public void setSteps_img(List<String> steps_img) {
+        this.steps_img = steps_img;
+    }
     public BmobRelation getLikes() {
         return likes;
     }
@@ -32,14 +57,6 @@ public class ProcessedFood extends BmobObject {
 
     public void setClickTime(Integer clickTime) {
         this.clickTime = clickTime;
-    }
-
-    public String getStep() {
-        return step;
-    }
-
-    public void setStep(String step) {
-        this.step = step;
     }
 
     public Integer getNumber() {

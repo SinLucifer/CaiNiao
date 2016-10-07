@@ -1,4 +1,4 @@
-package com.sin.cainiao.Fragment.login_register;
+package com.sin.cainiao.Utils.View;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

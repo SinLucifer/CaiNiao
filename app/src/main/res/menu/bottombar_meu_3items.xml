@@ -4,15 +4,15 @@
         android:id="@+id/bbn_item1"
         android:icon="@drawable/bread_1"
         android:title="@string/food"
-        android:color="@color/colorPrimary"/>
+        android:color="@color/colorPrimaryDark"/>
     <item
         android:id="@+id/bbn_item2"
         android:icon="@drawable/cheese"
         android:title="@string/material"
-        android:color="@color/colorPrimary"/>
+        android:color="@color/colorPrimaryDark"/>
     <item
         android:id="@+id/bbn_item3"
         android:icon="@drawable/bird_1"
         android:title="@string/me"
-        android:color="@color/colorPrimary"/>
+        android:color="@color/colorPrimaryDark"/>
 </menu>

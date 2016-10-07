@@ -5,6 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_add">创建菜谱</string>
     <string name="title_activity_search_scrolling">SearchScrollingActivity</string>
     <string name="title_activity_main2">菜鸟</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -46,7 +47,15 @@
     <string name="user_send">点击获取验证码</string>
     <string name="user_pin">验证码</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_add">添加</string>
+    <string name="edit_remove">删除</string>
+    <string name="edit_step">步骤</string>
+    <string name="edit_desc">添加美食故事，每道美食的背后都有自己的故事，与菜鸟们分享下吧</string>
+    <string name="edit_material">添加食材</string>
+    <string name="edit_example_name">例如:猪肉</string>
+    <string name="edit_example_unit">500g</string>
+
+    <string name="title_activity_edit">EditActivity</string>
+    <string name="title_activity_edit_material">EditMaterial</string>
 
 </resources>

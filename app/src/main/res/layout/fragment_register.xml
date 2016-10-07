@@ -42,7 +42,7 @@
                     android:inputType="phone"
                     android:hint="@string/user_phone_number"
                     android:id="@+id/et_phone_number"/>
-                <com.sin.cainiao.Utils.TimeButton
+                <com.sin.cainiao.Utils.View.TimeButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

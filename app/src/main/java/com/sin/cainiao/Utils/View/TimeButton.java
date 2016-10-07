@@ -1,14 +1,12 @@
-package com.sin.cainiao.Utils;
+package com.sin.cainiao.Utils.View;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.sin.cainiao.Fragment.login_register.RegisterFragment;
 

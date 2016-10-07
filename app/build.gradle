@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.sin.cainiao"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -32,7 +32,7 @@ dependencies {
     compile 'cn.bmob.android:bmob-sdk:3.5.0'
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:1.0.7'
     compile 'com.android.support:support-v4:24.2.1'
-    testCompile 'junit:junit:4.12'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    testCompile 'junit:junit:4.12'
 }

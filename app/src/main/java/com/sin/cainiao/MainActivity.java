@@ -2,6 +2,7 @@ package com.sin.cainiao;
 
 import android.content.Intent;
 import android.support.annotation.IdRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -13,9 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.sin.cainiao.Activity.EditActivity;
 import com.sin.cainiao.Activity.Login_RegisterActivity;
 import com.sin.cainiao.Activity.SearchFoodActivity;
 import com.sin.cainiao.Activity.SearchMaterialActivity;
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
     private FoodMainFragment foodMainFragment;
     private MaterialMainFragment materialMainFragment;
     private UserMainFragment userMainFragment;
+    private AppBarLayout appBarLayout;
 
     private List<Fragment> fragmentList = new ArrayList<>();
 
@@ -70,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
         setupViewPager();
         setupBottomNavigation();
         setupImageView();
+
+        appBarLayout = (AppBarLayout)findViewById(R.id.appbar);
 
         LinearLayout ll = (LinearLayout)findViewById(R.id.ll_hottest_indicator);
     }
@@ -95,8 +102,6 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
         fragmentList.add(foodMainFragment);
         fragmentList.add(materialMainFragment);
 
-
-
         if (user != null){
             userMainFragment = UserMainFragment.newInstance();
             fragmentList.add(userMainFragment);
@@ -121,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
                     mSearchImg.setVisibility(View.VISIBLE);
                 }else if(position == 2){
                     mSearchImg.setVisibility(View.INVISIBLE);
+                    toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 }
             }
 
@@ -193,6 +199,12 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.action_add){
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, EditActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -204,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
             fragmentList.add(userMainFragment);
             mainFragmentAdapter.notifyDataSetChanged();
             user = app.getUser();
+            mViewPager.setCurrentItem(2);
         }
     }
 }

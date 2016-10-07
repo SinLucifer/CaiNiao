@@ -6,8 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.sin.cainiao.Fragment.login_register.BackHandledFragment;
-import com.sin.cainiao.Fragment.login_register.BackHandledInterface;
+import com.sin.cainiao.Utils.View.BackHandledFragment;
+import com.sin.cainiao.Utils.View.BackHandledInterface;
 import com.sin.cainiao.Fragment.login_register.LoginFragment;
 import com.sin.cainiao.Fragment.login_register.RegisterFragment;
 import com.sin.cainiao.Fragment.login_register.WelcomeFragment;

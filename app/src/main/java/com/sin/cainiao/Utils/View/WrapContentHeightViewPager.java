@@ -1,4 +1,4 @@
-package com.sin.cainiao.Utils;
+package com.sin.cainiao.Utils.View;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

@@ -38,8 +38,8 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
     private onNewFoodItemClickListener onNewFoodItemClickListener;
     private boolean mode = true; //true == oldFood
 
-    private List<Food.ShowapiResBodyBean.CbListBean> mFoodList = new ArrayList<>();
-    private List<ProcessedFood> mProcessedFoodList = new ArrayList<>();
+    private List<Food.ShowapiResBodyBean.CbListBean> mFoodList;
+    private List<ProcessedFood> mProcessedFoodList;
 
     private int mLastAnimatedItemPosition = -1;
 
@@ -78,6 +78,14 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
 
     public FoodSearchResultAdapter(Context context){
         this.mContext = context;
+
+        if(mProcessedFoodList == null){
+            mProcessedFoodList = new ArrayList<>();
+        }
+
+        if (mFoodList == null){
+            mFoodList = new ArrayList<>();
+        }
 
         //缓存图片
         mBitmap = BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.ic_launcher);

@@ -1,4 +1,4 @@
-package com.sin.cainiao.Fragment.login_register;
+package com.sin.cainiao.Utils.View;
 
 /**
  * Created by Sin on 2016/9/27.

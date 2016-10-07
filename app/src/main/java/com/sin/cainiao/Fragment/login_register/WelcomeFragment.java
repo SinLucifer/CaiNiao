@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.sin.cainiao.R;
+import com.sin.cainiao.Utils.View.BackHandledFragment;
 
 public class WelcomeFragment extends BackHandledFragment {
     private static final String TAG = "WelcomeFragment";
@@ -78,18 +79,6 @@ public class WelcomeFragment extends BackHandledFragment {
     @Override
     public boolean onBackPressed() {
         return false;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mBackHandledInterface.setSelectedFragment(this);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.i(TAG, "onDestroyView: ");
     }
 
     @Override

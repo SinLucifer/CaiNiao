@@ -1,10 +1,7 @@
 package com.sin.cainiao.Fragment.login_register;
 
-import android.app.Application;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +13,9 @@ import android.widget.Toast;
 import com.sin.cainiao.JavaBean.CaiNiaoUser;
 import com.sin.cainiao.R;
 import com.sin.cainiao.Utils.CustomApplication;
-import com.sin.cainiao.Utils.TimeButton;
+import com.sin.cainiao.Utils.View.TimeButton;
 import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.Utils.View.BackHandledFragment;
 
 import java.util.Map;
 

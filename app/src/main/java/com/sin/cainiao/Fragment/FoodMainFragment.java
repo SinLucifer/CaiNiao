@@ -198,7 +198,7 @@ public class FoodMainFragment extends Fragment{
     public void setUserVisibleHint(boolean isVisibleToUser) {   //解决起始滑动界面
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && mNestedScrollView != null){
-            mNestedScrollView.smoothScrollTo(0,20);
+            mNestedScrollView.scrollTo(0,20);
         }
     }
 

@@ -1,7 +1,6 @@
 package com.sin.cainiao.Fragment.login_register;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import com.sin.cainiao.JavaBean.CaiNiaoUser;
 import com.sin.cainiao.R;
 import com.sin.cainiao.Utils.CustomApplication;
 import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.Utils.View.BackHandledFragment;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -122,12 +122,6 @@ public class LoginFragment extends BackHandledFragment {
     @Override
     public boolean onBackPressed() {
         return false;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mBackHandledInterface.setSelectedFragment(this);
     }
 
     public interface  onLoginCallBack{

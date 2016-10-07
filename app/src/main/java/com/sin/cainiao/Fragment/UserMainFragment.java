@@ -8,8 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,32 +15,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sin.cainiao.Adapter.ClAdapter;
 import com.sin.cainiao.Adapter.FoodSearchResultAdapter;
 import com.sin.cainiao.DataHelper.FoodDataHelper;
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
-import com.sin.cainiao.JavaBean.Material;
 import com.sin.cainiao.JavaBean.ProcessedFood;
 import com.sin.cainiao.R;
 import com.sin.cainiao.Utils.CustomApplication;
-import com.sin.cainiao.Utils.WrapContentHeightViewPager;
+import com.sin.cainiao.Utils.View.WrapContentHeightViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.R.id.list;
 
 
 public class UserMainFragment extends Fragment{
@@ -72,7 +58,7 @@ public class UserMainFragment extends Fragment{
 
         if (isVisibleToUser){
             Log.i(TAG, "setUserVisibleHint: Visiable");
-            mNestedScrollView.smoothScrollTo(0,20);
+            mNestedScrollView.scrollTo(0,20);
         }
     }
     
@@ -80,7 +66,7 @@ public class UserMainFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.user_main_fragment,container,false);
+        View v = inflater.inflate(R.layout.fragment_user_main,container,false);
 
         setupView(v);
         return v;
@@ -88,6 +74,8 @@ public class UserMainFragment extends Fragment{
 
     private void setupView(View view){
         WrapContentHeightViewPager mViewPager = (WrapContentHeightViewPager) view.findViewById(R.id.fav_container);
+
+        mNestedScrollView = (NestedScrollView)view.findViewById(R.id.sv_user_main);
 
         TextView tv_user_name = (TextView)view.findViewById(R.id.tv_user_name);
         tv_user_name.setText(app.getUser().getUsername());
@@ -105,9 +93,24 @@ public class UserMainFragment extends Fragment{
         mViewPager.setAdapter(itemAdapter);
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
 
-        mNestedScrollView = (NestedScrollView)view.findViewById(R.id.sv_user_main);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mNestedScrollView.scrollTo(0,20);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        tabLayout.setupWithViewPager(mViewPager);
     }
 
     private class ItemAdapter extends FragmentPagerAdapter {
