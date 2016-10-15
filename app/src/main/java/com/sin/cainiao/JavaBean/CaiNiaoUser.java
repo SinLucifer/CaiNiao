@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobRelation;
 
 public class CaiNiaoUser extends BmobUser {
@@ -12,6 +13,69 @@ public class CaiNiaoUser extends BmobUser {
     private Integer age;
     private BmobRelation foodLikes;
     private BmobRelation materialLikes;
+    private Boolean shopkeeper;
+    private Shop shop;
+    private String job;
+    private String home;
+    private BmobDate birthDay;
+    private String user_cover;
+    private String desc;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getHome() {
+        return home;
+    }
+
+    public void setHome(String home) {
+        this.home = home;
+    }
+
+    public BmobDate getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(BmobDate birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public String getUser_cover() {
+        return user_cover;
+    }
+
+    public void setUser_cover(String user_cover) {
+        this.user_cover = user_cover;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public Boolean getShopkeeper() {
+        return shopkeeper;
+    }
+
+    public void setShopkeeper(Boolean shopkeeper) {
+        this.shopkeeper = shopkeeper;
+    }
 
     public BmobRelation getMaterialLikes() {
         return materialLikes;

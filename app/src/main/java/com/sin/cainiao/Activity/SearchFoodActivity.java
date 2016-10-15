@@ -118,6 +118,7 @@ public class SearchFoodActivity extends AppCompatActivity {
                             if (status) {
                                 msg.what = BMOB_RESULT_SUCCESS;
                                 msg.obj = foodList;
+                                Log.i(TAG, "onGroupResult: " + foodList);
                                 handler.sendMessage(msg);
                             } else {
                                 msg.what = RESULT_ERROR;
@@ -160,8 +161,7 @@ public class SearchFoodActivity extends AppCompatActivity {
             @Override
             public void onClick(ProcessedFood food) {
                 Intent intent = new Intent(SearchFoodActivity.this,ShowProcessFoodDetailActivity.class);
-                Integer number = food.getNumber();
-                intent.putExtra("FOOD_ITEM_ID",number.toString());
+                intent.putExtra("food",food);
                 startActivity(intent);
             }
         });

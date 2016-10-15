@@ -1,5 +1,6 @@
 package com.sin.cainiao.Fragment;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -86,6 +87,8 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     private View mView;
     private Bundle savedInstanceState;
 
+    private onMapClickCallBack mListener;
+
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -99,6 +102,27 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
             }
         }
     };
+
+    public interface onMapClickCallBack{
+        public void onCallBack(String poiID);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof onMapClickCallBack) {
+            mListener = (onMapClickCallBack) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement onMapClickCallBack");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     public static MaterialDetailFragment newInstance() {
         Bundle args = new Bundle();
@@ -135,6 +159,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     public void onStart() {
         super.onStart();
         initMapView(mView,savedInstanceState);
+        Log.i(TAG, "onStart: ");
     }
 
     private void initOthersView(View v){
@@ -168,8 +193,10 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     }
 
     private void initMapView(View v,Bundle savedInstanceState){
-        mMapView = (MapView)v.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
+        if (mMapView == null){
+            mMapView = (MapView)v.findViewById(R.id.mapView);
+            mMapView.onCreate(savedInstanceState);
+        }
         initMap();
         mPoiDetail = (RelativeLayout) v.findViewById(R.id.poi_detail);
         mPoiName = (TextView) v.findViewById(R.id.poi_name);
@@ -384,13 +411,21 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
+        Log.i(TAG, "onInfoWindowClick: click" );
     }
 
     private void setPoiItemDisplayContent(final PoiItem mCurrentPoi) {
         mPoiName.setText(mCurrentPoi.getTitle());
         Log.i(TAG, "setPoiItemDisplayContent: " + mCurrentPoi.getTitle() + mCurrentPoi.getSnippet());
         mPoiAddress.setText(mCurrentPoi.getSnippet());
+        mPoiDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               if (mListener != null){
+                   mListener.onCallBack(mCurrentPoi.getPoiId());
+               }
+            }
+        });
     }
 
     @Override
@@ -429,9 +464,12 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
 
     }
 
+    
+
     @Override
     public void onPause() {
         super.onPause();
+        Log.i(TAG, "onPause: ");
         mMapView.onPause();
         if(mLocationClient!=null){
             mLocationClient.stopLocation();
@@ -442,6 +480,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     @Override
     public void onResume() {
         super.onResume();
+        Log.i(TAG, "onResume: ");
         if(mLocationClient!=null){
             mLocationClient.startLocation();
         }
@@ -453,6 +492,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Log.i(TAG, "onDestroyView: ");
         if(mLocationClient!=null){
             mLocationClient.onDestroy();
         }

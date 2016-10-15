@@ -149,7 +149,10 @@ public class FoodDataHelper {
 
     public static void findProcessFoodByMaterial(final String material,final onFindProcessFoodListener listener){
         BmobQuery<ProcessedFood> query = new BmobQuery<>();
-        query.addWhereStartsWith("ings_names", material);
+        Log.i(TAG, "findProcessFoodByMaterial: " + material);
+        String[] materials = {material};
+        query.addWhereContainsAll("ings_names", Arrays.asList(materials));
+//        query.addWhereContains("ings_names",material);
         query.findObjects(new FindListener<ProcessedFood>() {
             @Override
             public void done(List<ProcessedFood> list, BmobException e) {

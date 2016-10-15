@@ -1,8 +1,12 @@
 package com.sin.cainiao.Utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -59,16 +63,6 @@ public class Utils {
 
         return bitmap;
     }
-
-    public static int getStatusBarHeight(Context context) {
-        int result = 0;
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = context.getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
 
     public static List<Bitmap> downLoadImgList(List<String> urls){
         List<Bitmap> bitmaps = new ArrayList<>();
@@ -138,5 +132,21 @@ public class Utils {
         }
 
         return result;
+    }
+
+    /**
+     *
+     * @param uri
+     * @param resolver
+     * @return path
+     */
+    public static String getUri(Uri uri, ContentResolver resolver){
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = resolver.query(uri,proj,null,null,null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String path = cursor.getString(column_index);
+        cursor.close();
+        return path;
     }
 }

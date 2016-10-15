@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_pin"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:id="@+id/et_reg_pin"/>
@@ -65,11 +65,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/user_password"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:inputType="textPassword"
                 android:id="@+id/et_reg_password"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/user_is_shopper"
+                android:textColor="@color/hint_color"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:id="@+id/sw_reg"/>
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,7 +90,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/register"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/button"
                 android:id="@+id/bn_register_submit"

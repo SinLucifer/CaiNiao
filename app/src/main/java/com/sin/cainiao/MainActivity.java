@@ -14,23 +14,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.sin.cainiao.Activity.EditActivity;
+import com.sin.cainiao.Activity.EditFoodActivity;
+import com.sin.cainiao.Activity.EditInfoActivity;
 import com.sin.cainiao.Activity.Login_RegisterActivity;
 import com.sin.cainiao.Activity.SearchFoodActivity;
 import com.sin.cainiao.Activity.SearchMaterialActivity;
+import com.sin.cainiao.Activity.ShopActivity;
 import com.sin.cainiao.Activity.ShowProcessFoodDetailActivity;
 import com.sin.cainiao.Adapter.MainFragmentAdapter;
 import com.sin.cainiao.Fragment.FoodMainFragment;
 import com.sin.cainiao.Fragment.MaterialMainFragment;
 import com.sin.cainiao.Fragment.UserMainFragment;
 import com.sin.cainiao.JavaBean.CaiNiaoUser;
+import com.sin.cainiao.JavaBean.Material;
+import com.sin.cainiao.JavaBean.ProcessedFood;
 import com.sin.cainiao.Utils.CustomApplication;
 import com.sin.cainiao.Utils.Key;
+import com.sin.cainiao.Utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +46,7 @@ import static com.sin.cainiao.Utils.Utils.Json2Object;
 import static com.sin.cainiao.Utils.Utils.loadTxt;
 
 public class MainActivity extends AppCompatActivity implements FoodMainFragment.FoodFragmentCallBack
-        ,MaterialMainFragment.MaterialMainFragmentCallBack{
+        ,MaterialMainFragment.MaterialMainFragmentCallBack,UserMainFragment.UserMainFragmentCallBack{
     private final static String TAG = "MainActivity";
 
     private CustomApplication app;
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
     private MaterialMainFragment materialMainFragment;
     private UserMainFragment userMainFragment;
     private AppBarLayout appBarLayout;
+
+    private long firstTime;
 
     private List<Fragment> fragmentList = new ArrayList<>();
 
@@ -89,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
         user = BmobUser.getCurrentUser(CaiNiaoUser.class);
         app = (CustomApplication)getApplication();
         app.setUser(user);
-    }
 
+    }
 
     private void setupViewPager(){
         foodMainFragment = FoodMainFragment.newInstance();
@@ -172,16 +177,22 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
     }
 
     @Override
-    public void onFoodCallBack(String id) {
+    public void onFoodCallBack(ProcessedFood food) {
         Intent intent = new Intent(MainActivity.this,ShowProcessFoodDetailActivity.class);
-        intent.putExtra("FOOD_ITEM_ID",id);
+        intent.putExtra("food",food);
         startActivity(intent);
     }
 
     @Override
-    public void onMaterialCallBack(String name) {
+    public void onMaterialCallBack(Material material) {
         Intent intent = new Intent(MainActivity.this,SearchMaterialActivity.class);
-        intent.putExtra("MATERIAL_NAME",name);
+        intent.putExtra("material",material);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onUserCallBack() {
+        Intent intent = new Intent(MainActivity.this, ShopActivity.class);
         startActivity(intent);
     }
 
@@ -198,13 +209,25 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        if (id == R.id.action_add){
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this, EditActivity.class);
-            startActivity(intent);
+        if (user != null) {
+            if (id == R.id.action_add) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, EditFoodActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.action_logout) {
+                BmobUser.logOut();
+                user = BmobUser.getCurrentUser(CaiNiaoUser.class);
+                app = (CustomApplication) getApplication();
+                app.setUser(user);
+                mViewPager.setCurrentItem(0);
+                bottomNavigation.setSelectedIndex(0, true);
+            } else if (id == R.id.action_info){
+                Intent intent = new Intent(MainActivity.this, EditInfoActivity.class);
+                startActivityForResult(intent,101);
+            }
+        }else {
+            Utils.toastShow(getApplicationContext(),"请先登录！");
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -214,9 +237,24 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
         if (requestCode == 1 && resultCode == 1){
             userMainFragment = UserMainFragment.newInstance();
             fragmentList.add(userMainFragment);
-            mainFragmentAdapter.notifyDataSetChanged();
+            mainFragmentAdapter.swapData(fragmentList);
             user = app.getUser();
             mViewPager.setCurrentItem(2);
+            bottomNavigation.setSelectedIndex(2,true);
+        }else if (resultCode == 0){
+            mViewPager.setCurrentItem(0);
+            bottomNavigation.setSelectedIndex(0,true);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 2000) {                                         //如果两次按键时间间隔大于2秒，则不退出
+            Utils.toastShow(getApplicationContext(),"再次点击将退出菜鸟");
+            firstTime = secondTime;//更新firstTime
+        } else {                                                    //两次按键小于2秒时，退出应用
+            super.onBackPressed();
         }
     }
 }

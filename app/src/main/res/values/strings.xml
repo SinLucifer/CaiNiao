@@ -6,6 +6,8 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_add">创建菜谱</string>
+    <string name="action_logout">退出登录</string>
+    <string name="action_info">修改个人信息</string>
     <string name="title_activity_search_scrolling">SearchScrollingActivity</string>
     <string name="title_activity_main2">菜鸟</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -23,7 +25,6 @@
     <string name="food_desc">简介</string>
     <string name="food_material">用料</string>
     <string name="food_step">做法</string>
-
 
     <string name="ings_name">材料</string>
     <string name="ings_unit">用量</string>
@@ -46,16 +47,47 @@
     <string name="user_phone_number">电话号码</string>
     <string name="user_send">点击获取验证码</string>
     <string name="user_pin">验证码</string>
+    <string name="user_is_shopper">商家用户</string>
 
     <string name="edit_add">添加</string>
     <string name="edit_remove">删除</string>
     <string name="edit_step">步骤</string>
-    <string name="edit_desc">添加美食故事，每道美食的背后都有自己的故事，与菜鸟们分享下吧</string>
-    <string name="edit_material">添加食材</string>
+    <string name="edit_desc">每道美食的背后都有自己的故事，与菜鸟们分享下吧</string>
+    <string name="edit_material">点我添加食材</string>
     <string name="edit_example_name">例如:猪肉</string>
     <string name="edit_example_unit">500g</string>
+    <string name="edit_title">在这里输入美食名~</string>
+    <string name="edit_type">点我添加分类</string>
+
+    <string name="shop_name">商店名称</string>
+    <string name="shop_add">商店地址</string>
+    <string name="item_count">库存</string>
+    <string name="item_unit">元/斤</string>
+
+    <string name="item_name_hint">请输入商品的名称</string>
+    <string name="item_count_hint">请输入商品的库存</string>
+    <string name="item_price_hint">请输入商品的价格</string>
+    <string name="item_desc_hint">请输入商品的描述</string>
+
+    <string name="bn_save">确认保存</string>
+
+    <string name="shop_name_hint">请输入您的店名</string>
+    <string name="shop_add_hint">请输入您的店址</string>
+    <string name="shop_add_desc">请输入您的店铺的描述</string>
 
     <string name="title_activity_edit">EditActivity</string>
     <string name="title_activity_edit_material">EditMaterial</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_shop">ShopActivity</string>
+    <string name="title_activity_shop_register">ShopRegisterActivity</string>
+    <string name="title_activity_add_shop_item">AddShopItem</string>
+    <string name="title_activity_edit_info">EditInfoActivity</string>
+    <string name="title_activity_comment">CommentActivity</string>
+
+    <string name="edit_nick_name_hint">给自己起一个响亮的名字吧！</string>
+    <string name="edit_job_hint">职业</string>
+    <string name="edit_home_hint">家乡</string>
+    <string name="edit_desc_hint">个人简介</string>
 
 </resources>

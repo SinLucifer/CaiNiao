@@ -84,7 +84,7 @@ public class LoginFragment extends BackHandledFragment {
                             if(caiNiaoUser!=null){
                                 Utils.toastShow(getContext(),"登陆成功");
                                 app.setUser(caiNiaoUser);
-                                Log.i(TAG, "done: " + caiNiaoUser.getMobilePhoneNumber());
+                                Log.i(TAG, "done: " + caiNiaoUser.getMobilePhoneNumber() + caiNiaoUser.getSessionToken());
 
                                 if (mCallBack != null){
                                     mCallBack.onCallBack("login_success");

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="material_type">
+        <item>肉类</item>
+        <item>海鲜</item>
+        <item>蔬菜</item>
+        <item>水果</item>
+        <item>米面豆乳</item>
+        <item>调味品</item>
+    </string-array>
+
+    <string-array name="food_type">
+        <item>家常菜</item>
+        <item>快手菜</item>
+        <item>下饭菜</item>
+    </string-array>
+
+    <string-array name="sex">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
+</resources>

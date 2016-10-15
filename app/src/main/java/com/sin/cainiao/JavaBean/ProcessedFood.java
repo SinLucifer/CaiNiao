@@ -18,6 +18,55 @@ public class ProcessedFood extends BmobObject {
     private Integer clickTime;
     private BmobRelation likes;
     private String type;
+    private CaiNiaoUser author;
+
+    public ProcessedFood(){
+
+    }
+
+    /**
+     *
+     * @param name
+     * @param desc
+     * @param cover_img
+     * @param ings_names
+     * @param ings_units
+     * @param steps
+     * @param steps_img
+     * @param number
+     * @param type
+     */
+    public ProcessedFood(String name
+            ,CaiNiaoUser author
+            ,String desc
+            , String cover_img
+            , List<String> ings_names
+            , List<String> ings_units
+            , List<String> steps
+            , List<String> steps_img
+            , Integer number
+            , String type
+            ,Integer clickTime) {
+        this.name = name;
+        this.author = author;
+        this.desc = desc;
+        this.cover_img = cover_img;
+        this.ings_units = ings_units;
+        this.steps = steps;
+        this.ings_names = ings_names;
+        this.steps_img = steps_img;
+        this.number = number;
+        this.type = type;
+        this.clickTime = clickTime;
+    }
+
+    public CaiNiaoUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(CaiNiaoUser author) {
+        this.author = author;
+    }
 
     public String getType() {
         return type;

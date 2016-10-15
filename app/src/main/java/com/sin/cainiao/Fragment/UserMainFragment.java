@@ -1,5 +1,7 @@
 package com.sin.cainiao.Fragment;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,27 +17,64 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.sin.cainiao.Activity.ShowProcessFoodDetailActivity;
 import com.sin.cainiao.Adapter.ClAdapter;
 import com.sin.cainiao.Adapter.FoodSearchResultAdapter;
 import com.sin.cainiao.DataHelper.FoodDataHelper;
+import com.sin.cainiao.JavaBean.CaiNiaoUser;
 import com.sin.cainiao.JavaBean.ProcessedFood;
 import com.sin.cainiao.R;
 import com.sin.cainiao.Utils.CustomApplication;
+import com.sin.cainiao.Utils.Utils;
 import com.sin.cainiao.Utils.View.WrapContentHeightViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class UserMainFragment extends Fragment{
     private static final String TAG = "UserMainFragment";
+    private static final int SUCCESS = 1;
+    private static final int ERROR = 0;
+
     private static CustomApplication app;
 
+    private CaiNiaoUser user;
+
     private NestedScrollView mNestedScrollView;
+    private Button bn_my_shop;
+
+    private UserMainFragmentCallBack mCallBack;
+
+    private Bitmap bitmap;
+    private CircleImageView img_ico;
+    private TextView tv_user_desc;
+    private TextView tv_nick_name;
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.i(TAG, "handleMessage: ");
+            switch (msg.what){
+                case SUCCESS:
+                    img_ico.setImageBitmap(bitmap);
+                    break;
+                case ERROR:
+                    break;
+            }
+        }
+    };
+
+    public interface UserMainFragmentCallBack{
+        void onUserCallBack();
+    }
 
     public static UserMainFragment newInstance() {
         
@@ -50,6 +89,29 @@ public class UserMainFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (CustomApplication)getActivity().getApplication();
+        user = BmobUser.getCurrentUser(CaiNiaoUser.class);
+        Log.i(TAG, "onCreate: " + user.getShopkeeper());
+
+        if (getActivity() instanceof UserMainFragmentCallBack){
+            mCallBack = (UserMainFragmentCallBack)getActivity();
+        }else{
+            throw new RuntimeException(getActivity().toString()
+                    + " must implement UserMainFragmentCallBack");
+        }
+    }
+
+    private void loadUserImg(final String url){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                bitmap = Utils.downLoadImg(url);
+                Log.i(TAG, "run: " + bitmap);
+                Message msg = new Message();
+                msg.what = SUCCESS;
+                mHandler.sendMessage(msg);
+            }
+        }.start();
     }
     
     @Override
@@ -58,7 +120,7 @@ public class UserMainFragment extends Fragment{
 
         if (isVisibleToUser){
             Log.i(TAG, "setUserVisibleHint: Visiable");
-            mNestedScrollView.scrollTo(0,20);
+            mNestedScrollView.smoothScrollTo(0,20);
         }
     }
     
@@ -66,10 +128,40 @@ public class UserMainFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_user_main,container,false);
+        View v;
+
+        Log.i(TAG, "onCreateView: ");
+
+        if (!user.getShopkeeper()){
+            v = inflater.inflate(R.layout.fragment_user_main,container,false);
+        }else{
+            v = inflater.inflate(R.layout.fragment_shop_user_main,container,false);
+            bn_my_shop = (Button)v.findViewById(R.id.bn_my_shop);
+            bn_my_shop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallBack.onUserCallBack();
+                }
+            });
+        }
+
 
         setupView(v);
         return v;
+    }
+
+    private void update(){
+        if (app.getUser().getDesc() == null){
+            tv_user_desc.setText("这家伙很懒，什么都没写");
+        }else {
+            tv_user_desc.setText(app.getUser().getDesc());
+        }
+
+        if (app.getUser().getNick() == null){
+            tv_nick_name.setText(app.getUser().getUsername());
+        }else {
+            tv_nick_name.setText(app.getUser().getNick());
+        }
     }
 
     private void setupView(View view){
@@ -77,9 +169,23 @@ public class UserMainFragment extends Fragment{
 
         mNestedScrollView = (NestedScrollView)view.findViewById(R.id.sv_user_main);
 
-        TextView tv_user_name = (TextView)view.findViewById(R.id.tv_user_name);
-        tv_user_name.setText(app.getUser().getUsername());
-        CircleImageView img_ico = (CircleImageView)view.findViewById(R.id.user_ico);
+        tv_user_desc = (TextView)view.findViewById(R.id.tv_user_desc);
+
+
+        tv_nick_name = (TextView)view.findViewById(R.id.tv_nick_name);
+
+
+        img_ico = (CircleImageView)view.findViewById(R.id.user_ico);
+
+        if (user != null){
+            if (user.getUser_cover() != null){
+                Log.i(TAG, "setupView: download" + user.getUser_cover());
+                loadUserImg(user.getUser_cover());
+            }
+            update();
+        }
+
+
 
         List<Fragment> fragmentList = new ArrayList<>();
 
@@ -111,6 +217,8 @@ public class UserMainFragment extends Fragment{
             }
         });
         tabLayout.setupWithViewPager(mViewPager);
+
+
     }
 
     private class ItemAdapter extends FragmentPagerAdapter {
@@ -171,13 +279,24 @@ public class UserMainFragment extends Fragment{
         public FavFragment() {
         }
 
-
         public static FavFragment newInstance(String mode) {
             FavFragment fragment = new FavFragment();
             Bundle args = new Bundle();
             args.putString("mode",mode);
             fragment.setArguments(args);
             return fragment;
+        }
+
+        @Override
+        public void setUserVisibleHint(boolean isVisibleToUser) {
+            super.setUserVisibleHint(isVisibleToUser);
+            if (isVisibleToUser){
+                if (mode){
+                    searchFavFood();
+                }else {
+
+                }
+            }
         }
 
         @Override
@@ -210,16 +329,15 @@ public class UserMainFragment extends Fragment{
                 mRecyclerView.setAdapter(foodAdapter);
 //                List<ProcessedFood> foodList = new ArrayList<>();
 //                adapter.swapProcessedData(foodList);
-                FoodDataHelper.getUserFavFood(app.getUser(), new FoodDataHelper.onFindFavFoodListener() {
+                searchFavFood();
+                foodAdapter.setOnNewFoodItemClickListener(new FoodSearchResultAdapter.onNewFoodItemClickListener() {
                     @Override
-                    public void onFind(List<ProcessedFood> foodList, boolean status) {
-                        Message msg = new Message();
-                        msg.what = FOOD_SUCCESS;
-                        msg.obj = foodList;
-                        mHandler.sendMessage(msg);
+                    public void onClick(ProcessedFood food) {
+                        Intent intent = new Intent(getActivity(), ShowProcessFoodDetailActivity.class);
+                        intent.putExtra("food",food);
+                        startActivity(intent);
                     }
                 });
-
             }else {
                 clAdapter = new ClAdapter(getContext());
                 mRecyclerView.setAdapter(clAdapter);
@@ -228,6 +346,18 @@ public class UserMainFragment extends Fragment{
             }
 
             return rootView;
+        }
+
+        private void searchFavFood(){
+            FoodDataHelper.getUserFavFood(app.getUser(), new FoodDataHelper.onFindFavFoodListener() {
+                @Override
+                public void onFind(List<ProcessedFood> foodList, boolean status) {
+                    Message msg = new Message();
+                    msg.what = FOOD_SUCCESS;
+                    msg.obj = foodList;
+                    mHandler.sendMessage(msg);
+                }
+            });
         }
     }
 

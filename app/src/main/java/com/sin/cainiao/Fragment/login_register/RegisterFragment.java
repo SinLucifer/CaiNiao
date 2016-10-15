@@ -2,6 +2,7 @@ package com.sin.cainiao.Fragment.login_register;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,9 @@ import com.sin.cainiao.Utils.View.BackHandledFragment;
 import java.util.Map;
 
 import cn.bmob.v3.BmobSMS;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -38,8 +41,10 @@ public class RegisterFragment extends BackHandledFragment {
     private EditText et_password;
     private TimeButton bn_send;
     private Button bn_register;
+    private SwitchCompat sw_reg;
 
     private String phone_number;
+    private String password;
 
     public RegisterFragment() {
 
@@ -84,6 +89,8 @@ public class RegisterFragment extends BackHandledFragment {
         bn_register = (Button) view.findViewById(R.id.bn_register_submit);
         bn_register.setClickable(false);
 
+        sw_reg = (SwitchCompat)view.findViewById(R.id.sw_reg);
+
         bn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,35 +120,56 @@ public class RegisterFragment extends BackHandledFragment {
             public void onClick(View v) {
                 bn_register.setClickable(false);
                 String pin = et_pin.getText().toString();
-                String password = et_password.getText().toString();
+                password = et_password.getText().toString();
 
                 Log.i(TAG, "onClick: " + phone_number);
 
                 if (pin.equals("") || password.equals("")){
                     Toast.makeText(getContext(),"验证码或密码为空，请查询后输入",Toast.LENGTH_SHORT).show();
                 }else {
-
-                    Log.i(TAG, "onClick: PIN" + pin);
                     CaiNiaoUser user = new CaiNiaoUser();
+                    if (!sw_reg.isChecked()){
+                        user.setShopkeeper(false);
+                    }else {
+                        user.setShopkeeper(true);
+                    }
                     user.setMobilePhoneNumber(phone_number);
-
                     user.setPassword(password);
                     user.signOrLogin(pin, new SaveListener<CaiNiaoUser>() {
                         @Override
                         public void done(CaiNiaoUser caiNiaoUser, BmobException e) {
                             if(e==null){
+                                Log.i(TAG, "done: " + caiNiaoUser.getSessionToken());
                                 Utils.toastShow(getContext(),"注册成功");
-                                app.setUser(caiNiaoUser);
-                                if (mCallback != null){
-                                    mCallback.onCallBack("register_success");
-                                }
-
+                                login();
                             }else{
                                 Utils.toastShow(getContext(),"失败:" + e.getMessage());
                                 bn_register.setClickable(true);
                             }
                         }
                     });
+
+                }
+            }
+        });
+    }
+
+    private void login(){
+        Log.i(TAG, "login: ");
+        BmobUser.loginByAccount(phone_number, password, new LogInListener<CaiNiaoUser>() {
+            @Override
+            public void done(CaiNiaoUser caiNiaoUser, BmobException e) {
+                if(caiNiaoUser!=null){
+                    app.setUser(caiNiaoUser);
+                    Log.i(TAG, "done: " + caiNiaoUser.getMobilePhoneNumber() + caiNiaoUser.getSessionToken());
+
+                    if (mCallback != null){
+                        mCallback.onCallBack("register_success");
+                    }
+
+                }else {
+                    Utils.toastShow(getContext(),e.getMessage());
+                    Log.i(TAG, "done: " + e.getMessage());
                 }
             }
         });

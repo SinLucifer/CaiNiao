@@ -5,27 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.sin.cainiao.Activity.EditActivity"
+    tools:context="com.sin.cainiao.Activity.EditFoodActivity"
     tools:showIn="@layout/activity_edit">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:orientation="vertical">
         <ImageView
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             android:id="@+id/img_cover"
-            android:src="@drawable/test_img"/>
+            android:src="@drawable/add_cover"/>
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="标题"
+            android:gravity="center"
+            android:hint="@string/edit_title"
             android:layout_margin="16dp"
-            android:id="@+id/edit_title"/>
+            android:id="@+id/edit_title"
+            android:lines="1"/>
 
         <View
             android:layout_width="match_parent"
@@ -37,7 +37,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/edit_desc"
-            android:layout_margin="16dp"/>
+            android:layout_margin="16dp"
+            android:id="@+id/et_desc"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/divide_gray" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,10 +59,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/rec_edit_material"/>
+                android:id="@+id/rec_edit_material"
+                tools:listitem="@layout/edit_material_item"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dip"
@@ -86,7 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:id="@+id/step_container"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:listitem="@layout/edit_item">
         </LinearLayout>
 
         <LinearLayout
@@ -99,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/edit_add"
+                android:background="@drawable/button"
                 android:layout_marginStart="16dp"
                 android:id="@+id/bn_add"/>
             <LinearLayout
@@ -112,19 +123,38 @@
                     android:layout_height="wrap_content"
                     android:text="@string/edit_remove"
                     android:layout_marginEnd="16dp"
+                    android:background="@drawable/button"
                     android:id="@+id/bn_remove"/>
             </LinearLayout>
 
         </LinearLayout>
 
+        <View
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/divide_gray" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sp_type"
+            android:entries="@array/food_type"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
         <Button
+            android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bn_save"
-            android:text="save"/>
-
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/bn_save"
+            android:background="@drawable/button"/>
     </LinearLayout>
-
 
 </android.support.v4.widget.NestedScrollView>
 

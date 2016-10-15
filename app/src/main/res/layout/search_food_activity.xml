@@ -27,7 +27,8 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:paddingTop="60dp"
-            android:clipToPadding="false"/>
+            android:clipToPadding="false"
+            tools:listitem="@layout/search_results_list_item"/>
             <com.arlib.floatingsearchview.FloatingSearchView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

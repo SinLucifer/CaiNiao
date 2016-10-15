@@ -13,7 +13,9 @@ import com.sin.cainiao.Adapter.MaterialSuggestion;
 import com.sin.cainiao.DataHelper.MaterialDataHelper;
 import com.sin.cainiao.Fragment.MaterialDetailFragment;
 import com.sin.cainiao.JavaBean.Material;
+import com.sin.cainiao.JavaBean.Shop;
 import com.sin.cainiao.R;
+import com.sin.cainiao.Utils.Utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,13 +26,15 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
 
-public class SearchMaterialActivity extends AppCompatActivity {
+public class SearchMaterialActivity extends AppCompatActivity implements MaterialDetailFragment.onMapClickCallBack{
     private final static String TAG = "SearchMaterialActivity";
 
     public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
 
     private FloatingSearchView mSearchView;
     private MaterialDetailFragment mDetailFragment;
+
+    private Material material;
 
 
     @Override
@@ -68,22 +72,12 @@ public class SearchMaterialActivity extends AppCompatActivity {
                 mSearchView.swapSuggestions(materialSuggestions);
             }
         }
-        // TODO: 2016/9/22 传对象 
-        String material_name = intent.getStringExtra("MATERIAL_NAME");
-        Log.i(TAG, "onCreate: " + material_name);
-        if (material_name != null && !material_name.equals("")){
-            MaterialDataHelper.findMaterials(this, material_name, new MaterialDataHelper.onFindMaterialsListener() {
-                @Override
-                public void onResults(Material result, boolean status) {
-                    if (status){
-                        mDetailFragment = MaterialDetailFragment.newInstance(result);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.search_material_container,mDetailFragment).commit();
-                    }else {
-                        Log.i(TAG, "onResults: No such food");
-                    }
-                }
-            });
+
+        material = (Material) intent.getSerializableExtra("material");
+        if (material != null){
+            mDetailFragment = MaterialDetailFragment.newInstance(material);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.search_material_container,mDetailFragment).commit();
         }
     }
 
@@ -149,6 +143,24 @@ public class SearchMaterialActivity extends AppCompatActivity {
                                 }
                             }
                         });
+            }
+        });
+    }
+
+    @Override
+    public void onCallBack(final String poiID) {
+        BmobQuery<Shop> query = new BmobQuery<>();
+        query.addWhereEqualTo("poiId",poiID);
+        query.findObjects(new FindListener<Shop>() {
+            @Override
+            public void done(List<Shop> list, BmobException e) {
+                if(e==null){
+                    Intent intent = new Intent(SearchMaterialActivity.this,ShopActivity.class);
+                    intent.putExtra("shop",list.get(0));
+                    startActivity(intent);
+                }else{
+                    Utils.toastShow(getApplicationContext(),"该商店尚未开张哦~");
+                }
             }
         });
     }

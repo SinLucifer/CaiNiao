@@ -54,7 +54,7 @@ public class MaterialMainFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if (callBack != null){
-                            callBack.onMaterialCallBack(material.getName());
+                            callBack.onMaterialCallBack(material);
                         }
                     }
                 });
@@ -68,7 +68,7 @@ public class MaterialMainFragment extends Fragment {
     };
 
     public interface MaterialMainFragmentCallBack{
-        void onMaterialCallBack(String name);
+        void onMaterialCallBack(Material material);
     }
 
     public void setCallBack(MaterialMainFragmentCallBack callBack){

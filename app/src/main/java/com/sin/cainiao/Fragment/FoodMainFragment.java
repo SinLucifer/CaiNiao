@@ -26,6 +26,8 @@ import com.sin.cainiao.Activity.ShowProcessFoodDetailActivity;
 import com.sin.cainiao.Adapter.FoodListAdapter;
 import com.sin.cainiao.Adapter.HeaderAdapter;
 import com.sin.cainiao.DataHelper.FoodDataHelper;
+import com.sin.cainiao.JavaBean.Food;
+import com.sin.cainiao.JavaBean.FoodItem;
 import com.sin.cainiao.JavaBean.ProcessedFood;
 import com.sin.cainiao.R;
 
@@ -89,7 +91,7 @@ public class FoodMainFragment extends Fragment{
     };
 
     public interface FoodFragmentCallBack{
-        void onFoodCallBack(String id);
+        void onFoodCallBack(ProcessedFood food);
     }
 
     public static FoodMainFragment newInstance() {
@@ -120,9 +122,20 @@ public class FoodMainFragment extends Fragment{
                 Random random = new Random();
                 Integer number = random.nextInt(200);
                 Log.i(TAG, "onClick: " + number);
-                Intent intent = new Intent(getActivity(), ShowProcessFoodDetailActivity.class);
-                intent.putExtra("FOOD_ITEM_ID",number.toString());
-                startActivity(intent);
+                FoodDataHelper.findProcessFoodByID(number.toString(), new FoodDataHelper.onFindProcessFoodListener() {
+                    @Override
+                    public void onSingleResult(ProcessedFood item, boolean status) {
+                        Intent intent = new Intent(getActivity(), ShowProcessFoodDetailActivity.class);
+                        intent.putExtra("food",item);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onGroupResult(List<ProcessedFood> foodList, boolean status) {
+
+                    }
+                });
+
             }
         });
 
@@ -162,8 +175,7 @@ public class FoodMainFragment extends Fragment{
             @Override
             public void onClick(ProcessedFood food) {
                 if (mCallBack != null){
-                    Integer number = food.getNumber();
-                    mCallBack.onFoodCallBack(number.toString());
+                    mCallBack.onFoodCallBack(food);
                 }else {
                     Log.i(TAG, "handleMessage: ERROR");
                 }
@@ -198,7 +210,7 @@ public class FoodMainFragment extends Fragment{
     public void setUserVisibleHint(boolean isVisibleToUser) {   //解决起始滑动界面
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && mNestedScrollView != null){
-            mNestedScrollView.scrollTo(0,20);
+            mNestedScrollView.smoothScrollTo(0,20);
         }
     }
 
@@ -269,8 +281,7 @@ public class FoodMainFragment extends Fragment{
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(getActivity(),ShowProcessFoodDetailActivity.class);
-                Integer id = foods.get(position).getNumber();
-                intent.putExtra("FOOD_ITEM_ID",id.toString());
+                intent.putExtra("food",foods.get(position));
                 startActivity(intent);
             }
         });

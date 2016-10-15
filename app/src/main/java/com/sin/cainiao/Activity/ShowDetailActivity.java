@@ -90,7 +90,7 @@ public class ShowDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String id = intent.getStringExtra("FOOD_ITEM_ID");
         mImageView = (ImageView)findViewById(R.id.title_img);
-        mImageView.setImageResource(R.drawable.test_img);
+        mImageView.setImageResource(R.mipmap.ic_launcher);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rec_food_material);
 

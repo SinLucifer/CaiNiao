@@ -3,6 +3,7 @@ package com.sin.cainiao.Adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,11 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
         return fragmentList.get(position);
     }
 
+    public void swapData(List<Fragment> fragments){
+        this.fragmentList = fragments;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         // Show 3 total pages.
@@ -41,5 +47,10 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
                 return "SECTION 3";
         }
         return null;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        return super.instantiateItem(container, position);
     }
 }

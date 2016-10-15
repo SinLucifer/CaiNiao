@@ -32,7 +32,6 @@ public class Login_RegisterActivity extends AppCompatActivity implements BackHan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
-
         if (savedInstanceState == null){
             welcomeFragment = WelcomeFragment.newInstance();
             loginFragment = LoginFragment.newInstance();
@@ -57,6 +56,7 @@ public class Login_RegisterActivity extends AppCompatActivity implements BackHan
 
         if(currentFragment == null || !currentFragment.onBackPressed()){
             if(count == 0){
+                setResult(0);
                 super.onBackPressed();
             }else{
                 BackHandledFragment temp = currentFragment;

@@ -41,6 +41,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
@@ -57,8 +58,6 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private RecyclerView mRecyclerView;
     private TextView mTextView_Desc;
-    private WebView wv_step;
-
 
     private ProcessedFood mFood;
     private ProcessClAdapter mClAdapter;
@@ -72,24 +71,18 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
 
     private final static int SUCCESS = 1;
     private final static int STEP_IMG_SUCCESS = 2;
+    private final static int COVER_SUCCESS = 3;
     private final static int ERROR = 0;
 
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == SUCCESS){
-                titleImage.setImageBitmap(mTitleBitmap);
-
                 mCollapsingToolbarLayout.setTitle(mFood.getName());
                 mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
 
                 String result = mFood.getDesc().replaceAll("。","\n");
                 mTextView_Desc.setText(result);
-
-//                String test = mFood.getStep().replaceAll("\\[","").replaceAll("]","").replaceAll(",","");
-//                test = Utils.modifyImg(test);
-//                wv_step.loadData(test,"text/html; charset=UTF-8", null);
-
 
                 mClAdapter.swapData(mFood.getIngs_names(),mFood.getIngs_units());
 
@@ -103,6 +96,7 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
                     ll_step_container.addView(childView);
                 }
 
+                getCover();
                 loadStepImg();
             }else if (msg.what == STEP_IMG_SUCCESS){
                 List<Bitmap> bitmapList = (List<Bitmap>)msg.obj;
@@ -115,7 +109,10 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
                     }
 
                 }
+            }else if (msg.what == COVER_SUCCESS){
+                titleImage.setImageBitmap(mTitleBitmap);
             }else if (msg.what == ERROR){
+
             }
 
             super.handleMessage(msg);
@@ -129,6 +126,18 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Intent intent = getIntent();
+
+        Message msg = new Message();
+        if (intent.getSerializableExtra("food") instanceof ProcessedFood){
+            mFood = (ProcessedFood) intent.getSerializableExtra("food");
+            msg.what = SUCCESS;
+        }else {
+            msg.what = ERROR;
+        }
+
+        mHandler.sendMessage(msg);
+
         mCollapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
 
         app = (CustomApplication)getApplication();
@@ -139,7 +148,7 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (user != null){
-                    CaiNiaoUser bmobUser = app.getUser();
+                    CaiNiaoUser bmobUser = BmobUser.getCurrentUser(CaiNiaoUser.class);
                     BmobRelation relation = new BmobRelation();
                     relation.add(mFood);
                     bmobUser.setFoodLikes(relation);
@@ -150,44 +159,37 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
                                 Utils.toastShow(getApplicationContext(),"收藏成功");
                             }else{
                                 Utils.toastShow(getApplicationContext(),"收藏失败");
+                                e.printStackTrace();
                             }
                         }
                     });
-
-//                    mFood.setLikes(relation);
-//                    mFood.update(new UpdateListener() {
-//                        @Override
-//                        public void done(BmobException e) {
-//                            if(e==null){
-//                                Utils.toastShow(getApplicationContext(),"收藏成功");
-//                            }else{
-//                                Utils.toastShow(getApplicationContext(),"收藏失败");
-//                            }
-//                        }
-//                    });
-
-
+                }else {
+                    Utils.toastShow(getApplicationContext(),"请先登录哦~");
                 }
             }
         });
 
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("FOOD_ITEM_ID");
-
         titleImage = (ImageView)findViewById(R.id.title_img);
-        titleImage.setImageResource(R.drawable.test_img);
+        titleImage.setImageResource(R.mipmap.ic_launcher);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.rec_process_food_material);
         mTextView_Desc = (TextView)findViewById(R.id.tv_process_food_desc);
-
-        wv_step = (WebView)findViewById(R.id.wv_process_food_step);
 
         ll_step_container = (LinearLayout)findViewById(R.id.step_container);
 
         inflater = LayoutInflater.from(getApplicationContext());
 
         setupItemList();
-        getMaterial(id);
+
+        TextView tv_comment = (TextView)findViewById(R.id.tv_comment);
+        tv_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowProcessFoodDetailActivity.this,CommentActivity.class);
+                intent.putExtra("food",mFood);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getViewInstance(final View childView){
@@ -227,6 +229,23 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    private void getCover(){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                Message msg = new Message();
+                mTitleBitmap = Utils.downLoadImg(mFood.getCover_img());
+                if (mTitleBitmap != null){
+                    msg.what = COVER_SUCCESS;
+                }else {
+                    msg.what = ERROR;
+                }
+                mHandler.sendMessage(msg);
+            }
+        }.start();
     }
 
     private void getMaterial(String id){

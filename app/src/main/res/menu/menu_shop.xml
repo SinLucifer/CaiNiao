@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.sin.cainiao.Activity.ShopActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_fav"
+        android:orderInCategory="1"
+        android:title="fav"
+        android:icon="@drawable/heart_outline"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="50"
+        app:showAsAction="never"
+        android:title="add"/>
+</menu>
