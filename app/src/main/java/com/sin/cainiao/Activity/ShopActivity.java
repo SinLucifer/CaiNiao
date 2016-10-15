@@ -116,13 +116,19 @@ public class ShopActivity extends AppCompatActivity {
         initList();
 
         user = BmobUser.getCurrentUser(CaiNiaoUser.class);
-        if (user.getShopkeeper()){
-            initEditableShop();
-            shopkeeper = true;
+        if (user != null){
+            if (user.getShopkeeper()){
+                initEditableShop();
+                shopkeeper = true;
+            }else {
+                initNormalShop();
+                shopkeeper = false;
+            }
         }else {
             initNormalShop();
             shopkeeper = false;
         }
+
 
         initView();
     }
