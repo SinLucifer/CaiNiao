@@ -1,15 +1,12 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
-import android.app.Application;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,24 +14,19 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arlib.floatingsearchview.util.Util;
-import com.sin.cainiao.Adapter.ClAdapter;
-import com.sin.cainiao.Adapter.ProcessClAdapter;
-import com.sin.cainiao.DataHelper.FoodDataHelper;
-import com.sin.cainiao.DataHelper.MaterialDataHelper;
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
-import com.sin.cainiao.JavaBean.ProcessedFood;
+import com.sin.cainiao.adapter.ProcessClAdapter;
+import com.sin.cainiao.dataHelper.FoodDataHelper;
+import com.sin.cainiao.dataHelper.MaterialDataHelper;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.ProcessedFood;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.CustomApplication;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.utils.CustomApplication;
+import com.sin.cainiao.utils.Utils;
 
 
 import java.io.Serializable;
@@ -49,7 +41,6 @@ import cn.bmob.v3.listener.UpdateListener;
 public class ShowProcessFoodDetailActivity extends AppCompatActivity {
     private final static String TAG = "ShowProcessFoodDetailActivity";
 
-    private CustomApplication app;
     private CaiNiaoUser user;
 
     private LinearLayout ll_step_container;
@@ -64,7 +55,6 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
     private Bitmap mTitleBitmap = null;
 
     private LayoutInflater inflater;
-    private View childView;
 
     private List<ViewHolder> ls_item;
     private List<View> ls_childView;
@@ -90,7 +80,7 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
                 ls_item = new ArrayList<>();
 
                 for (int i = 0;i <mFood.getSteps().size();i++){
-                    childView = inflater.inflate(R.layout.show_item,null);
+                    View childView = inflater.inflate(R.layout.show_item, null);
                     childView.setId(i);
                     getViewInstance(childView);
                     ll_step_container.addView(childView);
@@ -140,7 +130,7 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
 
         mCollapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
 
-        app = (CustomApplication)getApplication();
+        CustomApplication app = (CustomApplication) getApplication();
         user = app.getUser();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -188,6 +178,22 @@ public class ShowProcessFoodDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(ShowProcessFoodDetailActivity.this,CommentActivity.class);
                 intent.putExtra("food",mFood);
                 startActivity(intent);
+            }
+        });
+
+        refreshClickTime();
+    }
+
+    private void refreshClickTime(){
+        mFood.setClickTime(mFood.getClickTime()+1);
+        mFood.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e != null){
+                    Log.i(TAG, "done: clickTime update success");
+                }else {
+                    Log.i(TAG, "done: " + e.getMessage());
+                }
             }
         });
     }

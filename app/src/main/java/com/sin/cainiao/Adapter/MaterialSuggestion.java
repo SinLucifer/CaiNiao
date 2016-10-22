@@ -1,4 +1,4 @@
-package com.sin.cainiao.Adapter;
+package com.sin.cainiao.adapter;
 
 import android.os.Parcel;
 
@@ -14,7 +14,7 @@ public class MaterialSuggestion implements SearchSuggestion {
         this.mFoodName = suggestion.toLowerCase();
     }
 
-    public MaterialSuggestion(Parcel source) {
+    private MaterialSuggestion(Parcel source) {
         this.mFoodName = source.readString();
         this.mIsHistory = source.readInt() != 0;
     }

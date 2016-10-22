@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.sin.cainiao.Activity.EditFoodActivity"
+    tools:context="com.sin.cainiao.activity.EditFoodActivity"
     tools:showIn="@layout/activity_edit">
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:id="@+id/img_cover"
-            android:src="@drawable/add_cover"/>
+            android:src="@drawable/add_cover"
+            android:contentDescription="@string/contentDescAddPhoto"/>
         <EditText
             android:layout_width="250dp"
             android:layout_height="wrap_content"

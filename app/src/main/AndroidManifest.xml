@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <application
-        android:name=".Utils.CustomApplication"
+        android:name=".utils.CustomApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -38,17 +38,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.SearchFoodActivity"
+            android:name=".activity.SearchFoodActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.FloatingSearchDemo"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activity.SearchMaterialActivity"
+            android:name=".activity.SearchMaterialActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.FloatingSearchDemo"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activity.ShowDetailActivity"
+            android:name=".activity.ShowDetailActivity"
             android:label="@string/title_activity_show_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -57,55 +57,55 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
-            android:name=".Activity.ShowProcessFoodDetailActivity"
+            android:name=".activity.ShowProcessFoodDetailActivity"
             android:label="@string/title_activity_show_process_food_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activity.Login_RegisterActivity"
+            android:name=".activity.Login_RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_change"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activity.EditFoodActivity"
+            android:name=".activity.EditFoodActivity"
             android:label="@string/title_activity_edit"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activity.EditMaterialItemActivity"
+            android:name=".activity.EditMaterialItemActivity"
             android:label="@string/title_activity_edit_material"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activity.ShopRegisterActivity"
+            android:name=".activity.ShopRegisterActivity"
             android:label="@string/title_activity_shop_register"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activity.ShopActivity"
+            android:name=".activity.ShopActivity"
             android:label="@string/title_activity_shop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar_change" />
         <activity
-            android:name=".Activity.AddShopItem"
+            android:name=".activity.AddShopItem"
             android:label="@string/title_activity_add_shop_item"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activity.EditInfoActivity"
+            android:name=".activity.EditInfoActivity"
             android:label="@string/title_activity_edit_info"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Activity.CommentActivity"
+            android:name=".activity.CommentActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" ></activity>
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

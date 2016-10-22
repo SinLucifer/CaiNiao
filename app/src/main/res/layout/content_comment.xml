@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.sin.cainiao.Activity.CommentActivity"
+    tools:context="com.sin.cainiao.activity.CommentActivity"
     tools:showIn="@layout/activity_comment"
     android:orientation="vertical">
     <android.support.v7.widget.RecyclerView
@@ -24,8 +24,8 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:background="#fff">
+        android:background="#fff"
+        android:baselineAligned="false">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -38,7 +38,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:id="@+id/et_content"
-                android:hint="输入您的评论"/>
+                android:hint="@string/comment_input_hint"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -49,7 +49,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="评论"
+                android:text="@string/comment"
                 android:id="@+id/bn_send"
                 android:background="@drawable/button"/>
         </LinearLayout>

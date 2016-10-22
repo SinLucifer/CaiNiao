@@ -1,10 +1,6 @@
-package com.sin.cainiao.JavaBean;
+package com.sin.cainiao.javaBean;
 
 import cn.bmob.v3.BmobObject;
-
-/**
- * Created by Sin on 2016/10/14.
- */
 
 public class Comment extends BmobObject {
     private String content;

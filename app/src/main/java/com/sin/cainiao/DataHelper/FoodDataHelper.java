@@ -1,4 +1,4 @@
-package com.sin.cainiao.DataHelper;
+package com.sin.cainiao.dataHelper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,13 +7,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.show.api.ShowApiRequest;
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
-import com.sin.cainiao.JavaBean.Food;
-import com.sin.cainiao.JavaBean.FoodItem;
-import com.sin.cainiao.JavaBean.Material;
-import com.sin.cainiao.JavaBean.ProcessedFood;
-import com.sin.cainiao.Utils.Key;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.Food;
+import com.sin.cainiao.javaBean.FoodItem;
+import com.sin.cainiao.javaBean.ProcessedFood;
+import com.sin.cainiao.utils.Key;
+import com.sin.cainiao.utils.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,10 +24,8 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SQLQueryListener;
 
 public class FoodDataHelper {
     private static final String TAG = "FoodDataHelper";
@@ -127,7 +124,7 @@ public class FoodDataHelper {
     public static void findTenProcessFood(final onFindProcessFoodListener listener){
 
         BmobQuery<ProcessedFood> bmobQuery = new BmobQuery<>();
-        bmobQuery.addWhereGreaterThanOrEqualTo("number",0);
+        bmobQuery.order("-clickTime");
         bmobQuery.setLimit(10);
         bmobQuery.findObjects(new FindListener<ProcessedFood>() {
             @Override
@@ -170,15 +167,14 @@ public class FoodDataHelper {
         });
     }
 
-    public static void findProcessFoodByHot(int hot,final onFindProcessFoodWithPicListener listener){
+    public static void findProcessFoodByHot(final onFindProcessFoodWithPicListener listener){
         BmobQuery<ProcessedFood> query = new BmobQuery<>();
-        query.addWhereGreaterThanOrEqualTo("clickTime", hot);
+        query.order("-clickTime");
         query.setLimit(3);
         query.findObjects(new FindListener<ProcessedFood>() {
             @Override
             public void done(final List<ProcessedFood> list, BmobException e) {
                 if(e==null){
-                    if (listener != null){
                         new Thread(){
                             @Override
                             public void run() {
@@ -193,8 +189,6 @@ public class FoodDataHelper {
                                 }
                             }
                         }.start();
-
-                    }
                 }else{
                     Log.i("bmob","失败："+e.getMessage());
                     if (listener != null){
@@ -225,7 +219,7 @@ public class FoodDataHelper {
         });
     }
 
-    public static List<Bitmap> downLoadImgList(List<FoodItem.ShowapiResBodyBean.ImgListBean> urlList){
+    private static List<Bitmap> downLoadImgList(List<FoodItem.ShowapiResBodyBean.ImgListBean> urlList){
         List<Bitmap> bitmaps = new ArrayList<>();
         try {
             for (int i = 0; i < urlList.size(); i++) {

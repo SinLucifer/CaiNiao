@@ -1,4 +1,4 @@
-package com.sin.cainiao.Adapter;
+package com.sin.cainiao.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,9 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arlib.floatingsearchview.util.Util;
-import com.sin.cainiao.JavaBean.ProcessedFood;
+import com.sin.cainiao.javaBean.ProcessedFood;
 import com.sin.cainiao.R;
-import com.sin.cainiao.JavaBean.Food;
+import com.sin.cainiao.javaBean.Food;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -119,7 +119,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
     }
 
     @Override
-    public void onBindViewHolder(FoodSearchResultAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final FoodSearchResultAdapter.ViewHolder holder, int position) {
         if (mode){
             final Food.ShowapiResBodyBean.CbListBean mFood = mFoodList.get(position);
             holder.mFoodName.setText(mFood.getName());
@@ -149,7 +149,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onOldFoodItemClickListener.onClick(mFoodList.get(position));
+                        onOldFoodItemClickListener.onClick(mFoodList.get(holder.getAdapterPosition()));
                     }
                 });
             }
@@ -185,7 +185,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onNewFoodItemClickListener.onClick(mProcessedFoodList.get(position));
+                        onNewFoodItemClickListener.onClick(mProcessedFoodList.get(holder.getAdapterPosition()));
                     }
                 });
             }
@@ -248,7 +248,7 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
 
         public AsyncDrawable(Resources resources,Bitmap bitmap,DownLoadTask doLoadTask){
             super(resources,bitmap);
-            downLoadTaskWeakReference = new WeakReference<DownLoadTask>(doLoadTask);
+            downLoadTaskWeakReference = new WeakReference<>(doLoadTask);
         }
 
         private DownLoadTask getDownLoadTaskFromAsyncDrawable(){
@@ -263,12 +263,12 @@ public class FoodSearchResultAdapter extends RecyclerView.Adapter<FoodSearchResu
         private ProcessedFood mBmobFood;
 
         public DownLoadTask(ImageView imageView, Food.ShowapiResBodyBean.CbListBean food){
-            imageWeakReference = new WeakReference<ImageView>(imageView);
+            imageWeakReference = new WeakReference<>(imageView);
             this.mFood = food;
         }
 
         public DownLoadTask(ImageView imageView, ProcessedFood food){
-            imageWeakReference = new WeakReference<ImageView>(imageView);
+            imageWeakReference = new WeakReference<>(imageView);
             this.mBmobFood = food;
         }
 

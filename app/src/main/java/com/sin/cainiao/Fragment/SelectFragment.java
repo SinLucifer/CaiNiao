@@ -1,7 +1,6 @@
-package com.sin.cainiao.Fragment;
+package com.sin.cainiao.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,7 +32,7 @@ public class SelectFragment extends DialogFragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        typeAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,
+        typeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
                 types);
         if (getActivity() instanceof onClickListener){
             mListener = (onClickListener) getActivity();

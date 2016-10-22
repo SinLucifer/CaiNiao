@@ -1,10 +1,8 @@
-package com.sin.cainiao.Utils.View;
+package com.sin.cainiao.utils.View;
 
 import android.support.design.widget.AppBarLayout;
 
-/**
- * Created by Sin on 2016/10/11.
- */
+
 
 public abstract class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
     public enum State {

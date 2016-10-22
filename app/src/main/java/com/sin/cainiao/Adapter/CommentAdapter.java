@@ -1,4 +1,4 @@
-package com.sin.cainiao.Adapter;
+package com.sin.cainiao.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,8 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sin.cainiao.JavaBean.Comment;
-import com.sin.cainiao.JavaBean.Item;
+import com.sin.cainiao.javaBean.Comment;
 import com.sin.cainiao.R;
 
 import java.io.IOException;
@@ -30,10 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-/**
- * Created by Sin on 2016/10/12.
- */
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
     private Context mContext;
@@ -170,7 +164,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         public AsyncDrawable(Resources resources, Bitmap bitmap, DownLoadTask doLoadTask){
             super(resources,bitmap);
-            downLoadTaskWeakReference = new WeakReference<DownLoadTask>(doLoadTask);
+            downLoadTaskWeakReference = new WeakReference<>(doLoadTask);
         }
 
         private DownLoadTask getDownLoadTaskFromAsyncDrawable(){
@@ -184,7 +178,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         private Comment mComment;
 
         public DownLoadTask(ImageView imageView, Comment mComment){
-            imageWeakReference = new WeakReference<ImageView>(imageView);
+            imageWeakReference = new WeakReference<>(imageView);
             this.mComment = mComment;
         }
 

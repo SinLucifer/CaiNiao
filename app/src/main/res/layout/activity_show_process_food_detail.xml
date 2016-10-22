@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.sin.cainiao.Activity.ShowProcessFoodDetailActivity">
+    tools:context="com.sin.cainiao.activity.ShowProcessFoodDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -29,6 +29,7 @@
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_launcher"
                 app:layout_collapseMode="parallax"
+                android:contentDescription="@string/contentDescriptionLogo"
                 app:layout_collapseParallaxMultiplier="0.7"/>
 
             <android.support.v7.widget.Toolbar

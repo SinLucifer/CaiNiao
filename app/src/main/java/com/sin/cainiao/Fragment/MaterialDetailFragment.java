@@ -1,4 +1,4 @@
-package com.sin.cainiao.Fragment;
+package com.sin.cainiao.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,7 +26,6 @@ import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CircleOptions;
@@ -36,12 +35,11 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
-import com.sin.cainiao.JavaBean.Material;
+import com.sin.cainiao.javaBean.Material;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,16 +55,10 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     private MapView mMapView;
     private AMap mAMap;
     private AMapLocationClient mLocationClient;
-    private AMapLocationClientOption mLocationOption;
-    private PoiSearch mPoiSearch;
     private PoiSearch.Query query;
-    private PoiResult mPoiResult;
     private LatLonPoint lp;
-    private List<PoiItem> poiItems;
     private myPoiOverlay poiOverlay;
-    private Marker locationMarker; // 选择的点
-    private Marker detailMarker;
-    private Marker mlastMarker;
+    private Marker mLastMarker;
     private boolean first = true;
 
     private RelativeLayout mPoiDetail;
@@ -77,12 +69,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     private Material material;
     private Bitmap bitmap;
 
-    private TextView tv_material_name;
     private ImageView material_img;
-    private TextView tv_material_desc;
-    private TextView tv_material_price;
-    private TextView tv_material_skill;
-    private TextView tv_material_worth;
 
     private View mView;
     private Bundle savedInstanceState;
@@ -104,7 +91,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     };
 
     public interface onMapClickCallBack{
-        public void onCallBack(String poiID);
+        void onCallBack(String poiID);
     }
 
     @Override
@@ -163,12 +150,12 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     }
 
     private void initOthersView(View v){
-        tv_material_name = (TextView)v.findViewById(R.id.tv_material_name);
+        TextView tv_material_name = (TextView) v.findViewById(R.id.tv_material_name);
         material_img = (ImageView)v.findViewById(R.id.img_material);
-        tv_material_desc = (TextView)v.findViewById(R.id.tv_material_desc);
-        tv_material_price = (TextView)v.findViewById(R.id.tv_material_price);
-        tv_material_skill = (TextView)v.findViewById(R.id.tv_material_skill);
-        tv_material_worth = (TextView)v.findViewById(R.id.tv_material_worth);
+        TextView tv_material_desc = (TextView) v.findViewById(R.id.tv_material_desc);
+        TextView tv_material_price = (TextView) v.findViewById(R.id.tv_material_price);
+        TextView tv_material_skill = (TextView) v.findViewById(R.id.tv_material_skill);
+        TextView tv_material_worth = (TextView) v.findViewById(R.id.tv_material_worth);
 
         if (material != null){
             tv_material_name.setText(material.getName());
@@ -213,7 +200,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     private void initLocation() {
         mLocationClient = new AMapLocationClient(getActivity());
         mLocationClient.setLocationListener(this);
-        mLocationOption = new AMapLocationClientOption();
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         mLocationOption.setNeedAddress(true);
         mLocationOption.setOnceLocation(true);
@@ -245,7 +232,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
         query.setPageNum(0);
 
         if (lp != null){
-            mPoiSearch = new PoiSearch(getActivity(),query);
+            PoiSearch mPoiSearch = new PoiSearch(getActivity(), query);
             mPoiSearch.setOnPoiSearchListener(this);
             mPoiSearch.setBound(new PoiSearch.SearchBound(lp, 2500, true));//
             // 设置搜索区域为以lp点为圆心，其周围2500米范围
@@ -260,7 +247,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
         mAMap.setOnMarkerClickListener(this);
         mAMap.setOnInfoWindowClickListener(this);
         mAMap.setInfoWindowAdapter(this);
-        locationMarker = mAMap.addMarker(new MarkerOptions()
+        Marker locationMarker = mAMap.addMarker(new MarkerOptions()
                 .anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory
                         .fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.point4)))
@@ -312,14 +299,14 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
         if (i == 1000) {
             if (poiResult != null && poiResult.getQuery() != null) {// 搜索poi的结果
                 if (poiResult.getQuery().equals(query)) {// 是否是同一条
-                    mPoiResult = poiResult;
-                    poiItems = mPoiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+                    PoiResult mPoiResult = poiResult;
+                    List<PoiItem> poiItems = mPoiResult.getPois();
 
                     if (poiItems != null && poiItems.size() > 0) {
                         //清除POI信息显示
                         whetherToShowDetailInfo(false);
                         //并还原点击marker样式
-                        if (mlastMarker != null) {
+                        if (mLastMarker != null) {
                             resetLastMarker();
                         }
                         //清理之前搜索结果的marker
@@ -358,7 +345,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     @Override
     public void onMapClick(LatLng latLng) {
         whetherToShowDetailInfo(false);
-        if (mlastMarker != null) {
+        if (mLastMarker != null) {
             resetLastMarker();
         }
     }
@@ -385,17 +372,17 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     }
 
     private void resetLastMarker() {
-        int index = poiOverlay.getPoiIndex(mlastMarker);
+        int index = poiOverlay.getPoiIndex(mLastMarker);
         if (index < 10) {
-            mlastMarker.setIcon(BitmapDescriptorFactory
+            mLastMarker.setIcon(BitmapDescriptorFactory
                     .fromBitmap(BitmapFactory.decodeResource(
                             getResources(),
                             markers[index])));
         }else {
-            mlastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(
+            mLastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(
                     BitmapFactory.decodeResource(getResources(), R.drawable.marker_other_highlight)));
         }
-        mlastMarker = null;
+        mLastMarker = null;
 
     }
 
@@ -434,14 +421,14 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
             whetherToShowDetailInfo(true);
             try {
                 PoiItem mCurrentPoi = (PoiItem) marker.getObject();
-                if (mlastMarker == null) {
-                    mlastMarker = marker;
+                if (mLastMarker == null) {
+                    mLastMarker = marker;
                 } else {
                     // 将之前被点击的marker置为原来的状态
                     resetLastMarker();
-                    mlastMarker = marker;
+                    mLastMarker = marker;
                 }
-                detailMarker = marker;
+                Marker detailMarker = marker;
                 detailMarker.setIcon(BitmapDescriptorFactory
                         .fromBitmap(BitmapFactory.decodeResource(
                                 getResources(),
@@ -508,7 +495,7 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
     private class myPoiOverlay {
         private AMap mamap;
         private List<PoiItem> mPois;
-        private ArrayList<Marker> mPoiMarks = new ArrayList<Marker>();
+        private ArrayList<Marker> mPoiMarks = new ArrayList<>();
         public myPoiOverlay(AMap amap ,List<PoiItem> pois) {
             mamap = amap;
             mPois = pois;
@@ -570,11 +557,11 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
                     .icon(getBitmapDescriptor(index));
         }
 
-        protected String getTitle(int index) {
+        String getTitle(int index) {
             return mPois.get(index).getTitle();
         }
 
-        protected String getSnippet(int index) {
+        String getSnippet(int index) {
             return mPois.get(index).getSnippet();
         }
 
@@ -607,16 +594,17 @@ public class MaterialDetailFragment extends Fragment implements AMapLocationList
             return mPois.get(index);
         }
 
-        protected BitmapDescriptor getBitmapDescriptor(int arg0) {
+        BitmapDescriptor getBitmapDescriptor(int arg0) {
+            BitmapDescriptor icon;
             if (arg0 < 10) {
-                BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(
+                icon = BitmapDescriptorFactory.fromBitmap(
                         BitmapFactory.decodeResource(getResources(), markers[arg0]));
-                return icon;
             }else {
-                BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(
+                icon = BitmapDescriptorFactory.fromBitmap(
                         BitmapFactory.decodeResource(getResources(), R.drawable.marker_other_highlight));
-                return icon;
             }
+
+            return icon;
         }
     }
 }

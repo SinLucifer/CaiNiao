@@ -1,4 +1,4 @@
-package com.sin.cainiao.Adapter;
+package com.sin.cainiao.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +18,6 @@ public class ProcessClAdapter extends RecyclerView.Adapter<ProcessClAdapter.View
     private List<String> name = new ArrayList<>();
     private List<String> unit = new ArrayList<>();
     private onClItemClickListener listener;
-    private Context mContext;
 
 
     public interface onClItemClickListener{
@@ -43,7 +42,7 @@ public class ProcessClAdapter extends RecyclerView.Adapter<ProcessClAdapter.View
     }
 
     public ProcessClAdapter(Context context){
-        this.mContext = context;
+        Context mContext = context;
     }
 
     public void swapData(List<String> name,List<String> unit){

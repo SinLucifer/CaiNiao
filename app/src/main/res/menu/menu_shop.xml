@@ -1,21 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.sin.cainiao.Activity.ShopActivity">
+    tools:context="com.sin.cainiao.activity.ShopActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="商店管理 "
+        android:title="@string/action_shop_manage"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_fav"
         android:orderInCategory="1"
-        android:title="fav"
+        android:title="@string/action_shop_like"
         android:icon="@drawable/heart_outline"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_add"
         android:orderInCategory="50"
         app:showAsAction="never"
-        android:title="添加商品"/>
+        android:title="@string/action_add_item"/>
 </menu>

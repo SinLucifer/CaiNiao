@@ -1,4 +1,4 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +15,11 @@ import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.sin.cainiao.Adapter.FoodSearchResultAdapter;
-import com.sin.cainiao.JavaBean.Food;
-import com.sin.cainiao.DataHelper.FoodDataHelper;
-import com.sin.cainiao.JavaBean.FoodItem;
-import com.sin.cainiao.JavaBean.ProcessedFood;
+import com.sin.cainiao.adapter.FoodSearchResultAdapter;
+import com.sin.cainiao.javaBean.Food;
+import com.sin.cainiao.dataHelper.FoodDataHelper;
+import com.sin.cainiao.javaBean.FoodItem;
+import com.sin.cainiao.javaBean.ProcessedFood;
 import com.sin.cainiao.R;
 
 import java.util.List;
@@ -27,9 +27,9 @@ import java.util.List;
 
 public class SearchFoodActivity extends AppCompatActivity {
     private final static String TAG = "SearchFoodActivity";
-    public final static int RESULT_SUCCESS = 1;
-    public final static int BMOB_RESULT_SUCCESS = 2;
-    public final static int RESULT_ERROR = 0;
+    private final static int RESULT_SUCCESS = 1;
+    private final static int BMOB_RESULT_SUCCESS = 2;
+    private final static int RESULT_ERROR = 0;
     private boolean search_flag = true; //true == food
 
     private FloatingSearchView mSearchView;
@@ -69,7 +69,7 @@ public class SearchFoodActivity extends AppCompatActivity {
         setupResultsList();
     }
 
-    public void setupSearchView(){
+    private void setupSearchView(){
         mSearchView = (FloatingSearchView)findViewById(R.id.mFloating_search);
 
 
@@ -143,7 +143,7 @@ public class SearchFoodActivity extends AppCompatActivity {
         });
     }
 
-    public void setupResultsList(){
+    private void setupResultsList(){
         mFoodSearchAdapter = new FoodSearchResultAdapter(this);
         mRecyclerView.setAdapter(mFoodSearchAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

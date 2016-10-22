@@ -1,4 +1,4 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,10 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.sin.cainiao.JavaBean.Item;
-import com.sin.cainiao.JavaBean.Shop;
+import com.sin.cainiao.javaBean.Item;
+import com.sin.cainiao.javaBean.Shop;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,8 +38,6 @@ public class AddShopItem extends AppCompatActivity {
     private EditText et_desc;
     private EditText et_count;
     private ImageView img_cover;
-    private AppCompatSpinner sp_type;
-    private Bitmap bitmap;
 
     private Integer type;
     private Shop shop;
@@ -63,10 +61,10 @@ public class AddShopItem extends AppCompatActivity {
         et_price = (EditText)findViewById(R.id.et_price);
         et_count = (EditText)findViewById(R.id.et_count);
         img_cover = (ImageView)findViewById(R.id.img_cover);
-        sp_type = (AppCompatSpinner)findViewById(R.id.sp_type);
+        AppCompatSpinner sp_type = (AppCompatSpinner)findViewById(R.id.sp_type);
         final String[] mItems = getResources().getStringArray(R.array.material_type);
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this
+        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this
                 , android.R.layout.simple_spinner_item, mItems);
 
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -153,7 +151,7 @@ public class AddShopItem extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK){
-            bitmap = data.getParcelableExtra("data");
+            Bitmap bitmap = data.getParcelableExtra("data");
             if (bitmap == null){
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(data.getData());

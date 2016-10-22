@@ -25,7 +25,8 @@
                 android:layout_width="250dp"
                 android:layout_height="200dp"
                 android:src="@mipmap/ic_launcher"
-                android:id="@+id/img_step"/>
+                android:id="@+id/img_step"
+                android:contentDescription="@string/contentDescriptionLogo"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

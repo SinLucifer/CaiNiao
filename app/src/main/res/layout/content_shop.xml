@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.sin.cainiao.Activity.ShopActivity"
+    tools:context="com.sin.cainiao.activity.ShopActivity"
     tools:showIn="@layout/activity_shop">
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:text="肉"
+                    android:text="@string/type_meat"
                     android:textSize="20sp"
                     android:gravity="center"
                     android:id="@+id/tv_meat"
@@ -38,7 +38,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:text="海鲜"
+                    android:text="@string/type_seafood"
                     android:textSize="20sp"
                     android:gravity="center"
                     android:id="@+id/tv_seafood"/>
@@ -51,7 +51,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:text="蔬菜"
+                    android:text="@string/type_vegetables"
                     android:textSize="20sp"
                     android:gravity="center"
                     android:id="@+id/tv_veg"/>
@@ -63,7 +63,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:text="水果"
+                    android:text="@string/type_fruits"
                     android:textSize="20sp"
                     android:gravity="center"
                     android:id="@+id/tv_fruit"/>
@@ -74,7 +74,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:text="米面豆乳"
+                    android:text="@string/type_rice"
                     android:textSize="20sp"
                     android:gravity="center"
                     android:id="@+id/tv_rice"/>
@@ -85,7 +85,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:text="调味品"
+                    android:text="@string/type_flavouring"
                     android:textSize="20sp"
                     android:gravity="center"
                     android:id="@+id/tv_seasoning"/>

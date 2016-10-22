@@ -1,4 +1,4 @@
-package com.sin.cainiao.Fragment.login_register;
+package com.sin.cainiao.fragment.login_register;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,12 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.CustomApplication;
-import com.sin.cainiao.Utils.View.TimeButton;
-import com.sin.cainiao.Utils.Utils;
-import com.sin.cainiao.Utils.View.BackHandledFragment;
+import com.sin.cainiao.utils.CustomApplication;
+import com.sin.cainiao.utils.View.TimeButton;
+import com.sin.cainiao.utils.Utils;
+import com.sin.cainiao.utils.View.BackHandledFragment;
 
 import java.util.Map;
 
@@ -57,14 +57,6 @@ public class RegisterFragment extends BackHandledFragment {
 
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override
@@ -189,6 +181,7 @@ public class RegisterFragment extends BackHandledFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        mCallback = null;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,11 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.sin.cainiao.Utils.View.BackHandledFragment;
-import com.sin.cainiao.Utils.View.BackHandledInterface;
-import com.sin.cainiao.Fragment.login_register.LoginFragment;
-import com.sin.cainiao.Fragment.login_register.RegisterFragment;
-import com.sin.cainiao.Fragment.login_register.WelcomeFragment;
+import com.sin.cainiao.utils.View.BackHandledFragment;
+import com.sin.cainiao.utils.View.BackHandledInterface;
+import com.sin.cainiao.fragment.login_register.LoginFragment;
+import com.sin.cainiao.fragment.login_register.RegisterFragment;
+import com.sin.cainiao.fragment.login_register.WelcomeFragment;
 import com.sin.cainiao.R;
 
 
@@ -70,7 +70,7 @@ public class Login_RegisterActivity extends AppCompatActivity implements BackHan
         Log.i(TAG, "currentFragment: " + currentFragment);
     }
 
-    public void changeFragment(Fragment fragment){
+    private void changeFragment(Fragment fragment){
         if (!fragment.isAdded()){
             getSupportFragmentManager()
                     .beginTransaction()
@@ -92,13 +92,18 @@ public class Login_RegisterActivity extends AppCompatActivity implements BackHan
     public void onCallBack(String uri) {
         lastFragment = currentFragment;
         count++;
-        if (uri.equals("login") ){
-            changeFragment(loginFragment);
-        }else if (uri.equals("register")){
-            changeFragment(registerFragment);
-        }else if (uri.equals("register_success") || uri.equals("login_success")){
-            setResult(1);
-            finish();
+        switch (uri) {
+            case "login":
+                changeFragment(loginFragment);
+                break;
+            case "register":
+                changeFragment(registerFragment);
+                break;
+            case "register_success":
+            case "login_success":
+                setResult(1);
+                finish();
+                break;
         }
 
         Log.i(TAG, "currentFragment: " + currentFragment);

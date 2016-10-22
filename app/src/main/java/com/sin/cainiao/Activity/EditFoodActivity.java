@@ -1,15 +1,12 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,12 +23,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.sin.cainiao.Adapter.ProcessClAdapter;
-import com.sin.cainiao.Fragment.SelectFragment;
-import com.sin.cainiao.JavaBean.ProcessedFood;
+import com.sin.cainiao.adapter.ProcessClAdapter;
+import com.sin.cainiao.fragment.SelectFragment;
+import com.sin.cainiao.javaBean.ProcessedFood;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.CustomApplication;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.utils.CustomApplication;
+import com.sin.cainiao.utils.Utils;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -63,20 +60,18 @@ public class EditFoodActivity extends AppCompatActivity implements SelectFragmen
     private ArrayList<String> nameList = new ArrayList<>();
     private ArrayList<String> unitList = new ArrayList<>();
 
-    int mark = 0;
+    private int mark = 0;
 
-    private RecyclerView mRecyclerView;
     private ProcessClAdapter processClAdapter;
 
     private ImageView img_cover;
-    private AppCompatSpinner sp_type;
 
     private List<String> stepList;
     private String type = null;
 
     private static final int SUCCESS = 1;
 
-    private Handler mHandler = new Handler(){
+    private final Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -126,7 +121,7 @@ public class EditFoodActivity extends AppCompatActivity implements SelectFragmen
         urlList = new ArrayList<>();
         hasImgList = new ArrayList<>();
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.rec_edit_material);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rec_edit_material);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         processClAdapter = new ProcessClAdapter(getApplicationContext());
@@ -136,10 +131,10 @@ public class EditFoodActivity extends AppCompatActivity implements SelectFragmen
         ls_childView = new ArrayList<>();
         stepList = new ArrayList<>();
 
-        sp_type = (AppCompatSpinner)findViewById(R.id.sp_type);
+        AppCompatSpinner sp_type = (AppCompatSpinner) findViewById(R.id.sp_type);
         final String[] mItems = getResources().getStringArray(R.array.food_type);
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this
+        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this
                 , android.R.layout.simple_spinner_item, mItems);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -222,7 +217,7 @@ public class EditFoodActivity extends AppCompatActivity implements SelectFragmen
 
                 for (int i = 0; i < ll_step_container.getChildCount(); i++) {
                     ViewHolder vh = ls_item.get(i);
-                    String path = null;
+                    String path;
                     stepList.add(vh.et_step_content.getText().toString());
                     if (vh.img_step_img.getTag() instanceof String){
                         path = (String)vh.img_step_img.getTag();
@@ -242,7 +237,7 @@ public class EditFoodActivity extends AppCompatActivity implements SelectFragmen
                     @Override
                     public void onSuccess(List<BmobFile> list, List<String> list1) {
                         if(list1.size()==filePaths.length){//如果数量相等，则代表文件全部上传完成
-                            List<String> content = new ArrayList<String>();
+                            List<String> content = new ArrayList<>();
                             cover_url = list1.get(0);
                             for (int i = 1; i < list1.size(); i++) {
                                 content.add(list1.get(i));
@@ -364,7 +359,7 @@ public class EditFoodActivity extends AppCompatActivity implements SelectFragmen
             return;
         }
         Log.i(TAG, "onActivityResult: " + requestCode);
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         String path = null;
         if (requestCode >= 0 && requestCode < 100 && resultCode == RESULT_OK){
             bitmap = data.getParcelableExtra("data");

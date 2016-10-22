@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="400dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +32,8 @@
                 android:layout_height="250dp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_launcher"
-                android:id="@+id/img_material"/>
+                android:id="@+id/img_material"
+                android:contentDescription="@string/contentDescriptionLogo"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -151,7 +153,7 @@
                     android:id="@+id/mapView"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true" >
                 </com.amap.api.maps.MapView>
             </RelativeLayout>
@@ -166,34 +168,25 @@
                     android:id="@+id/poi_name"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginLeft="12dp"
                     android:layout_marginStart="12dp"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="#5566b8"
                     android:textSize="15sp" />
                 <TextView
                     android:id="@+id/poi_address"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@id/poi_name"
-                    android:layout_marginLeft="12dp"
                     android:layout_marginStart="12dp"
                     android:gravity="center_vertical"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="#333333"
                     android:textSize="15sp" />
             </RelativeLayout>
         </RelativeLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical">
-        </LinearLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

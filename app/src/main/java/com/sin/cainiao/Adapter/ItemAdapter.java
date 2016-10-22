@@ -1,4 +1,4 @@
-package com.sin.cainiao.Adapter;
+package com.sin.cainiao.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -16,8 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sin.cainiao.JavaBean.Food;
-import com.sin.cainiao.JavaBean.Item;
+import com.sin.cainiao.javaBean.Item;
 import com.sin.cainiao.R;
 
 import java.io.IOException;
@@ -28,9 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sin on 2016/10/12.
- */
+
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private Context mContext;
@@ -161,7 +158,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
         public AsyncDrawable(Resources resources, Bitmap bitmap, DownLoadTask doLoadTask){
             super(resources,bitmap);
-            downLoadTaskWeakReference = new WeakReference<DownLoadTask>(doLoadTask);
+            downLoadTaskWeakReference = new WeakReference<>(doLoadTask);
         }
 
         private DownLoadTask getDownLoadTaskFromAsyncDrawable(){
@@ -175,7 +172,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         private Item mItem;
 
         public DownLoadTask(ImageView imageView, Item mItem){
-            imageWeakReference = new WeakReference<ImageView>(imageView);
+            imageWeakReference = new WeakReference<>(imageView);
             this.mItem = mItem;
         }
 

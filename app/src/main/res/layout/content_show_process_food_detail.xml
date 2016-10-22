@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activity.ShowProcessFoodDetailActivity"
+    tools:context=".activity.ShowProcessFoodDetailActivity"
     tools:showIn="@layout/activity_show_process_food_detail"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp">
@@ -112,7 +112,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="查看该菜谱的评论"
+            android:text="@string/see_comment"
             android:id="@+id/tv_comment"
             android:textSize="18sp"
             android:gravity="center"

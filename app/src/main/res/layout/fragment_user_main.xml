@@ -18,7 +18,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:orientation="horizontal"
-                android:background="@color/colorPrimaryDark">
+                android:background="@color/colorPrimaryDark"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:orientation="vertical"
@@ -41,7 +42,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="NickName"
+                        android:text="@string/nick_name"
                         android:id="@+id/tv_nick_name"
                         android:textColor="#ffffff"
                         android:textStyle="bold"
@@ -49,7 +50,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12345678911"
+                        android:text="@string/info"
                         android:id="@+id/tv_user_desc"
                         android:textColor="#ffffff"
                         android:textSize="16sp" />
@@ -67,7 +68,7 @@
                 app:tabTextColor="#000000"
                 app:tabSelectedTextColor="@color/colorPrimaryDark"
                 app:tabIndicatorColor="@color/colorPrimaryDark"/>
-            <com.sin.cainiao.Utils.View.WrapContentHeightViewPager
+            <com.sin.cainiao.utils.View.WrapContentHeightViewPager
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/fav_container"/>

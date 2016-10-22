@@ -1,4 +1,4 @@
-package com.sin.cainiao.Fragment;
+package com.sin.cainiao.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,11 +14,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.sin.cainiao.DataHelper.MaterialDataHelper;
-import com.sin.cainiao.JavaBean.Material;
+import com.sin.cainiao.dataHelper.MaterialDataHelper;
+import com.sin.cainiao.javaBean.Material;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.utils.Utils;
 
+import java.util.Calendar;
 import java.util.Random;
 
 
@@ -58,8 +59,6 @@ public class MaterialMainFragment extends Fragment {
                         }
                     }
                 });
-            }else if (msg.what == LOAD_LIST_SUCCESS){
-
             }else if (msg.what == ERROR){
 
             }
@@ -85,11 +84,6 @@ public class MaterialMainFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -102,15 +96,19 @@ public class MaterialMainFragment extends Fragment {
         return v;
     }
 
-    public void setupHeader(View v){
+    private void setupHeader(View v){
         header = (LinearLayout)v.findViewById(R.id.header_container);
         today_name = (TextView)v.findViewById(R.id.tv_today_name);
         today_img = (ImageView)v.findViewById(R.id.img_today_material);
         today_desc = (TextView)v.findViewById(R.id.tv_today_desc);
     }
 
-    public void loadData(){
-        Random random = new Random();
+    private void loadData(){
+        Calendar now = Calendar.getInstance();
+        Log.i(TAG, "loadData: " + now.get(Calendar.YEAR)+(now.get(Calendar.MONTH)+1)
+                + now.get(Calendar.DAY_OF_MONTH));
+        Random random = new Random(now.get(Calendar.YEAR)+(now.get(Calendar.MONTH)+1)
+                + now.get(Calendar.DAY_OF_MONTH)+2);
         Integer number = random.nextInt(105);
         Log.i(TAG, "onClick: " + number);
         MaterialDataHelper.findMaterialByID(number, new MaterialDataHelper.onFindMaterialsListener() {

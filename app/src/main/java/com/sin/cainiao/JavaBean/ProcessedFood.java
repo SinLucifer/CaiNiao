@@ -1,4 +1,4 @@
-package com.sin.cainiao.JavaBean;
+package com.sin.cainiao.javaBean;
 
 import java.util.List;
 
@@ -24,18 +24,6 @@ public class ProcessedFood extends BmobObject {
 
     }
 
-    /**
-     *
-     * @param name
-     * @param desc
-     * @param cover_img
-     * @param ings_names
-     * @param ings_units
-     * @param steps
-     * @param steps_img
-     * @param number
-     * @param type
-     */
     public ProcessedFood(String name
             ,CaiNiaoUser author
             ,String desc

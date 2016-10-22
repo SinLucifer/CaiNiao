@@ -1,4 +1,4 @@
-package com.sin.cainiao.Fragment.login_register;
+package com.sin.cainiao.fragment.login_register;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,11 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.CustomApplication;
-import com.sin.cainiao.Utils.Utils;
-import com.sin.cainiao.Utils.View.BackHandledFragment;
+import com.sin.cainiao.utils.CustomApplication;
+import com.sin.cainiao.utils.Utils;
+import com.sin.cainiao.utils.View.BackHandledFragment;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -23,9 +23,8 @@ import cn.bmob.v3.listener.LogInListener;
 public class LoginFragment extends BackHandledFragment {
     private final static String TAG = "LoginFragment";
 
-    private EditText et_lgoin_name;
+    private EditText et_login_name;
     private EditText et_login_password;
-    private Button bn_login;
     private TextView tv_forget;
 
     private onLoginCallBack mCallBack;
@@ -45,14 +44,6 @@ public class LoginFragment extends BackHandledFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View mView =  inflater.inflate(R.layout.fragment_login, container, false);
@@ -65,14 +56,14 @@ public class LoginFragment extends BackHandledFragment {
 
     private void setupView(View view){
 
-        et_lgoin_name = (EditText)view.findViewById(R.id.et_login_username);
+        et_login_name = (EditText)view.findViewById(R.id.et_login_username);
         et_login_password = (EditText)view.findViewById(R.id.et_login_password);
 
-        bn_login = (Button)view.findViewById(R.id.bn_login_submit);
+        Button bn_login = (Button) view.findViewById(R.id.bn_login_submit);
         bn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = et_lgoin_name.getText().toString();
+                String username = et_login_name.getText().toString();
                 String password = et_login_password.getText().toString();
 
                 if (username.equals("") || password.equals("")){
@@ -115,8 +106,7 @@ public class LoginFragment extends BackHandledFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        //Listener = null;
-
+        mCallBack = null;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.sin.cainiao.Fragment;
+package com.sin.cainiao.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,26 +9,21 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.sin.cainiao.Activity.SearchFoodActivity;
-import com.sin.cainiao.Activity.ShowProcessFoodDetailActivity;
-import com.sin.cainiao.Adapter.FoodListAdapter;
-import com.sin.cainiao.Adapter.HeaderAdapter;
-import com.sin.cainiao.DataHelper.FoodDataHelper;
-import com.sin.cainiao.JavaBean.Food;
-import com.sin.cainiao.JavaBean.FoodItem;
-import com.sin.cainiao.JavaBean.ProcessedFood;
+import com.sin.cainiao.activity.ShowProcessFoodDetailActivity;
+import com.sin.cainiao.adapter.FoodListAdapter;
+import com.sin.cainiao.adapter.HeaderAdapter;
+import com.sin.cainiao.dataHelper.FoodDataHelper;
+import com.sin.cainiao.javaBean.ProcessedFood;
 import com.sin.cainiao.R;
 
 import java.util.ArrayList;
@@ -42,25 +37,21 @@ public class FoodMainFragment extends Fragment{
     private static final String TAG = "FoodMainFragment";
     private static final int LOAD_SUCCESS = 1;
     private static final int ERROR = 0;
-    private static final int UPTATE_VIEWPAGER = 2;
+    private static final int UPDATE_VIEWPAGER = 2;
     private static final int LOAD_LIST_SUCCESS = 3;
     private int autoCurrIndex = 0; //now position
 
-    private ImageView randomImg;
     private ViewPager viewPager;
 
     private HeaderAdapter mHeaderAdapter;
     private FoodListAdapter listAdapter;
 
-    private List<ImageView> imageViews;
     private List<ProcessedFood> foods;
     private List<Bitmap> food_imgs;
     private List<ProcessedFood> ten_foodList;
 
     private ImageView[] mBottomImgs;
-    private LinearLayout mBottomLayout;
     private TextView tv_hot_name;
-    private RecyclerView mRecycler_food_list;
 
     private NestedScrollView mNestedScrollView;
 
@@ -74,7 +65,7 @@ public class FoodMainFragment extends Fragment{
             if (msg.what == LOAD_SUCCESS){
                 mHeaderAdapter.swapData(food_imgs);
                 tv_hot_name.setText("最热搜索：" + foods.get(0).getName());
-            }else if (msg.what == UPTATE_VIEWPAGER){
+            }else if (msg.what == UPDATE_VIEWPAGER){
                 if (msg.arg1 != 0) {
                     viewPager.setCurrentItem(msg.arg1);
                 } else {
@@ -104,18 +95,13 @@ public class FoodMainFragment extends Fragment{
     public void setCallBack(FoodFragmentCallBack callBack){
         this.mCallBack = callBack;
     }
-    
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.food_main_fragment,container,false);
 
-        randomImg = (ImageView)v.findViewById(R.id.img_random);
+        ImageView randomImg = (ImageView) v.findViewById(R.id.img_random);
         randomImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,7 +135,7 @@ public class FoodMainFragment extends Fragment{
     }
 
     private void loadHot(){
-        FoodDataHelper.findProcessFoodByHot(50, new FoodDataHelper.onFindProcessFoodWithPicListener() {
+        FoodDataHelper.findProcessFoodByHot(new FoodDataHelper.onFindProcessFoodWithPicListener() {
             @Override
             public void onFind(List<ProcessedFood> fooList, List<Bitmap> bitmaps, boolean status) {
                 Message msg = new Message();
@@ -168,7 +154,7 @@ public class FoodMainFragment extends Fragment{
     private void setupView(View v){
         tv_hot_name = (TextView)v.findViewById(R.id.tv_hot_name);
 
-        mRecycler_food_list = (RecyclerView)v.findViewById(R.id.rec_food_list);
+        RecyclerView mRecycler_food_list = (RecyclerView) v.findViewById(R.id.rec_food_list);
         mRecycler_food_list.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         listAdapter = new FoodListAdapter(getContext());
         listAdapter.setOnFoodItemClickListener(new FoodListAdapter.onFoodItemClickListener() {
@@ -216,7 +202,7 @@ public class FoodMainFragment extends Fragment{
 
     private void setupViewPager(View v) {
 
-        imageViews = new ArrayList<>();
+        List<ImageView> imageViews = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
             ImageView view = new ImageView(getActivity());
@@ -245,7 +231,7 @@ public class FoodMainFragment extends Fragment{
 
             mBottomImgs[i] = imageView;
 
-            mBottomLayout = (LinearLayout) v.findViewById(R.id.ll_hottest_indicator);
+            LinearLayout mBottomLayout = (LinearLayout) v.findViewById(R.id.ll_hottest_indicator);
 
             mBottomLayout.addView(mBottomImgs[i]);
         }
@@ -290,7 +276,7 @@ public class FoodMainFragment extends Fragment{
             @Override
             public void run() {
                 Message msg = new Message();
-                msg.what = UPTATE_VIEWPAGER;
+                msg.what = UPDATE_VIEWPAGER;
                 if (foods != null){
                     if (autoCurrIndex == foods.size() - 1) {
                         autoCurrIndex = -1;

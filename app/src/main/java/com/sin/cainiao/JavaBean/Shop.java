@@ -1,8 +1,5 @@
-package com.sin.cainiao.JavaBean;
+package com.sin.cainiao.javaBean;
 
-import java.util.List;
-
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobObject;
 
 public class Shop extends BmobObject{

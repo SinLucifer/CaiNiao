@@ -1,9 +1,7 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,7 +23,7 @@ public class EditMaterialItemActivity extends AppCompatActivity {
     private View childView;
     private LayoutInflater inflater;
     private LinearLayout ll_material_container;
-    int mark = 0;
+    private int mark = 0;
 
     private ArrayList<String> nameList;
     private ArrayList<String> unitList;
@@ -104,8 +102,8 @@ public class EditMaterialItemActivity extends AppCompatActivity {
         bn_material_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> nameList = new ArrayList<String>();
-                ArrayList<String> unitList = new ArrayList<String>();
+                ArrayList<String> nameList = new ArrayList<>();
+                ArrayList<String> unitList = new ArrayList<>();
                 for (int i = 0; i < ll_material_container.getChildCount(); i++) {
                     ViewHolder vh = ls_item.get(i);
                     if (!vh.name.getText().toString().equals("")){

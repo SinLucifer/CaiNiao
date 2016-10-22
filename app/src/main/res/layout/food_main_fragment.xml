@@ -27,7 +27,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginTop="5dp"
                 android:background="#50323232"
-                android:gravity="center|right"
+                android:gravity="center|end"
                 android:orientation="horizontal"
                 android:layout_alignParentBottom="true">
             </LinearLayout>
@@ -73,7 +73,7 @@
                 android:src="@drawable/dice_1"
                 android:scaleType="centerInside"
                 android:id="@+id/img_random"
-                android:contentDescription="ImageButton"/>
+                android:contentDescription="@string/contentDescRoll"/>
         </LinearLayout>
 
         <View

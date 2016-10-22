@@ -1,12 +1,10 @@
-package com.sin.cainiao.JavaBean;
+package com.sin.cainiao.javaBean;
 
 import android.graphics.Bitmap;
 
 import java.util.List;
 
-/**
- * Created by Sin on 2016/9/7.
- */
+
 public class FoodItem {
 
     /**

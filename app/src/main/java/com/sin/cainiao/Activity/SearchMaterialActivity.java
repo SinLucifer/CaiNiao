@@ -1,4 +1,4 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,15 +9,14 @@ import android.view.Window;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.sin.cainiao.Adapter.MaterialSuggestion;
-import com.sin.cainiao.DataHelper.MaterialDataHelper;
-import com.sin.cainiao.Fragment.MaterialDetailFragment;
-import com.sin.cainiao.JavaBean.Material;
-import com.sin.cainiao.JavaBean.Shop;
+import com.sin.cainiao.adapter.MaterialSuggestion;
+import com.sin.cainiao.dataHelper.MaterialDataHelper;
+import com.sin.cainiao.fragment.MaterialDetailFragment;
+import com.sin.cainiao.javaBean.Material;
+import com.sin.cainiao.javaBean.Shop;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.utils.Utils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +28,10 @@ import cn.bmob.v3.listener.FindListener;
 public class SearchMaterialActivity extends AppCompatActivity implements MaterialDetailFragment.onMapClickCallBack{
     private final static String TAG = "SearchMaterialActivity";
 
-    public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
+    private static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
 
     private FloatingSearchView mSearchView;
     private MaterialDetailFragment mDetailFragment;
-
-    private Material material;
 
 
     @Override
@@ -73,7 +70,7 @@ public class SearchMaterialActivity extends AppCompatActivity implements Materia
             }
         }
 
-        material = (Material) intent.getSerializableExtra("material");
+        Material material = (Material) intent.getSerializableExtra("material");
         if (material != null){
             mDetailFragment = MaterialDetailFragment.newInstance(material);
             getSupportFragmentManager().beginTransaction()
@@ -81,7 +78,7 @@ public class SearchMaterialActivity extends AppCompatActivity implements Materia
         }
     }
 
-    public void setupSearchView(){
+    private void setupSearchView(){
         mSearchView = (FloatingSearchView)findViewById(R.id.mFloating_search);
 
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {

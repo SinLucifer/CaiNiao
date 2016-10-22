@@ -1,4 +1,4 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,13 +17,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sin.cainiao.Adapter.ItemAdapter;
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
-import com.sin.cainiao.JavaBean.Item;
-import com.sin.cainiao.JavaBean.Shop;
+import com.sin.cainiao.adapter.ItemAdapter;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.Item;
+import com.sin.cainiao.javaBean.Shop;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.Utils;
-import com.sin.cainiao.Utils.View.AppBarStateChangeListener;
+import com.sin.cainiao.utils.Utils;
+import com.sin.cainiao.utils.View.AppBarStateChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +47,6 @@ public class ShopActivity extends AppCompatActivity {
 
     private TextView tv_title;
     private List<Item> itemList;
-    private RecyclerView mRecyclerView;
 
     private List<Item> meatList;
     private List<Item> seafoodList;
@@ -65,13 +61,6 @@ public class ShopActivity extends AppCompatActivity {
 
     private Bitmap bitmap;
     private ItemAdapter itemAdapter;
-
-    private TextView tv_meat;
-    private TextView tv_seafood;
-    private TextView tv_veg;
-    private TextView tv_fruit;
-    private TextView tv_rice;
-    private TextView tv_season;
 
     private boolean shopkeeper = false;
 
@@ -144,7 +133,7 @@ public class ShopActivity extends AppCompatActivity {
     private void initEditableShop(){
         if (user != null){
             Log.i(TAG, "onCreate: " + user.getShop());
-            BmobQuery<Shop> query = new BmobQuery<Shop>();
+            BmobQuery<Shop> query = new BmobQuery<>();
             query.addWhereEqualTo("owner", user);
             query.findObjects(new FindListener<Shop>() {
 
@@ -179,7 +168,7 @@ public class ShopActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.item_container);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.item_container);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         itemAdapter = new ItemAdapter(getApplicationContext());
         mRecyclerView.setAdapter(itemAdapter);
@@ -199,12 +188,12 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     private void initTv(){
-        tv_meat = (TextView)findViewById(R.id.tv_meat);
-        tv_seafood = (TextView)findViewById(R.id.tv_seafood);
-        tv_veg = (TextView)findViewById(R.id.tv_veg);
-        tv_fruit = (TextView)findViewById(R.id.tv_fruit);
-        tv_rice = (TextView)findViewById(R.id.tv_rice);
-        tv_season = (TextView)findViewById(R.id.tv_seasoning);
+        TextView tv_meat = (TextView) findViewById(R.id.tv_meat);
+        TextView tv_seafood = (TextView) findViewById(R.id.tv_seafood);
+        TextView tv_veg = (TextView) findViewById(R.id.tv_veg);
+        TextView tv_fruit = (TextView) findViewById(R.id.tv_fruit);
+        TextView tv_rice = (TextView) findViewById(R.id.tv_rice);
+        TextView tv_season = (TextView) findViewById(R.id.tv_seasoning);
 
         tv_meat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,7 +293,7 @@ public class ShopActivity extends AppCompatActivity {
                     itemList = list;
                 }else {
                     msg.what = ERROR;
-                    Log.i(TAG, "getItems: ERRO");
+                    Log.i(TAG, "getItems: ERROR");
                 }
                 mHandler.sendMessage(msg);
             }

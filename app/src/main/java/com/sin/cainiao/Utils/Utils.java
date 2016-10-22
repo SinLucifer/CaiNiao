@@ -1,4 +1,4 @@
-package com.sin.cainiao.Utils;
+package com.sin.cainiao.utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.sin.cainiao.Adapter.MaterialSuggestion;
+import com.sin.cainiao.adapter.MaterialSuggestion;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -119,9 +119,7 @@ public class Utils {
         return jsonString;
     }
 
-    public static String Json2Object(String jsonString){
-        String result = "";
-
+    public static void Json2Object(String jsonString){
         try{
             JSONArray json = new JSONArray(jsonString);
             for (int i = 0; i < json.length(); i++) {
@@ -131,15 +129,8 @@ public class Utils {
             e.printStackTrace();
         }
 
-        return result;
     }
 
-    /**
-     *
-     * @param uri
-     * @param resolver
-     * @return path
-     */
     public static String getUri(Uri uri, ContentResolver resolver){
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = resolver.query(uri,proj,null,null,null);

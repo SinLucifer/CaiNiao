@@ -1,4 +1,4 @@
-package com.sin.cainiao.Fragment;
+package com.sin.cainiao.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,16 +20,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.sin.cainiao.Activity.ShowProcessFoodDetailActivity;
-import com.sin.cainiao.Adapter.ClAdapter;
-import com.sin.cainiao.Adapter.FoodSearchResultAdapter;
-import com.sin.cainiao.DataHelper.FoodDataHelper;
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
-import com.sin.cainiao.JavaBean.ProcessedFood;
+import com.sin.cainiao.activity.ShowProcessFoodDetailActivity;
+import com.sin.cainiao.adapter.ClAdapter;
+import com.sin.cainiao.adapter.FoodSearchResultAdapter;
+import com.sin.cainiao.dataHelper.FoodDataHelper;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.ProcessedFood;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.CustomApplication;
-import com.sin.cainiao.Utils.Utils;
-import com.sin.cainiao.Utils.View.WrapContentHeightViewPager;
+import com.sin.cainiao.utils.CustomApplication;
+import com.sin.cainiao.utils.Utils;
+import com.sin.cainiao.utils.View.WrapContentHeightViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,6 @@ public class UserMainFragment extends Fragment{
     private CaiNiaoUser user;
 
     private NestedScrollView mNestedScrollView;
-    private Button bn_my_shop;
 
     private UserMainFragmentCallBack mCallBack;
 
@@ -136,7 +135,7 @@ public class UserMainFragment extends Fragment{
             v = inflater.inflate(R.layout.fragment_user_main,container,false);
         }else{
             v = inflater.inflate(R.layout.fragment_shop_user_main,container,false);
-            bn_my_shop = (Button)v.findViewById(R.id.bn_my_shop);
+            Button bn_my_shop = (Button) v.findViewById(R.id.bn_my_shop);
             bn_my_shop.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -293,15 +292,8 @@ public class UserMainFragment extends Fragment{
             if (isVisibleToUser){
                 if (mode){
                     searchFavFood();
-                }else {
-
                 }
             }
-        }
-
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
         }
 
         @Override

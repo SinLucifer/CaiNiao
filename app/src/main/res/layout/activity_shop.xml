@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.sin.cainiao.Activity.ShopActivity">
+    tools:context="com.sin.cainiao.activity.ShopActivity">
 
     <include layout="@layout/content_shop" />
 
@@ -37,7 +37,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_gravity="center|start"
                     android:src="@mipmap/ic_launcher"
-                    android:id="@+id/img_shop_cover"/>
+                    android:id="@+id/img_shop_cover"
+                    android:contentDescription="@string/contentDescriptionLogo"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,23 +16,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.sin.cainiao.Activity.EditFoodActivity;
-import com.sin.cainiao.Activity.EditInfoActivity;
-import com.sin.cainiao.Activity.Login_RegisterActivity;
-import com.sin.cainiao.Activity.SearchFoodActivity;
-import com.sin.cainiao.Activity.SearchMaterialActivity;
-import com.sin.cainiao.Activity.ShopActivity;
-import com.sin.cainiao.Activity.ShowProcessFoodDetailActivity;
-import com.sin.cainiao.Adapter.MainFragmentAdapter;
-import com.sin.cainiao.Fragment.FoodMainFragment;
-import com.sin.cainiao.Fragment.MaterialMainFragment;
-import com.sin.cainiao.Fragment.UserMainFragment;
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
-import com.sin.cainiao.JavaBean.Material;
-import com.sin.cainiao.JavaBean.ProcessedFood;
-import com.sin.cainiao.Utils.CustomApplication;
-import com.sin.cainiao.Utils.Key;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.activity.EditFoodActivity;
+import com.sin.cainiao.activity.EditInfoActivity;
+import com.sin.cainiao.activity.Login_RegisterActivity;
+import com.sin.cainiao.activity.SearchFoodActivity;
+import com.sin.cainiao.activity.SearchMaterialActivity;
+import com.sin.cainiao.activity.ShopActivity;
+import com.sin.cainiao.activity.ShowProcessFoodDetailActivity;
+import com.sin.cainiao.adapter.MainFragmentAdapter;
+import com.sin.cainiao.fragment.FoodMainFragment;
+import com.sin.cainiao.fragment.MaterialMainFragment;
+import com.sin.cainiao.fragment.UserMainFragment;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.Material;
+import com.sin.cainiao.javaBean.ProcessedFood;
+import com.sin.cainiao.utils.CustomApplication;
+import com.sin.cainiao.utils.Key;
+import com.sin.cainiao.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +41,8 @@ import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
-import static com.sin.cainiao.Utils.Utils.Json2Object;
-import static com.sin.cainiao.Utils.Utils.loadTxt;
+import static com.sin.cainiao.utils.Utils.Json2Object;
+import static com.sin.cainiao.utils.Utils.loadTxt;
 
 public class MainActivity extends AppCompatActivity implements FoodMainFragment.FoodFragmentCallBack
         ,MaterialMainFragment.MaterialMainFragmentCallBack,UserMainFragment.UserMainFragmentCallBack{
@@ -58,10 +57,7 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
     private BottomNavigation bottomNavigation;
     private ImageView mSearchImg;
 
-    private FoodMainFragment foodMainFragment;
-    private MaterialMainFragment materialMainFragment;
     private UserMainFragment userMainFragment;
-    private AppBarLayout appBarLayout;
 
     private long firstTime;
 
@@ -81,9 +77,6 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
         setupBottomNavigation();
         setupImageView();
 
-        appBarLayout = (AppBarLayout)findViewById(R.id.appbar);
-
-        LinearLayout ll = (LinearLayout)findViewById(R.id.ll_hottest_indicator);
     }
 
     private void initBmob(){
@@ -98,10 +91,10 @@ public class MainActivity extends AppCompatActivity implements FoodMainFragment.
     }
 
     private void setupViewPager(){
-        foodMainFragment = FoodMainFragment.newInstance();
+        FoodMainFragment foodMainFragment = FoodMainFragment.newInstance();
         foodMainFragment.setCallBack(MainActivity.this);
 
-        materialMainFragment = MaterialMainFragment.newInstance();
+        MaterialMainFragment materialMainFragment = MaterialMainFragment.newInstance();
         materialMainFragment.setCallBack(MainActivity.this);
 
         fragmentList.add(foodMainFragment);

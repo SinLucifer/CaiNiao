@@ -1,16 +1,10 @@
 <resources>
     <string name="app_name">菜鸟</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
     <string name="action_add">创建菜谱</string>
     <string name="action_logout">退出登录</string>
     <string name="action_info">修改个人信息</string>
-    <string name="title_activity_search_scrolling">SearchScrollingActivity</string>
     <string name="title_activity_main2">菜鸟</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_show_detail">ShowDetailActivity</string>
     <string name="title_activity_show_process_food_detail">ShowProcessFoodDetailActivity</string>
 
@@ -28,7 +22,7 @@
 
     <string name="ings_name">材料</string>
     <string name="ings_unit">用量</string>
-    <string name="loading">加载中...</string>
+    <string name="loading">加载中…</string>
 
     <string name="material_price">价格</string>
     <string name="material_skill">挑选</string>
@@ -57,7 +51,6 @@
     <string name="edit_example_name">例如:猪肉</string>
     <string name="edit_example_unit">500g</string>
     <string name="edit_title">在这里输入美食名~</string>
-    <string name="edit_type">点我添加分类</string>
 
     <string name="shop_name">商店名称</string>
     <string name="shop_add">商店地址</string>
@@ -73,21 +66,51 @@
 
     <string name="shop_name_hint">请输入您的店名</string>
     <string name="shop_add_hint">请输入您的店址</string>
-    <string name="shop_add_desc">请输入您的店铺的描述</string>
 
     <string name="title_activity_edit">EditActivity</string>
     <string name="title_activity_edit_material">EditMaterial</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_shop">ShopActivity</string>
     <string name="title_activity_shop_register">ShopRegisterActivity</string>
     <string name="title_activity_add_shop_item">AddShopItem</string>
     <string name="title_activity_edit_info">EditInfoActivity</string>
-    <string name="title_activity_comment">CommentActivity</string>
 
     <string name="edit_nick_name_hint">给自己起一个响亮的名字吧！</string>
     <string name="edit_job_hint">职业</string>
     <string name="edit_home_hint">家乡</string>
     <string name="edit_desc_hint">个人简介</string>
 
+    <string name="contentDescriptionLogo">图标</string>
+    <string name="contentDescAddCover">添加封面</string>
+    <string name="contentDescAddPhoto">添加图片</string>
+    <string name="contentDescAddIco">添加头像</string>
+    <string name="contentDescSearch">搜索栏</string>
+    <string name="contentDescBest">点赞</string>
+    <string name="contentDescRoll">点赞</string>
+
+    <string name="action_shop_manage">商店管理</string>
+    <string name="action_add_item">添加商品</string>
+    <string name="action_shop_like">收藏商店</string>
+
+    <string name="type_meat">肉</string>
+    <string name="type_seafood">海鲜</string>
+    <string name="type_vegetables">蔬菜</string>
+    <string name="type_fruits">水果</string>
+    <string name="type_rice">米面豆乳</string>
+    <string name="type_flavouring">调味品</string>
+
+    <string name="info_hint">轻戳上方图片修改头像</string>
+    <string name="info_phone_hint">注册手机号: ***********</string>
+    <string name="info_birthday">生日：</string>
+    <string name="info_sex">性别：</string>
+
+    <string name="see_comment">查看该菜谱的评论</string>
+    <string name="comment_input_hint">输入您的评论</string>
+    <string name="comment">评论</string>
+
+    <string name="nick_name">昵称</string>
+    <string name="info">个人信息</string>
+
+    <string name="my_shop">我的商店</string>
+    
 </resources>

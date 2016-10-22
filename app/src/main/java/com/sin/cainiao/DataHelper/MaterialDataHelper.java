@@ -1,12 +1,11 @@
-package com.sin.cainiao.DataHelper;
+package com.sin.cainiao.dataHelper;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.Filter;
 
-import com.sin.cainiao.Adapter.MaterialSuggestion;
-import com.sin.cainiao.JavaBean.Material;
-import com.sin.cainiao.JavaBean.ProcessedFood;
+import com.sin.cainiao.adapter.MaterialSuggestion;
+import com.sin.cainiao.javaBean.Material;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +16,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
-import static com.sin.cainiao.Utils.Utils.sMaterialSuggestions;
+import static com.sin.cainiao.utils.Utils.sMaterialSuggestions;
 
 public class MaterialDataHelper {
 
@@ -51,7 +50,7 @@ public class MaterialDataHelper {
         return suggestionList;
     }
 
-    public static void resetSuggestionsHistory() {
+    private static void resetSuggestionsHistory() {
         for (MaterialSuggestion materialSuggestion : sMaterialSuggestions) {
             materialSuggestion.setIsHistory(false);
         }

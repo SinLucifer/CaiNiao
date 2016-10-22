@@ -1,7 +1,5 @@
-<android.support.v7.widget.CardView
-    android:layout_width="wrap_content"
+<android.support.v7.widget.CardView android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="8dp"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
@@ -19,7 +17,8 @@
             android:layout_width="145dp"
             android:layout_height="145dp"
             android:id="@+id/item_food_img"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:contentDescription="@string/contentDescriptionLogo"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

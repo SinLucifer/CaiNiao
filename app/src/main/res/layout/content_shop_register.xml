@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.sin.cainiao.Activity.ShopRegisterActivity"
+    tools:context="com.sin.cainiao.activity.ShopRegisterActivity"
     tools:showIn="@layout/activity_shop_register">
 
     <LinearLayout
@@ -21,7 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:id="@+id/img_cover"
-            android:src="@drawable/add_cover"/>
+            android:src="@drawable/add_cover"
+            android:contentDescription="@string/contentDescAddCover"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -53,7 +54,7 @@
                     android:id="@+id/mapView"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true" >
                 </com.amap.api.maps.MapView>
             </RelativeLayout>
@@ -68,28 +69,24 @@
                     android:id="@+id/poi_name"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginLeft="12dp"
                     android:layout_marginStart="12dp"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="#5566b8"
                     android:textSize="15sp" />
                 <TextView
                     android:id="@+id/poi_address"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@id/poi_name"
-                    android:layout_marginLeft="12dp"
                     android:layout_marginStart="12dp"
                     android:gravity="center_vertical"
-                    android:singleLine="true"
                     android:textColor="#333333"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:maxLines="1" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -99,6 +96,6 @@
             android:id="@+id/bn_register"
             android:layout_marginTop="40dp"
             android:background="@drawable/button"
-            android:text="注册"/>
+            android:text="@string/bn_save"/>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

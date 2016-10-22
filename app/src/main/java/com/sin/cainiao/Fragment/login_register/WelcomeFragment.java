@@ -1,15 +1,14 @@
-package com.sin.cainiao.Fragment.login_register;
+package com.sin.cainiao.fragment.login_register;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.View.BackHandledFragment;
+import com.sin.cainiao.utils.View.BackHandledFragment;
 
 public class WelcomeFragment extends BackHandledFragment {
     private static final String TAG = "WelcomeFragment";
@@ -30,14 +29,6 @@ public class WelcomeFragment extends BackHandledFragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,8 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,11 +37,10 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
-import com.sin.cainiao.Fragment.MaterialDetailFragment;
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
-import com.sin.cainiao.JavaBean.Shop;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.Shop;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,7 +51,6 @@ import java.util.List;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadBatchListener;
@@ -68,16 +64,10 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
     private MapView mMapView;
     private AMap mAMap;
     private AMapLocationClient mLocationClient;
-    private AMapLocationClientOption mLocationOption;
-    private PoiSearch mPoiSearch;
     private PoiSearch.Query query;
-    private PoiResult mPoiResult;
     private LatLonPoint lp;
-    private List<PoiItem> poiItems;
     private myPoiOverlay poiOverlay;
-    private Marker locationMarker; // 选择的点
-    private Marker detailMarker;
-    private Marker mlastMarker;
+    private Marker mLastMarker;
     private boolean first = true;
 
     private RelativeLayout mPoiDetail;
@@ -91,8 +81,6 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
     private EditText et_shop_add;
     private EditText et_shop_desc;
     private ImageView img_cover;
-
-    private Bitmap bitmap;
 
     private Shop shop;
     private CaiNiaoUser user;
@@ -217,7 +205,7 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK && data != null){
-            bitmap = data.getParcelableExtra("data");
+            Bitmap bitmap = data.getParcelableExtra("data");
             if (bitmap == null){
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(data.getData());
@@ -272,7 +260,7 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
     private void initLocation() {
         mLocationClient = new AMapLocationClient(this);
         mLocationClient.setLocationListener(this);
-        mLocationOption = new AMapLocationClientOption();
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         mLocationOption.setNeedAddress(true);
         mLocationOption.setOnceLocation(true);
@@ -304,7 +292,7 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
         query.setPageNum(0);
 
         if (lp != null){
-            mPoiSearch = new PoiSearch(this,query);
+            PoiSearch mPoiSearch = new PoiSearch(this, query);
             mPoiSearch.setOnPoiSearchListener(this);
             mPoiSearch.setBound(new PoiSearch.SearchBound(lp, 2500, true));//
             // 设置搜索区域为以lp点为圆心，其周围2500米范围
@@ -319,7 +307,7 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
         mAMap.setOnMarkerClickListener(this);
         mAMap.setOnInfoWindowClickListener(this);
         mAMap.setInfoWindowAdapter(this);
-        locationMarker = mAMap.addMarker(new MarkerOptions()
+        Marker locationMarker = mAMap.addMarker(new MarkerOptions()
                 .anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory
                         .fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.point4)))
@@ -371,14 +359,14 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
         if (i == 1000) {
             if (poiResult != null && poiResult.getQuery() != null) {// 搜索poi的结果
                 if (poiResult.getQuery().equals(query)) {// 是否是同一条
-                    mPoiResult = poiResult;
-                    poiItems = mPoiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+                    PoiResult mPoiResult = poiResult;
+                    List<PoiItem> poiItems = mPoiResult.getPois();
 
                     if (poiItems != null && poiItems.size() > 0) {
                         //清除POI信息显示
                         whetherToShowDetailInfo(false);
                         //并还原点击marker样式
-                        if (mlastMarker != null) {
+                        if (mLastMarker != null) {
                             resetLastMarker();
                         }
                         //清理之前搜索结果的marker
@@ -417,7 +405,7 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
     @Override
     public void onMapClick(LatLng latLng) {
         whetherToShowDetailInfo(false);
-        if (mlastMarker != null) {
+        if (mLastMarker != null) {
             resetLastMarker();
         }
     }
@@ -444,17 +432,17 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
     }
 
     private void resetLastMarker() {
-        int index = poiOverlay.getPoiIndex(mlastMarker);
+        int index = poiOverlay.getPoiIndex(mLastMarker);
         if (index < 10) {
-            mlastMarker.setIcon(BitmapDescriptorFactory
+            mLastMarker.setIcon(BitmapDescriptorFactory
                     .fromBitmap(BitmapFactory.decodeResource(
                             getResources(),
                             markers[index])));
         }else {
-            mlastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(
+            mLastMarker.setIcon(BitmapDescriptorFactory.fromBitmap(
                     BitmapFactory.decodeResource(getResources(), R.drawable.marker_other_highlight)));
         }
-        mlastMarker = null;
+        mLastMarker = null;
 
     }
 
@@ -488,14 +476,14 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
             whetherToShowDetailInfo(true);
             try {
                 PoiItem mCurrentPoi = (PoiItem) marker.getObject();
-                if (mlastMarker == null) {
-                    mlastMarker = marker;
+                if (mLastMarker == null) {
+                    mLastMarker = marker;
                 } else {
                     // 将之前被点击的marker置为原来的状态
                     resetLastMarker();
-                    mlastMarker = marker;
+                    mLastMarker = marker;
                 }
-                detailMarker = marker;
+                Marker detailMarker = marker;
                 detailMarker.setIcon(BitmapDescriptorFactory
                         .fromBitmap(BitmapFactory.decodeResource(
                                 getResources(),
@@ -559,7 +547,7 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
     private class myPoiOverlay {
         private AMap mamap;
         private List<PoiItem> mPois;
-        private ArrayList<Marker> mPoiMarks = new ArrayList<Marker>();
+        private ArrayList<Marker> mPoiMarks = new ArrayList<>();
         public myPoiOverlay(AMap amap ,List<PoiItem> pois) {
             mamap = amap;
             mPois = pois;
@@ -621,11 +609,11 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
                     .icon(getBitmapDescriptor(index));
         }
 
-        protected String getTitle(int index) {
+        String getTitle(int index) {
             return mPois.get(index).getTitle();
         }
 
-        protected String getSnippet(int index) {
+        String getSnippet(int index) {
             return mPois.get(index).getSnippet();
         }
 
@@ -658,16 +646,16 @@ public class ShopRegisterActivity extends AppCompatActivity implements AMapLocat
             return mPois.get(index);
         }
 
-        protected BitmapDescriptor getBitmapDescriptor(int arg0) {
+        BitmapDescriptor getBitmapDescriptor(int arg0) {
+            BitmapDescriptor icon;
             if (arg0 < 10) {
-                BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(
+                icon = BitmapDescriptorFactory.fromBitmap(
                         BitmapFactory.decodeResource(getResources(), markers[arg0]));
-                return icon;
             }else {
-                BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(
+                icon = BitmapDescriptorFactory.fromBitmap(
                         BitmapFactory.decodeResource(getResources(), R.drawable.marker_other_highlight));
-                return icon;
             }
+            return icon;
         }
     }
 

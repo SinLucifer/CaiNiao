@@ -1,4 +1,4 @@
-package com.sin.cainiao.Adapter;
+package com.sin.cainiao.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +18,6 @@ public class ClAdapter extends RecyclerView.Adapter<ClAdapter.ViewHolder> {
     private final static String TAG = "ClAdapter";
     private List<String> mClList = new ArrayList<>();
     private onClItemClickListener listener;
-    private Context mContext;
 
 
     public interface onClItemClickListener{
@@ -41,7 +40,7 @@ public class ClAdapter extends RecyclerView.Adapter<ClAdapter.ViewHolder> {
     }
 
     public ClAdapter(Context context){
-        this.mContext = context;
+        Context mContext = context;
     }
 
     public void swapData(List<String> list){

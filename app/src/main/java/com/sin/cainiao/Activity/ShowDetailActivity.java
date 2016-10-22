@@ -1,30 +1,28 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sin.cainiao.Adapter.ClAdapter;
-import com.sin.cainiao.DataHelper.FoodDataHelper;
-import com.sin.cainiao.DataHelper.MaterialDataHelper;
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
-import com.sin.cainiao.JavaBean.Food;
-import com.sin.cainiao.JavaBean.FoodItem;
+import com.sin.cainiao.adapter.ClAdapter;
+import com.sin.cainiao.dataHelper.FoodDataHelper;
+import com.sin.cainiao.dataHelper.MaterialDataHelper;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.Food;
+import com.sin.cainiao.javaBean.FoodItem;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.CustomApplication;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.utils.CustomApplication;
+import com.sin.cainiao.utils.Utils;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -40,11 +38,7 @@ public class ShowDetailActivity extends AppCompatActivity {
     private TextView tv_food_step;
 
     private FoodItem.ShowapiResBodyBean mFood;
-    private List<String> materialList;
     private ClAdapter mClAdapter;
-
-    private CustomApplication app;
-    private CaiNiaoUser user;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -56,7 +50,7 @@ public class ShowDetailActivity extends AppCompatActivity {
 
                 mCollapsingToolbarLayout.setTitle(mFood.getName());
                 mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                materialList = getMaterialByFoodItem(mFood);
+                List<String> materialList = getMaterialByFoodItem(mFood);
 
                 mClAdapter.swapData(materialList);
                 tv_food_step.setText("\t\t\t\t" + mFood.getZf());
@@ -72,8 +66,8 @@ public class ShowDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        app = (CustomApplication)getApplication();
-        user = app.getUser();
+        CustomApplication app = (CustomApplication) getApplication();
+        CaiNiaoUser user = app.getUser();
 
         mCollapsingToolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
 

@@ -1,11 +1,9 @@
-package com.sin.cainiao.Activity;
+package com.sin.cainiao.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
@@ -18,9 +16,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sin.cainiao.JavaBean.CaiNiaoUser;
+import com.sin.cainiao.javaBean.CaiNiaoUser;
 import com.sin.cainiao.R;
-import com.sin.cainiao.Utils.Utils;
+import com.sin.cainiao.utils.Utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,30 +27,20 @@ import java.io.InputStream;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.R.attr.bitmap;
-import static com.sin.cainiao.R.id.et_nick_name;
-import static com.sin.cainiao.R.id.img_cover;
 
 public class EditInfoActivity extends AppCompatActivity {
     private static final String TAG = "EditInfoActivity";
 
     private CircleImageView img_user_cover;
-    private TextView tv_phone_number;
     private EditText et_user_name;
     private EditText et_user_desc;
     private EditText et_user_job;
     private EditText et_user_home;
-    private DatePicker datePicker;
-    private AppCompatSpinner sp_sex;
-    private Button bn_save;
 
     private String sex;
-    private Bitmap bitmap;
     private CaiNiaoUser user;
 
     @Override
@@ -69,7 +57,7 @@ public class EditInfoActivity extends AppCompatActivity {
 
     private void initView(){
         img_user_cover = (CircleImageView)findViewById(R.id.img_user_cover);
-        tv_phone_number = (TextView)findViewById(R.id.tv_phone_number);
+        TextView tv_phone_number = (TextView) findViewById(R.id.tv_phone_number);
         tv_phone_number.setText("注册手机号: " + user.getMobilePhoneNumber());
         et_user_name = (EditText)findViewById(R.id.et_nick_name);
         et_user_name.setText(user.getNick());
@@ -83,11 +71,11 @@ public class EditInfoActivity extends AppCompatActivity {
         et_user_home = (EditText)findViewById(R.id.et_user_home);
         et_user_home.setText(user.getHome());
 
-        datePicker = (DatePicker)findViewById(R.id.datePicker);
-        sp_sex = (AppCompatSpinner)findViewById(R.id.sp_sex);
+        DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
+        AppCompatSpinner sp_sex = (AppCompatSpinner) findViewById(R.id.sp_sex);
         final String[] mItems = getResources().getStringArray(R.array.sex);
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this
+        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this
                 , android.R.layout.simple_spinner_item, mItems);
 
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -105,7 +93,7 @@ public class EditInfoActivity extends AppCompatActivity {
             }
         });
 
-        bn_save = (Button)findViewById(R.id.bn_save);
+        Button bn_save = (Button) findViewById(R.id.bn_save);
         bn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,7 +165,7 @@ public class EditInfoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK){
-            bitmap = data.getParcelableExtra("data");
+            Bitmap bitmap = data.getParcelableExtra("data");
             if (bitmap == null){
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(data.getData());

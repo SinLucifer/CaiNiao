@@ -17,7 +17,7 @@
             android:textColorHint="@color/hint_color"
             android:padding="8dp"
             android:textColor="@color/black"
-            android:paddingStart="16dp"
+            android:layout_marginStart="16dp"
             android:textSize="18sp"
             android:hint="@string/edit_example_name"/>
         <View

@@ -1,4 +1,4 @@
-package com.sin.cainiao.Adapter;
+package com.sin.cainiao.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arlib.floatingsearchview.util.Util;
-import com.sin.cainiao.JavaBean.ProcessedFood;
+import com.sin.cainiao.javaBean.ProcessedFood;
 import com.sin.cainiao.R;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ import java.util.List;
 
 public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHolder> {
     private final static String TAG = "FoodListAdapter";
-    private Context mContext;
+    private final Context mContext;
     private Bitmap mBitmap;
 
     private onFoodItemClickListener listener;
@@ -95,7 +95,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Log.i(TAG, "onBindViewHolder: " + mProcessedFoodList.size());
         if (mProcessedFoodList.size() != 0) {
-            final ProcessedFood mFood = mProcessedFoodList.get(position);
+            final ProcessedFood mFood = mProcessedFoodList.get(holder.getAdapterPosition());
             holder.name.setText(mFood.getName());
 
             if (mFood.getCover_img() != null) {
@@ -179,7 +179,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
 
         public AsyncDrawable(Resources resources, Bitmap bitmap, DownLoadTask doLoadTask){
             super(resources,bitmap);
-            downLoadTaskWeakReference = new WeakReference<DownLoadTask>(doLoadTask);
+            downLoadTaskWeakReference = new WeakReference<>(doLoadTask);
         }
 
         private DownLoadTask getDownLoadTaskFromAsyncDrawable(){
@@ -194,7 +194,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
 
 
         public DownLoadTask(ImageView imageView, ProcessedFood food){
-            imageWeakReference = new WeakReference<ImageView>(imageView);
+            imageWeakReference = new WeakReference<>(imageView);
             this.mBmobFood = food;
         }
 

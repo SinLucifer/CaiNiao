@@ -1,4 +1,4 @@
-package com.sin.cainiao.Utils.View;
+package com.sin.cainiao.utils.View;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

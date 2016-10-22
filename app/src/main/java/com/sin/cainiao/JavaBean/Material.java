@@ -1,4 +1,4 @@
-package com.sin.cainiao.JavaBean;
+package com.sin.cainiao.javaBean;
 
 import cn.bmob.v3.BmobObject;
 

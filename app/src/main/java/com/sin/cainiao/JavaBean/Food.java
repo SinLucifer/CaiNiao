@@ -1,4 +1,4 @@
-package com.sin.cainiao.JavaBean;
+package com.sin.cainiao.javaBean;
 
 
 import java.io.Serializable;

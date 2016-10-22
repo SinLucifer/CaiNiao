@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/cl_container"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
         <View
             android:layout_width="match_parent"
@@ -19,7 +20,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_cl_show"
-                    android:text="1"
+                    tools:text="1"
                     android:padding="8dp"
                     android:gravity="center"
                     android:textSize="20sp" />

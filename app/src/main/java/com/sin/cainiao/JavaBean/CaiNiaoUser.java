@@ -1,7 +1,4 @@
-package com.sin.cainiao.JavaBean;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.sin.cainiao.javaBean;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
